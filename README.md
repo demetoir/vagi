@@ -1,11 +1,6 @@
 # vagi
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/demetoir/vagi)
-
-[![Build Status](https://travis-ci.org/demetoir/2019-21.svg?branch=master)](https://travis-ci.org/demetoir/2019-21)
-
-
-
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/demetoir/vagi) [![Build Status](https://travis-ci.org/demetoir/2019-21.svg?branch=master)](https://travis-ci.org/demetoir/2019-21) 
 <p>
 <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/9568ddd91a2785f55e0947fb55ac1adb87810b8f/68747470733a2f2f696d672e736869656c64732e696f2f6e6f64652f762f7265616374"><img alt="Version" src="https://camo.githubusercontent.com/9568ddd91a2785f55e0947fb55ac1adb87810b8f/68747470733a2f2f696d672e736869656c64732e696f2f6e6f64652f762f7265616374" data-canonical-src="https://img.shields.io/node/v/react" style="max-width:100%;"></a>
 <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/3fc8384246adb849bdc8a39fc7cc95164f9cb090/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4e6f64652e6a732d677261793f6c6f676f3d4e6f64652e6a73266c6f676f436f6c6f723d677265656e"><img alt="Node.js" src="https://camo.githubusercontent.com/3fc8384246adb849bdc8a39fc7cc95164f9cb090/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4e6f64652e6a732d677261793f6c6f676f3d4e6f64652e6a73266c6f676f436f6c6f723d677265656e" data-canonical-src="https://img.shields.io/badge/Node.js-gray?logo=Node.js&amp;logoColor=green" style="max-width:100%;"></a>
