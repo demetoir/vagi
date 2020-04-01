@@ -1,6 +1,6 @@
 # vagi
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/connect-foundation/2019-21)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/demetoir/vagi)
 
 [![Build Status](https://travis-ci.org/demetoir/2019-21.svg?branch=master)](https://travis-ci.org/demetoir/2019-21)
 
