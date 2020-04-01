@@ -1,0 +1,15 @@
+type Question {
+	id: ID!
+	EventId: ID!
+	GuestId: ID!
+	createdAt: String!
+	content: String!
+	state: String!
+	isStared: Boolean!
+	likeCount: Int!
+	QuestionId: ID
+}
+
+extend type Query {
+	questions(EventId: ID!): [Question]!
+}

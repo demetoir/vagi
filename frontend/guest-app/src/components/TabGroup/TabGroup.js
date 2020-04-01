@@ -1,0 +1,45 @@
+import React from "react";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import styled from "styled-components";
+import useTabs from "../../hooks/useTabs.js";
+import TabBody from "./TabBody.js";
+import QuestionContainer from "../QuestionContainer/QuestionContainer.js";
+import QnATabIcon from "./QnATabIcon.js";
+import PollTabIcon from "./PollTabIcon.js";
+import QuestionsProvider from "../../contexts/Questions/QuestionsProvider.js";
+import PollsProvider from "../../contexts/Polls/PollsProvider.js";
+import PollContainer from "../Poll/PollContainer.js";
+import {POLL_TAB_IDX, QUESTION_TAB_IDX} from "../../constants/tab_idx.js";
+
+const TabGroupStyle = styled.div`
+	position: fixed;
+	top: 4rem;
+	width: 100%;
+	z-index: 1;
+`;
+
+function TabGroup({showQnABadge = true, showPollBadge}) {
+	const {tabIdx, selectTabIdx} = useTabs(QUESTION_TAB_IDX);
+
+	return (
+		<TabGroupStyle>
+			<Tabs value={tabIdx} onChange={selectTabIdx} variant="fullWidth">
+				<Tab icon={<QnATabIcon showBadge={showQnABadge} />} />
+				<Tab icon={<PollTabIcon showBadge={showPollBadge} />} />
+			</Tabs>
+			<TabBody hidden={tabIdx !== QUESTION_TAB_IDX}>
+				<QuestionsProvider>
+					<QuestionContainer />
+				</QuestionsProvider>
+			</TabBody>
+			<TabBody hidden={tabIdx !== POLL_TAB_IDX}>
+				<PollsProvider>
+					<PollContainer />
+				</PollsProvider>
+			</TabBody>
+		</TabGroupStyle>
+	);
+}
+
+export default TabGroup;
