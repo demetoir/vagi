@@ -1,0 +1,33 @@
+import React from "react";
+import Drawer from "@material-ui/core/Drawer";
+import SideMenuHeader from "./SideMenuHeader.js";
+import SideMenuBody from "./SideMenuBody.js";
+import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
+
+export function SideMenu({isOpen = false, toggleNavMenu}) {
+	const {event} = useGlobalData();
+
+	return (
+		<Drawer open={isOpen} onClose={toggleNavMenu}>
+			<SideMenuHeader
+				eventName={event.eventName}
+				eventCode={event.eventCode}
+				startAt={event.startAt}
+				endAt={event.endAt}
+			/>
+			<SideMenuBody {...{toggleNavMenu}} />
+		</Drawer>
+	);
+}
+
+export function useSideNavMenu() {
+	const [isOpen, setState] = React.useState(false);
+	const toggleNavMenu = () => {
+		setState(!isOpen);
+	};
+
+	return {
+		isOpen,
+		toggleNavMenu,
+	};
+}

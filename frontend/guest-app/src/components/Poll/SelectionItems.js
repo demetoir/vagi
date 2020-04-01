@@ -1,0 +1,33 @@
+import React from "react";
+import styled from "styled-components";
+import Item from "./Item";
+
+const ColumnWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	box-sizing: border-box;
+	padding: 0.5rem;
+	width: 100%;
+`;
+
+function SelectionItem(props) {
+	const {nItems, totalVoters, ...others} = props;
+
+	return (
+		<ColumnWrapper>
+			{nItems.map(item => (
+				<Item
+					{...item}
+					totalVoters={totalVoters}
+					key={item.id}
+					candidateId={item.id}
+					{...others}
+				/>
+			))}
+		</ColumnWrapper>
+	);
+}
+
+export default SelectionItem;

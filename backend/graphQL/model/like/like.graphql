@@ -1,0 +1,7 @@
+type didILike {
+	QuestionId: ID!
+}
+
+extend type Query {
+	didILikes(GuestId: ID!): [didILike]!
+}
