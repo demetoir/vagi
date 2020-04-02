@@ -2,5 +2,8 @@ const shell = require("shelljs");
 
 shell.echo("build backend");
 shell.cd("./backend");
-shell.exec("yarn build");
+const code = shell.exec("yarn build").code;
+if (code !== 0) {
+	shell.exit(code)
+}
 shell.cd("..");
