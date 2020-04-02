@@ -1,9 +1,9 @@
-import {config} from "dotenv";
+import dotenv from "dotenv";
 
-config();
+dotenv.config();
 
 const env = process.env;
-const configSetting = {
+const config = {
 	port: env.EXPRESS_DEV_PORT,
 	publicPath: env.EXPRESS_DEV_PUBLIC_PATH,
 	tokenArgs: {
@@ -23,4 +23,4 @@ const configSetting = {
 	},
 };
 
-export default configSetting;
+export default config;

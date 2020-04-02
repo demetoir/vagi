@@ -1,17 +1,20 @@
 import express from "express";
 import config from "../config";
-import {hostAuthenticate} from "../middleware/authenticate";
 import CookieKeys from "../CookieKeys.js";
+import hostAuth from "../middleware/hostAuth.js";
 
 const {routePage} = config;
 const router = express.Router();
 
-router.get("/logout", (req, res) => {
+const logoutHandler = (req, res) => {
 	res.clearCookie(CookieKeys.HOST_APP).redirect(routePage.main);
-});
+};
 
-router.get("/", hostAuthenticate(), (req, res) => {
+const rootHandler = (req, res) => {
 	res.redirect(routePage.main);
-});
+};
+
+router.get("/logout", logoutHandler);
+router.get("/", hostAuth, rootHandler);
 
 module.exports = router;
