@@ -8,6 +8,7 @@ import {getEventByEventCode} from "../../DB/queries/event.js";
 
 const {tokenArgs, routePage} = config;
 
+// todo refactoring location
 function isGuestBelongToEvent(guest, event) {
 	return guest.EventId === event.id;
 }
