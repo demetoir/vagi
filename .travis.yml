@@ -20,7 +20,7 @@ install:
 jobs:
   include:
     - stage: test
-      name: backend
+      name: backend node
       script:
         - yarn install:backend
         - yarn test:backend
@@ -39,6 +39,12 @@ jobs:
       script:
         - yarn install:frontend:main-app
         - yarn test:frontend:main-app
+
+    - name: backend spring
+      language: java
+      script:
+        - cd ./backend/spring
+        - ./gradle build
 
     - stage: build
       script:
