@@ -5,7 +5,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import resolvers from "./model/resolvers.js";
 import typeDefs from "./model/typeDefs.js";
-import config from "./config.js";
+import config from "./config/config.js";
 import logger from "./logger.js";
 import authenticate from "./middlewares/authenticate.js";
 
