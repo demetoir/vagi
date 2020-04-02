@@ -69,9 +69,9 @@ function EmojiArea(props) {
 	const emojiPickerModal = useCommonModal();
 
 	const onEmojiInstanceClick = (name, didIPick) => {
-		didIPick
-			? unPickEmoji(emojis, name, guestGlobal, QuestionId)
-			: pickEmoji(emojis, name, guestGlobal, QuestionId);
+		didIPick ?
+			unPickEmoji(emojis, name, guestGlobal, QuestionId) :
+			pickEmoji(emojis, name, guestGlobal, QuestionId);
 	};
 
 	const onSelectOfEmojiPicker = value => {
