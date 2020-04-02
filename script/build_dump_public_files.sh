@@ -1,6 +1,6 @@
 # todo convert to javascript
-public_path="./backend/express/public"
-build_public_path="./backend/build/express/public"
+public_path="./backend/node/express/public"
+build_public_path="./backend/node/build/express/public"
 
 host_app_build_dir="./frontend/host-app/build"
 main_app_build_dir="./frontend/main-app/build"
