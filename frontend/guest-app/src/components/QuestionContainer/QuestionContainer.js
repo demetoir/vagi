@@ -20,7 +20,6 @@ import {SOCKET_IO_EVENT_QUESTION_REMOVE} from "../../constants/socket.io-event.j
 import {POPULAR_TAB_IDX, RECENT_TAB_IDX} from "../../constants/Question_tab_inner_TabBar_idx.js";
 
 
-
 const QuestionContainerStyle = styled.div`
 	overflow-y: scroll;
 	height: 100%;
