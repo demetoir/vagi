@@ -223,9 +223,9 @@ export default function reducer(polls, action) {
 		// 나 또는 남이 vote(N지선다) 했음을 알려줌
 		case "SOMEONE_VOTE": {
 			thePoll.totalVoters = action.poll.totalVoters;
-			thePoll.nItems.forEach((item, index) => {
-				item.voters = action.poll.nItems[index].voters;
-				item.firstPlace = action.poll.nItems[index].firstPlace;
+			thePoll.nItems.forEach((item, i) => {
+				item.voters = action.poll.nItems[i].voters;
+				item.firstPlace = action.poll.nItems[i].firstPlace;
 			});
 
 			return polls.map(poll => (poll.id === pollId ? thePoll : poll));
