@@ -1,10 +1,10 @@
 import express from "express";
 import passport from "passport";
-import {getTokenExpired} from "../../libs/utils";
 import generateAccessToken from "../authentication/token";
 import config from "../config";
 import CookieKeys from "../CookieKeys.js";
 import {AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
+import {getTokenExpired} from "../utils.js";
 
 const EXPIRE_TIME = 2;
 const {routePage} = config;

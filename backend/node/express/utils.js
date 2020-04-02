@@ -1,15 +1,19 @@
-import {getEventByEventCode} from "../DB/queries/event";
-import {compareCurrentDateToTarget} from "../libs/utils";
+import moment from "moment";
 
-// eslint-disable-next-line import/prefer-default-export
-export async function convertPathToEventId(path) {
-	const eventCode = Buffer.from(path, "base64").toString();
-	const event = await getEventByEventCode(eventCode);
-	const diff = compareCurrentDateToTarget(event.endAt);
 
-	if (diff <= 0) {
-		throw new Error("이벤트 만료기간이 지났습니다.");
-	}
+export function isActiveEvent(event) {
+	const endAt = moment(event.endAt);
+	const current = moment();
+	const diff = endAt.diff(current, "minute");
 
-	return event.id;
+	return diff > 0;
 }
+
+
+export function convertPathToEventCode(path) {
+	return Buffer.from(path, "base64").toString();
+}
+
+
+export const getTokenExpired = hour =>
+	new Date(new Date().getTime() + 1000 * 60 * 60 * Number(hour));
