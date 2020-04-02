@@ -2,7 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import generateAccessToken from "../authentication/token";
 import config from "../config";
-import {guestAuthenticate} from "../middleware/authenticate";
+import guestAuth from "../middleware/guestAuth.js";
 import {createGuest, isExistGuest} from "../../DB/queries/guest";
 import {convertPathToEventCode, getTokenExpired, isActiveEvent} from "../utils";
 import CookieKeys from "../CookieKeys.js";
@@ -16,16 +16,16 @@ const router = express.Router();
 // todo do somthing
 const cookieExpireTime = 2;
 
-router.get("/", async (req, res) => {
+
+// todo add test
+const rootPageHandler = async (req, res) => {
 	try {
 		const payload = jwt.verify(
 			req.cookies[CookieKeys.GUEST_APP],
 			tokenArgs.secret,
 		);
 
-		const guest = await isExistGuest(payload.sub);
-
-		if (!guest) {
+		if (!(await isExistGuest(payload.sub))) {
 			// todo fix this line of lint
 			throw Error("Guest is not found");
 		}
@@ -35,18 +35,29 @@ router.get("/", async (req, res) => {
 		logger.error([e, e.stack]);
 		res.redirect(routePage.main);
 	}
-});
+};
 
-router.get("/logout", (req, res) => {
+router.get("/", rootPageHandler);
+
+
+// todo add test
+const logoutHandler = (req, res) => {
 	res.clearCookie(CookieKeys.GUEST_APP).redirect(routePage.main);
-});
+};
 
-router.get("/:path", guestAuthenticate(), async (req, res) => {
+router.get("/logout", logoutHandler);
+
+// todo add test
+const loginByEventPathHandler = async (req, res) => {
 	const path = req.params.path;
 	const eventCode = convertPathToEventCode(path);
 
 	try {
 		const event = await getEventByEventCode(eventCode);
+
+		if (!event) {
+			throw new Error("not exist event");
+		}
 
 		if (!isActiveEvent(event)) {
 			// todo fix this line of lint
@@ -68,6 +79,8 @@ router.get("/:path", guestAuthenticate(), async (req, res) => {
 		logger.error([e, e.stack]);
 		res.redirect(routePage.main);
 	}
-});
+};
+
+router.get("/:path", guestAuth, loginByEventPathHandler);
 
 module.exports = router;
