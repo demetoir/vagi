@@ -1,3 +1,3 @@
-cd ./backend
+cd ./backend/node
 
 yarn deploy:undo

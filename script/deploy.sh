@@ -1,7 +1,7 @@
 echo "build all"
 yarn build
 
-cd ./backend
+cd ./backend/node
 
 echo "build docker image"
 yarn docker:build:force
