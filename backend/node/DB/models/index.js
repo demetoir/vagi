@@ -1,9 +1,7 @@
 "use strict";
 
-const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 // change config setting *.json to *.config.js
 const config = require(path.resolve(__dirname, "../sequelize.config.js"))[env];
