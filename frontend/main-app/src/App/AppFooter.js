@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Typography} from "@material-ui/core";
-import GoogleOAuthLoginButton from "./GoogleOAuthLoginButton.js";
+import GoogleOAuthLoginButton from "../atoms/GoogleOAuthLoginButton.js";
 
 const AppFooterStyle = styled.div`
 	display: flex;
