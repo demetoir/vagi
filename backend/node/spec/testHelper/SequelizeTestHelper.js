@@ -11,4 +11,15 @@ export default class SequelizeTestHelper extends MochaTestHelper {
 	async teardown() {
 		return null;
 	}
+
+	async dropAllAfterEach() {
+		const promiseList = models.modelList.map(async model => {
+			model.destroy({
+				where: {},
+				truncate: true,
+			});
+		});
+
+		await Promise.all(promiseList);
+	}
 }
