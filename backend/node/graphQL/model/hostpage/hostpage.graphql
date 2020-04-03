@@ -1,9 +1,9 @@
 type HashTag {
 	id: Int!
 	name: String!
+	EventId: ID!
 	createdAt: String!
 	updatedAt: String!
-	EventId: ID!
 }
 
 type Event {
@@ -60,7 +60,7 @@ input EventUpdate {
 
 type Mutation {
 	createEvent(info: EventInfo!): Event
-	createHashTags(hashTags: [HashTagInput]!): HashTag
+	createHashTags(hashTags: [HashTagInput]!): [HashTag]
 	updateEvent(event: EventUpdate!): Event
 	moderation(eventId: Int!, moderationOption: Boolean!): Int!
 }
