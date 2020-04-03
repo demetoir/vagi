@@ -6,13 +6,13 @@ import NewPollModal from "./NewPollModal";
 import useModal from "../../customhook/useModal";
 import {useSocket, socketClient} from "../../libs/socket.io-Client-wrapper";
 
-const ColumnWrapper = styled.div`
+// todo refactoring
+const PollContainerStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
 	box-sizing: border-box;
-	// border: 1px solid #dee2e6; /* Gray3 */
 	padding: 1rem;
 	width: 100%;
 `;
@@ -221,7 +221,7 @@ function PollContainer({data}) {
 	});
 
 	return (
-		<ColumnWrapper>
+		<PollContainerStyle>
 			<Button
 				color="primary"
 				variant="contained"
@@ -243,7 +243,7 @@ function PollContainer({data}) {
 					handleClose={handleClose}
 				/>
 			)}
-		</ColumnWrapper>
+		</PollContainerStyle>
 	);
 }
 

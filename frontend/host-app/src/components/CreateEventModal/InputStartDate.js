@@ -5,7 +5,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import Container from "@material-ui/core/Container";
 import moment from "moment";
 import {validDate} from "../../libs/eventValidation";
-import {SET_ERROR_STATE, SET_PROPERTY} from "./eventModalActions.js";
+import {SET_ERROR_STATE, SET_PROPERTY} from "./createEventModalActions.js";
 import CustomDateTimePicker from "./CustomDateTimePicker.js";
 import CustomTimePicker from "./CustomTimePicker.js";
 

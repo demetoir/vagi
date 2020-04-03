@@ -8,6 +8,7 @@ import QuestionUserName from "./QuestionUserName";
 import ApproveButton from "../Buttons/ApproveButton";
 import RejectButton from "../Buttons/RejectButton";
 
+// todo refactoring
 function ModerationQuestionCard(props) {
 	return (
 		<Card>

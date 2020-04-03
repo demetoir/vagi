@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 import {styled} from "@material-ui/core/styles";
-import {TextField, Box} from "@material-ui/core";
+import {Box, TextField} from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 
 const InputWithIcon = styled(Box)({
@@ -23,6 +23,7 @@ const CustomTextField = styled(TextField)({
 });
 
 function InputEventLink(props) {
+	const {eventLink, dispatch} = props;
 	const linkRef = useRef(null);
 	const copyToClipboard = () => {
 		linkRef.current.select();
@@ -32,15 +33,15 @@ function InputEventLink(props) {
 	return (
 		<InputWithIcon>
 			<CustomTextField
-				inputRef={linkRef}
+				readOnly={true}
 				id="eventLink"
 				label="이벤트 링크"
 				color="primary"
-				value={props.eventLink}
-				readOnly={true}
-				onChange={props.dispatch}
+				value={eventLink}
+				onChange={dispatch}
+				inputRef={linkRef}
 			/>
-			<InsideIcon onClick={copyToClipboard} />
+			<InsideIcon onClick={copyToClipboard}/>
 		</InputWithIcon>
 	);
 }

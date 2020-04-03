@@ -11,7 +11,9 @@ import {HostContext} from "../../libs/hostContext";
 import initialPollData from "./InitialPollData";
 import newPollReducer from "./NewPollReducer";
 
-const ModalWrapper = styled.div`
+
+// todo refactoring
+const ModalBodyStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -231,7 +233,7 @@ function NewPollModal({open, handleClose}) {
 
 	return (
 		<Modal open={open} style={modalStyle} onClose={handleClose}>
-			<ModalWrapper>
+			<ModalBodyStyle>
 				<h2>투표 만들기</h2>
 				<PollName
 					value={pollName.value}
@@ -282,7 +284,7 @@ function NewPollModal({open, handleClose}) {
 						취소
 					</Button>
 				</RowWrapper>
-			</ModalWrapper>
+			</ModalBodyStyle>
 		</Modal>
 	);
 }

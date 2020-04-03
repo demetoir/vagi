@@ -7,12 +7,12 @@ import InputStartDate from "./InputStartDate";
 import InputHashTag from "./InputHashTag";
 import EndDateField from "./EndDateField";
 import HashTagsField from "./HashTagsField";
-import ButtonField from "./ButtonField";
+import CreateEventModalFooter from "./CreateEventModalFooter.js";
 import AlertSnackbar from "./AlertSnackbar";
-import eventModalReducer from "./eventModalReducer";
+import createEventModalReducer from "./createEventModalReducer.js";
 import {HostContext} from "../../libs/hostContext";
 import useSnackBar from "../../customhook/useSnackBar";
-import {propertyEventName, SET_ERROR_STATE, SET_PROPERTY} from "./eventModalActions.js";
+import {propertyEventName, SET_ERROR_STATE, SET_PROPERTY} from "./createEventModalActions.js";
 import {isValidEventName} from "../../libs/eventValidation.js";
 import CreateEventModalHeader from "./CreateEventModalHeader.js";
 import useCreateEvent from "./useCreateEvent.js";
@@ -34,7 +34,7 @@ const PopUpLayOutStyle = styled.div`
 	outline: none;
 `;
 
-const StyledForm = styled.form`
+const CreateEventModalBodyStyle = styled.form`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -66,14 +66,14 @@ function isInvalidInputData(errorState) {
 }
 
 
-function buildInitialEventInfo(hostInfo) {
+function buildInitialEventInfo(hostName) {
 	const startDate = new Date();
 	const endDate = moment(startDate)
 		.add(1, "h")
 		.toDate();
 
 	return {
-		eventName: `${hostInfo.name}님의 이벤트`,
+		eventName: `${hostName}님의 이벤트`,
 		startDate,
 		endDate,
 		hashTags: [],
@@ -98,28 +98,30 @@ const bindOnChangeEventName = dispatch => event => {
 	});
 };
 
+// todo refactoring
 function CreateEventModal({open, handleClose}) {
 	const {hostInfo, addEvent} = useContext(HostContext);
+	const {hostName, id: hostId} = hostInfo;
 
-	const {snackBarOpen, snackBarHandleClose, setSnackBarOpen} = useSnackBar();
+	const {snackBarOpen, snackBarHandleClose, snackBarHandleOpen} = useSnackBar();
 
-	const initialEventInfo = buildInitialEventInfo(hostInfo);
-	const [eventInfo, dispatch] = useReducer(
-		eventModalReducer,
-		initialEventInfo,
+	const initialValue = buildInitialEventInfo(hostName);
+	const [eventForm, dispatch] = useReducer(
+		createEventModalReducer,
+		initialValue,
 	);
-
 	const [createEvent] = useCreateEvent();
+
 	const onConfirm = async () => {
-		if (isInvalidInputData(eventInfo.errorState)) {
-			setSnackBarOpen(true);
+		if (isInvalidInputData(eventForm.errorState)) {
+			snackBarHandleOpen();
 			return;
 		}
 
 		try {
-			const event = await createEvent(eventInfo, hostInfo);
+			const newEvent = await createEvent(eventForm, hostId);
 
-			addEvent(event);
+			addEvent(newEvent);
 
 			handleClose();
 		} catch (e) {
@@ -130,11 +132,11 @@ function CreateEventModal({open, handleClose}) {
 
 	const InputEventNameProps = {
 		onChange: bindOnChangeEventName(dispatch),
-		error: eventInfo.errorState.eventName,
-		value: eventInfo.eventName,
+		error: eventForm.errorState.eventName,
+		value: eventForm.eventName,
 	};
 
-	const errorMsg = getErrorMessage(eventInfo.errorState);
+	const errorMsg = getErrorMessage(eventForm.errorState);
 
 	return (
 		<Modal
@@ -145,25 +147,25 @@ function CreateEventModal({open, handleClose}) {
 		>
 			<PopUpLayOutStyle>
 				<CreateEventModalHeader/>
-				<StyledForm>
+				<CreateEventModalBodyStyle>
 					<InputEventName {...InputEventNameProps}/>
 					<InputStartDate
-						errorState={eventInfo.errorState}
-						startDate={eventInfo.startDate}
-						endDate={eventInfo.endDate}
+						errorState={eventForm.errorState}
+						startDate={eventForm.startDate}
+						endDate={eventForm.endDate}
 						dispatch={dispatch}
 					/>
-					<EndDateField endDate={eventInfo.endDate}/>
+					<EndDateField endDate={eventForm.endDate}/>
 					<InputHashTag
-						hashTags={eventInfo.hashTags}
+						hashTags={eventForm.hashTags}
 						dispatch={dispatch}
 					/>
 					<HashTagsField
-						hashTags={eventInfo.hashTags}
+						hashTags={eventForm.hashTags}
 						dispatch={dispatch}
 					/>
-				</StyledForm>
-				<ButtonField onConfirm={onConfirm} onClose={handleClose}/>
+				</CreateEventModalBodyStyle>
+				<CreateEventModalFooter onConfirm={onConfirm} onClose={handleClose}/>
 				<AlertSnackbar
 					message={errorMsg}
 					onClose={snackBarHandleClose}

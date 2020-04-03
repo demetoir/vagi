@@ -1,5 +1,6 @@
 import styled, {keyframes} from "styled-components";
 
+// todo refactoring location
 const Open = keyframes`
 	0% { 
 		min-width: 10rem; 

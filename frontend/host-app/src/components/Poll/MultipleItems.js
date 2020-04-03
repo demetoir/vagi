@@ -4,7 +4,7 @@ import SelectionType from "./SelectionType";
 import TextItems from "./TextItems";
 import DateItems from "./DateItems";
 
-const ColumnWrapper = styled.div`
+const MultipleItemsStyle = styled.div`
     display: flex;
     flex-direction: column;
 	align-items: center;
@@ -16,6 +16,7 @@ const ColumnWrapper = styled.div`
 	min-height: 210px;
 `;
 
+// todo refactoring
 function MultipleItems(
 	{
 		selectionType,
@@ -31,21 +32,21 @@ function MultipleItems(
 	},
 ) {
 	return (
-		<ColumnWrapper>
-			<SelectionType selectionType={selectionType} onChange={onChange} />
+		<MultipleItemsStyle>
+			<SelectionType selectionType={selectionType} onChange={onChange}/>
 			{(selectionType === "text") && <TextItems
 				texts={texts}
 				onTextChange={onTextChange}
 				onDeleteText={onDeleteText}
-				onAddText={onAddText} />
+				onAddText={onAddText}/>
 			}
 			{(selectionType === "date") && <DateItems
 				dates={dates}
 				onDateChange={onDateChange}
 				onDeleteDate={onDeleteDate}
-				onAddDate={onAddDate} />
+				onAddDate={onAddDate}/>
 			}
-		</ColumnWrapper>
+		</MultipleItemsStyle>
 	);
 }
 

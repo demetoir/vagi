@@ -2,6 +2,7 @@ import React from "react";
 import Title from "./Title";
 import {filterQuestion} from "../../../libs/utils";
 
+// todo refactoring name
 function TitleContainer({type, state, data}) {
 	if (type === "moderation") {
 		return <Title

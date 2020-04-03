@@ -2,7 +2,7 @@ import moment from "moment";
 import useMutateEvent from "./useMutateEvent.js";
 import useMutateHashtags from "./useMutateHashtags.js";
 
-function buildMutateEventVariables(eventInfo, hostInfo) {
+function buildMutateEventVariables(eventInfo, hostId) {
 	function formattingDate(date) {
 		return moment(date).format("YYYY-MM-DD HH:mm:ss");
 	}
@@ -10,7 +10,7 @@ function buildMutateEventVariables(eventInfo, hostInfo) {
 
 	return {
 		info: {
-			HostId: hostInfo.id,
+			HostId: hostId,
 			startAt: moment(
 				formattingDate(eventInfo.startDate),
 			).toDate(),
@@ -33,8 +33,8 @@ export default function useCreateEvent() {
 	const [mutateEvent] = useMutateEvent();
 	const [mutateHashTags] = useMutateHashtags();
 
-	async function createEvent(eventInfo, hostInfo) {
-		const mutateEventVariables = buildMutateEventVariables(eventInfo, hostInfo);
+	async function createEvent(eventInfo, hostId) {
+		const mutateEventVariables = buildMutateEventVariables(eventInfo, hostId);
 		const event = await mutateEvent(mutateEventVariables);
 
 		const EventId = event.id;

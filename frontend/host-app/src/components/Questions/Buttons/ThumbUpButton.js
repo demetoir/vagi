@@ -4,6 +4,7 @@ import useStyle from "./useButtonStyles";
 import {ThumbUpContainer, ReplyContainer} from "../QuestionStyle";
 
 
+// todo refactoring
 function ThumbUpButton(props) {
 	const classes = useStyle();
 

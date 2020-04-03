@@ -1,7 +1,7 @@
 import {useState} from "react";
 
-const useSnackBar = () => {
-	const [snackBarOpen, setSnackBarOpen] = useState(false);
+const useSnackBar = (initialState = false) => {
+	const [snackBarOpen, setSnackBarOpen] = useState(initialState);
 	const snackBarHandleClose = reason => {
 		if (reason === "clickaway") {
 			return;
@@ -9,8 +9,11 @@ const useSnackBar = () => {
 
 		setSnackBarOpen(false);
 	};
+	const snackBarHandleOpen = () => {
+		setSnackBarOpen(true);
+	};
 
-	return {snackBarOpen, snackBarHandleClose, setSnackBarOpen};
+	return {snackBarOpen, snackBarHandleClose, setSnackBarOpen, snackBarHandleOpen};
 };
 
 export default useSnackBar;

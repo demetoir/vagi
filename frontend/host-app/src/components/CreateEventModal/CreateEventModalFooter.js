@@ -10,7 +10,7 @@ const ButtonFieldStyle = styled.div`
 	height: 3rem;
 `;
 
-function ButtonField({onConfirm, onClose}) {
+function CreateEventModalFooter({onConfirm, onClose}) {
 	return (
 		<ButtonFieldStyle>
 			<Button
@@ -33,4 +33,4 @@ function ButtonField({onConfirm, onClose}) {
 	);
 }
 
-export default ButtonField;
+export default CreateEventModalFooter;

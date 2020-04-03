@@ -2,7 +2,7 @@ import React from "react";
 import {styled} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
 import uuidv1 from "uuid/v1";
-import {SET_PROPERTY} from "./eventModalActions.js";
+import {SET_PROPERTY} from "./createEventModalActions.js";
 
 const ENTER_KEY_CODE = 13;
 const CustomTextField = styled(TextField)({
@@ -10,6 +10,7 @@ const CustomTextField = styled(TextField)({
 	width: 400,
 });
 
+// todo refactoring here
 function InputHashTag(props) {
 	const {hashTags, dispatch} = props;
 	const prevHashTagList = hashTags;

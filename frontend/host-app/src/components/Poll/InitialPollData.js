@@ -1,3 +1,4 @@
+// todo refactoring
 const RECOMMENDED_MAX_STARS = 5;
 const now = new Date();
 const initialText = {

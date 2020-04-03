@@ -4,7 +4,7 @@ import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import {Scrollbars} from "react-custom-scrollbars";
-import {SET_PROPERTY} from "./eventModalActions.js";
+import {SET_PROPERTY} from "./createEventModalActions.js";
 
 const MyPaper = styled(Paper)({
 	marginTop: 10,
@@ -19,6 +19,7 @@ const CustomChip = styled(Chip)({
 	margin: 5,
 });
 
+// todo refactoring here
 function HashTagField(props) {
 	const {hashTags, dispatch} = props;
 
