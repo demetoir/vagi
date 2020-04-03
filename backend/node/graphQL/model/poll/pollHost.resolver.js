@@ -1,6 +1,7 @@
 import {getPollsByEventId} from "../../../DB/queries/poll.js";
 import {getCandidatesByPolls, setPollItems} from "./resolveHelper.js";
 
+// todo fix this
 /**
  *
  * @param _

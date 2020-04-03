@@ -19,6 +19,7 @@ function verifySubjectHostJwt(jwtSub) {
 	}
 }
 
+// todo do something
 function mappingHashTagsToEvents(hashTags, events, eventMap) {
 	hashTags.forEach(hashTag => {
 		eventMap.get(hashTag.EventId).push(hashTag);
@@ -30,6 +31,7 @@ function mappingHashTagsToEvents(hashTags, events, eventMap) {
 	return events;
 }
 
+// todo do something
 async function generateEventCode() {
 	let generatedEventCode = faker.random.alphaNumeric(4);
 	const events = await getAllEvents();
@@ -51,8 +53,10 @@ async function generateEventCode() {
 const getEventOptionResolver = async (_, {EventId}) =>
 	getEventOptionByEventId(EventId);
 
+// todo do something
 const initQueryResolver = async (_, {param}, authority) => {
 	verifySubjectHostJwt(authority.sub);
+
 	const host = authority.info;
 	let events = await getEventsByHostId(host.id);
 
@@ -72,6 +76,7 @@ const initQueryResolver = async (_, {param}, authority) => {
 // todo: resolver의 return 값 및 해당 scheme의 return type refactoring 필요
 const createHashTagsResolver = async (_, {hashTags}, authority) => {
 	verifySubjectHostJwt(authority.sub);
+
 	// todo fix to bulk insert
 	for (const hashTag of hashTags) {
 		// eslint-disable-next-line no-await-in-loop
@@ -84,6 +89,7 @@ const createHashTagsResolver = async (_, {hashTags}, authority) => {
 
 const createEventResolver = async (_, {info}, authority) => {
 	verifySubjectHostJwt(authority.sub);
+
 	const eventCode = await generateEventCode();
 	const event = await findOrCreateEvent({
 		eventName: info.eventName,
@@ -98,6 +104,7 @@ const createEventResolver = async (_, {info}, authority) => {
 
 const updateEventResolver = async (_, {event}, authority) => {
 	verifySubjectHostJwt(authority.sub);
+
 	await updateEventById({
 		id: event.EventId,
 		eventName: event.eventName,

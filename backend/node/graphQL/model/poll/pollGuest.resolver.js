@@ -7,7 +7,7 @@ import {
 import {getPollsByEventId} from "../../../DB/queries/poll.js";
 import {POLL_TYPE_RATING} from "../../../constants/pollType.js";
 
-// todo 이함수 동장이 무엇인지 알아내기
+// todo 이함수 동작이 무엇인지 알아내기
 // noinspection JSClosureCompilerSyntax,JSCommentMatchesSignature
 /**
  *
@@ -52,6 +52,8 @@ async function setVotedOnPolls(polls, guestId) {
 	return polls;
 }
 
+
+// todo fix this
 /**
  *
  * @param _
