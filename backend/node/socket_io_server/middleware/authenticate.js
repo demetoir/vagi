@@ -3,55 +3,48 @@ import loadConfig from "../config/configLoader";
 import logger from "../logger";
 import {isExistHostOAuthId} from "../../DB/queries/host";
 import {isExistGuest} from "../../DB/queries/guest";
-import {
-	AUTHORITY_TYPE_GUEST,
-	AUTHORITY_TYPE_HOST,
-} from "../../constants/authorityTypes.js";
+import {AUTHORITY_TYPE_GUEST, AUTHORITY_TYPE_HOST,} from "../../constants/authorityTypes.js";
 
 const {tokenArgs} = loadConfig();
 
-const audienceVerify = {guest: isExistGuest, host: isExistHostOAuthId};
+const subjectVerifierMapperByAud = {guest: isExistGuest, host: isExistHostOAuthId};
 
-const isValidAud = aud =>
+const isInValidAud = aud =>
 	aud !== AUTHORITY_TYPE_GUEST && aud !== AUTHORITY_TYPE_HOST;
 
-const isValidIss = iss => iss !== tokenArgs.issuer;
+const isInValidIss = iss => iss !== tokenArgs.issuer;
 
-async function payloadVerify(payload) {
+async function verifyPayload(payload) {
 	const {aud, iss, sub} = payload;
 
-	if (isValidIss(iss)) {
+	if (isInValidIss(iss)) {
 		throw new Error("Authentication Error: invalid iss");
 	}
 
-	if (isValidAud(aud)) {
+	if (isInValidAud(aud)) {
 		throw new Error("Authentication Error: invalid aud");
 	}
 
-	const userInfo = await audienceVerify[aud](sub);
+	const verifySubject = subjectVerifierMapperByAud[aud];
+	const isValidSub = await verifySubject(sub);
 
-	if (!userInfo) {
+	if (!isValidSub) {
 		throw new Error("Authentication Error: invalid userInfo");
 	}
-
-	return null;
 }
 
-function authenticate() {
-	// eslint-disable-next-line consistent-return
-	return async (socket, next) => {
-		try {
-			const token = socket.handshake.query.token;
-			const payload = jwt.verify(token, tokenArgs.secret);
+async function authenticate(socket, next) {
+	try {
+		const token = socket.handshake.query.token;
+		const payload = jwt.verify(token, tokenArgs.secret);
 
-			await payloadVerify(payload);
+		await verifyPayload(payload);
 
-			return next();
-		} catch (e) {
-			logger.debug(e);
-			next(new Error("Authentication Error"));
-		}
-	};
+		return next();
+	} catch (e) {
+		logger.debug(e);
+		return next(new Error("Authentication Error"));
+	}
 }
 
 export default authenticate;

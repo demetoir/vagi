@@ -1,15 +1,16 @@
-import {getVotersByCandidateList} from "../../../DB/queries/vote.js";
+import {getVotersByCandidateIds} from "../../../DB/queries/vote.js";
 
-const getCandidateList = items => items.map(n => n.id);
+const getCandidateIds = items => items.map(n => n.id);
 
 const updateVoters = async poll => {
+	// todo fix this
 	// DB에서 갱신된 투표인수를 읽어옴
 	for (const candidate of poll.nItems) {
-		candidate.voters = await getVotersByCandidateList([candidate.id]);
+		candidate.voters = await getVotersByCandidateIds([candidate.id]);
 	}
-	const candidateList = getCandidateList(poll.nItems);
+	const candidateIds = getCandidateIds(poll.nItems);
 
-	poll.totalVoters = await getVotersByCandidateList(candidateList);
+	poll.totalVoters = await getVotersByCandidateIds(candidateIds);
 };
 
 export default updateVoters;

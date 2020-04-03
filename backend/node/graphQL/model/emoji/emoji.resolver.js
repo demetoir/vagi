@@ -1,11 +1,9 @@
-import {
-	getEmojiCountByEventIdGroupByQuestionId,
-	getEmojiPick,
-} from "../../../DB/queries/emoji.js";
+import {getEmojiCountByEventIdGroupByQuestionId, getEmojiPick} from "../../../DB/queries/emoji.js";
 
 const emojisResolver = async (_, {EventId}) => {
 	const res = await getEmojiCountByEventIdGroupByQuestionId({EventId});
 
+	// todo
 	// convert type of createdAt from date to ISOString
 	return res.map(x => ({...x, createdAt: x.createdAt.toISOString()}));
 };

@@ -101,14 +101,14 @@ export async function getCandidatesByGuestId(candidateList, guestId) {
 
 /**
  *
- * @param candidateList {number[]}
+ * @param candidateIds {number[]}
  * @return {Promise<number>}
  */
-export async function getVotersByCandidateList(candidateList) {
+export async function getVotersByCandidateIds(candidateIds) {
 	return Vote.count({
 		where: {
 			CandidateId: {
-				[Op.or]: candidateList,
+				[Op.or]: candidateIds,
 			},
 		},
 		distinct: true,
