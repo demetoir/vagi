@@ -5,7 +5,7 @@ import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioRespon
 
 const initOptionSocketHandler = async (data, emit) => {
 	try {
-		const currentState = await getEventOptionByEventId(data); // dummy event Id
+		const currentState = await getEventOptionByEventId(data);
 
 		await eventCache.set(data.eventId, currentState);
 	} catch (e) {
