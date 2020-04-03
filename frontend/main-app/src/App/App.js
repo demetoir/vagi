@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-import AppFooter from "../components/AppFooter.js";
-import AppBody from "../components/AppBody.js";
+import AppFooter from "./AppFooter.js";
+import AppBody from "./AppBody.js";
 
 function App() {
 	return (

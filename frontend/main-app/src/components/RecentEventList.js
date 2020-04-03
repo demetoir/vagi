@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import Cookie from "js-cookie";
-import {Button} from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {GUEST_COOKIE_KEY, HOST_COOKIE_KEY} from "../constants/CookieKeys.js";
 import config from "../config";
+import RecentListButton from "../atoms/RecentListButton.js";
+
 
 export default function RecentEventList() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -19,11 +20,12 @@ export default function RecentEventList() {
 	const guestCookie = Cookie.get(GUEST_COOKIE_KEY);
 	const empty = !hostCookie && !guestCookie;
 
+	const hostURL = `${config.hostAppURL}/`;
+	const guestURL = `${config.guestAppURL}/`;
+
 	return (
 		<>
-			<Button onClick={handleClick}>
-				<h3>최근목록</h3>
-			</Button>
+			<RecentListButton onClick={handleClick}/>
 			<Menu
 				id="simple-menu"
 				anchorEl={anchorEl}
@@ -33,12 +35,12 @@ export default function RecentEventList() {
 			>
 				{hostCookie && (
 					<MenuItem onClick={handleClose}>
-						<a href={`${config.hostAppURL}/`}>Go To Host</a>
+						<a href={hostURL}>Go To Host</a>
 					</MenuItem>
 				)}
 				{guestCookie && (
 					<MenuItem onClick={handleClose}>
-						<a href={`${config.guestAppURL}/`}>Go To Guest</a>
+						<a href={guestURL}>Go To Guest</a>
 					</MenuItem>
 				)}
 				{empty && (
