@@ -4,7 +4,7 @@ import models from "../../../DB/models";
 import {
 	createBulkCandidates,
 	createCandidate,
-	getCandidatesByPollId,
+	getCandidatesByPollIds,
 } from "../../../DB/queries/candidate.js";
 
 describe("candidate DB query api", () => {
@@ -32,7 +32,7 @@ describe("candidate DB query api", () => {
 		assert.equal(candidate.content, content);
 	});
 
-	it("should able to getCandidatesByPollId", async () => {
+	it("should able to getCandidatesByPollIds", async () => {
 		// given
 		const number = 1;
 		const content = "content";
@@ -40,7 +40,7 @@ describe("candidate DB query api", () => {
 		const candidate = await createCandidate({content, PollId, number});
 
 		// when
-		const result = await getCandidatesByPollId([PollId]);
+		const result = await getCandidatesByPollIds([PollId]);
 
 		const expected = [candidate];
 

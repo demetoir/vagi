@@ -4,13 +4,16 @@ import models from "../models";
 const Op = Sequelize.Op;
 const Candidate = models.Candidate;
 
-// eslint-disable-next-line import/prefer-default-export
-export async function getCandidatesByPollId(pollIdList) {
-	// noinspection JSUnresolvedVariable
+/**
+ *
+ * @param pollIds {number[]}
+ * @return {Promise<object[]>}
+ */
+export async function getCandidatesByPollIds(pollIds) {
 	const result = models.Candidate.findAll({
 		where: {
 			PollId: {
-				[Op.or]: pollIdList,
+				[Op.or]: pollIds,
 			},
 		},
 	});
