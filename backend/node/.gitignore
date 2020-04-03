@@ -16,3 +16,7 @@ express/public
 
 # yarn stuff
 yarn-error.log
+
+# code coverage
+.nyc_output
+coverage

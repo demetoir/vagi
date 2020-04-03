@@ -37,7 +37,9 @@
     "deploy": "docker-compose -f docker/docker-product.yml up -d",
     "deploy:watch": "docker-compose -f docker/docker-product.yml up",
     "deploy:express:monitor": "docker exec -it express yarn pm2 monit",
-    "deploy:undo": "docker-compose -f docker/docker-product.yml down"
+    "deploy:undo": "docker-compose -f docker/docker-product.yml down",
+    "cover": "nyc cross-env NODE_ENV=test ./node_modules/.bin/mocha ./spec -name '*.spec.js' --recursive --exit",
+    "cover:report": "nyc report --reporter=html"
   },
   "main": "index.js",
   "license": "MIT",
@@ -67,6 +69,7 @@
     "concurrently": "^5.0.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
+    "coveralls": "^3.0.11",
     "cross-env": "^6.0.3",
     "date-utils": "^1.2.21",
     "dotenv": "^8.2.0",
@@ -88,6 +91,7 @@
     "mysql2": "^2.0.0",
     "node-mocks-http": "^1.8.0",
     "nodemon": "^1.19.4",
+    "nyc": "^15.0.0",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
