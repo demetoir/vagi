@@ -1,6 +1,5 @@
 import React, {useContext, useReducer} from "react";
 import {Modal} from "@material-ui/core";
-import {useMutation} from "@apollo/react-hooks";
 import styled from "styled-components";
 import moment from "moment";
 import InputEventName from "./InputEventName";
@@ -11,9 +10,12 @@ import HashTagsField from "./HashTagsField";
 import ButtonField from "./ButtonField";
 import AlertSnackbar from "./AlertSnackbar";
 import eventModalReducer from "./eventModalReducer";
-import {mutateCreateEvent, mutateCreateHashTags} from "../../libs/gql";
 import {HostContext} from "../../libs/hostContext";
 import useSnackBar from "../../customhook/useSnackBar";
+import {propertyEventName, SET_ERROR_STATE, SET_PROPERTY} from "./eventModalActions.js";
+import {isValidEventName} from "../../libs/eventValidation.js";
+import CreateEventModalHeader from "./CreateEventModalHeader.js";
+import useCreateEvent from "./useCreateEvent.js";
 
 const modalHeight = 38;
 const modalWidth = 28.125;
@@ -39,99 +41,100 @@ const StyledForm = styled.form`
 	height: 75%;
 `;
 
-const Header = styled.div`
-	margin: 1rem 0 0.5rem 0;
-	font-size: 2rem;
-	color: #139ffb;
-	text-align: center;
-`;
 
-const initEndDate = (startTime, lastTime) => {
-	const hour = moment(lastTime).format("HH");
-	const minute = moment(lastTime).format("mm");
-	let addedTime = moment(startTime)
-		.add(hour, "h")
-		.toDate();
-
-	addedTime = moment(addedTime)
-		.add(minute, "m")
-		.toDate();
-	return addedTime;
+const ERROR_MESSAGE = {
+	nameError: "이벤트 이름을 확인해주세요",
+	dateError: "시작날짜를 다시 선택해주세요",
 };
 
-function verifyInputData(errorState) {
+function getErrorMessage(errorState) {
+	let message = "";
+
+	if (errorState.date === true) {
+		message = ERROR_MESSAGE.dateError;
+	}
+
+	if (errorState.eventName === true) {
+		message = ERROR_MESSAGE.nameError;
+	}
+
+	return message;
+}
+
+function isInvalidInputData(errorState) {
 	return Object.values(errorState).some(inputValue => inputValue);
 }
 
-function formattingDate(date) {
-	return moment(date).format("YYYY-MM-DD HH:mm:ss");
-}
 
-function CreateEventModal({open, handleClose}) {
-	const {hostInfo, events, setEvents, allEvents} = useContext(HostContext);
-	const initialEventInfo = {
+function buildInitialEventInfo(hostInfo) {
+	const startDate = new Date();
+	const endDate = moment(startDate)
+		.add(1, "h")
+		.toDate();
+
+	return {
 		eventName: `${hostInfo.name}님의 이벤트`,
-		startDate: new Date(),
-		endDate: initEndDate(new Date(), new Date().setHours(1, 0)),
+		startDate,
+		endDate,
 		hashTags: [],
 		errorState: {eventName: false, date: false},
 	};
+}
+
+
+const bindOnChangeEventName = dispatch => event => {
+	const eventName = event.target.value;
+
+	dispatch({
+		type: SET_ERROR_STATE,
+		property: propertyEventName,
+		value: !isValidEventName(eventName),
+	});
+
+	dispatch({
+		type: SET_PROPERTY,
+		property: propertyEventName,
+		value: eventName,
+	});
+};
+
+function CreateEventModal({open, handleClose}) {
+	const {hostInfo, addEvent} = useContext(HostContext);
+
 	const {snackBarOpen, snackBarHandleClose, setSnackBarOpen} = useSnackBar();
-	const [eventInfo, dispatchEventInfo] = useReducer(
+
+	const initialEventInfo = buildInitialEventInfo(hostInfo);
+	const [eventInfo, dispatch] = useReducer(
 		eventModalReducer,
 		initialEventInfo,
 	);
-	const [mutationEvent, {event}] = useMutation(mutateCreateEvent);
-	const [mutationHashTags, {hashTags}] = useMutation(mutateCreateHashTags);
 
-	const dispatchHandler = ({type, property, value}) => {
-		dispatchEventInfo({
-			type,
-			property,
-			value,
-		});
-	};
-
-	const sendData = () => {
-		const isInValid = verifyInputData(eventInfo.errorState);
-
-		if (isInValid) {
+	const [createEvent] = useCreateEvent();
+	const onConfirm = async () => {
+		if (isInvalidInputData(eventInfo.errorState)) {
 			setSnackBarOpen(true);
 			return;
 		}
-		mutationEvent({
-			variables: {
-				info: {
-					HostId: hostInfo.id,
-					startAt: moment(
-						formattingDate(eventInfo.startDate),
-					).toDate(),
-					endAt: moment(formattingDate(eventInfo.endDate)).toDate(),
-					eventName: eventInfo.eventName,
-				},
-			},
-		})
-			.then(res => {
-				const hashTagList = eventInfo.hashTags.map(hashTag => ({
-					name: hashTag.label,
-					EventId: res.data.createEvent.id,
-				}));
 
-				mutationHashTags({variables: {hashTags: hashTagList}}).catch(
-					e => {
-						console.error(`해쉬태그 생성 Error${e}`);
-						alert("해쉬태그 생성 실패");
-					},
-				);
-				Object.assign(res.data.createEvent, {HashTags: hashTagList});
-				setEvents([...allEvents, res.data.createEvent]);
-				handleClose();
-			})
-			.catch(e => {
-				console.error(`이벤트 생성 Error${e}`);
-				alert("이벤트 생성 실패");
-			});
+		try {
+			const event = await createEvent(eventInfo, hostInfo);
+
+			addEvent(event);
+
+			handleClose();
+		} catch (e) {
+			console.error(`이벤트 생성 Error ${e} ${e.stack}`);
+			alert("이벤트 생성 실패");
+		}
 	};
+
+	const InputEventNameProps = {
+		onChange: bindOnChangeEventName(dispatch),
+		error: eventInfo.errorState.eventName,
+		value: eventInfo.eventName,
+	};
+
+	const errorMsg = getErrorMessage(eventInfo.errorState);
 
 	return (
 		<Modal
@@ -141,33 +144,29 @@ function CreateEventModal({open, handleClose}) {
 			onClose={handleClose}
 		>
 			<PopUpLayOutStyle>
-				<Header id="createEvent-modal-title">이벤트만들기</Header>
+				<CreateEventModalHeader/>
 				<StyledForm>
-					<InputEventName
-						errorState={eventInfo.errorState}
-						dispatch={dispatchHandler}
-						eventName={eventInfo.eventName}
-					/>
+					<InputEventName {...InputEventNameProps}/>
 					<InputStartDate
 						errorState={eventInfo.errorState}
 						startDate={eventInfo.startDate}
 						endDate={eventInfo.endDate}
-						dispatch={dispatchHandler}
+						dispatch={dispatch}
 					/>
-					<EndDateField endDate={eventInfo.endDate} />
+					<EndDateField endDate={eventInfo.endDate}/>
 					<InputHashTag
 						hashTags={eventInfo.hashTags}
-						dispatch={dispatchHandler}
+						dispatch={dispatch}
 					/>
 					<HashTagsField
 						hashTags={eventInfo.hashTags}
-						dispatch={dispatchHandler}
+						dispatch={dispatch}
 					/>
 				</StyledForm>
-				<ButtonField createEvent={sendData} onClose={handleClose} />
+				<ButtonField onConfirm={onConfirm} onClose={handleClose}/>
 				<AlertSnackbar
-					errorState={eventInfo.errorState}
-					handleClose={snackBarHandleClose}
+					message={errorMsg}
+					onClose={snackBarHandleClose}
 					open={snackBarOpen}
 				/>
 			</PopUpLayOutStyle>

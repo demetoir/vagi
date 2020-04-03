@@ -6,6 +6,7 @@ const useSnackBar = () => {
 		if (reason === "clickaway") {
 			return;
 		}
+
 		setSnackBarOpen(false);
 	};
 

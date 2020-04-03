@@ -20,8 +20,8 @@ function EndDateField(props) {
 			id="endDateField"
 			label="종료날짜"
 			color="primary"
-			value={formattingDate(endDate)}
 			readOnly={true}
+			value={formattingDate(endDate)}
 		/>
 	);
 }

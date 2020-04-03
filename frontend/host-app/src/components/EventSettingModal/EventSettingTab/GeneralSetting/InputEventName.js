@@ -1,14 +1,14 @@
 import React from "react";
 import {styled} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
-import {validEventName} from "../../../../libs/eventValidation";
+import {isValidEventName} from "../../../../libs/eventValidation";
 
 const CustomTextField = styled(TextField)({
 	width: "25rem",
 });
 
 function InputEventName(props) {
-	const errorState = !validEventName(props.eventName);
+	const errorState = !isValidEventName(props.eventName);
 
 	return (
 		<CustomTextField

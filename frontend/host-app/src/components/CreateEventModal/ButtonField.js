@@ -2,19 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import {Button} from "@material-ui/core";
 
-const Container = styled.div`
-	// margin-top: auto;
+const ButtonFieldStyle = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
 	align-items: flex-end;
-	// margin-left: 10rem;
 	height: 3rem;
 `;
 
-function ButtonField({createEvent, onClose}) {
+function ButtonField({onConfirm, onClose}) {
 	return (
-		<Container>
+		<ButtonFieldStyle>
 			<Button
 				size="large"
 				variant="contained"
@@ -27,11 +25,11 @@ function ButtonField({createEvent, onClose}) {
 				size="large"
 				variant="contained"
 				color="primary"
-				onClick={createEvent}
+				onClick={onConfirm}
 			>
 				확인
 			</Button>
-		</Container>
+		</ButtonFieldStyle>
 	);
 }
 
