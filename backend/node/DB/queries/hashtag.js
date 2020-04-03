@@ -18,6 +18,17 @@ export async function createHashtag({name, EventId}) {
 	return res.get({plain: true});
 }
 
+/**
+ *
+ * @param hashTags
+ * @return {Promise<Model[]>}
+ */
+export async function createHashtags(hashTags) {
+	const res = await Hashtag.bulkCreate(hashTags, {returning: true});
+
+	return res.map(x => x.get({plain: true}));
+}
+
 
 /**
  *

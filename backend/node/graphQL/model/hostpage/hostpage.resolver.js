@@ -7,10 +7,7 @@ import {
 	getEventsByHostId,
 	updateEventById,
 } from "../../../DB/queries/event.js";
-import {
-	createHashtag,
-	getHashtagByEventIds,
-} from "../../../DB/queries/hashtag.js";
+import {createHashtags, getHashtagByEventIds} from "../../../DB/queries/hashtag.js";
 import {AUTHORITY_TYPE_HOST} from "../../../constants/authorityTypes.js";
 
 function verifySubjectHostJwt(jwtSub) {
@@ -73,18 +70,10 @@ const initQueryResolver = async (_, {param}, authority) => {
 	return {events, host};
 };
 
-// todo: resolver의 return 값 및 해당 scheme의 return type refactoring 필요
 const createHashTagsResolver = async (_, {hashTags}, authority) => {
 	verifySubjectHostJwt(authority.sub);
 
-	// todo fix to bulk insert
-	for (const hashTag of hashTags) {
-		// eslint-disable-next-line no-await-in-loop
-		await createHashtag({
-			name: hashTag.name,
-			EventId: hashTag.EventId,
-		});
-	}
+	return createHashtags(hashTags);
 };
 
 const createEventResolver = async (_, {info}, authority) => {
