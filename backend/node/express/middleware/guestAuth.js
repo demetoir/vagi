@@ -1,45 +1,36 @@
 import jwt from "jsonwebtoken";
 import config from "../config";
-import {isExistGuest} from "../../DB/queries/guest";
-import {convertPathToEventCode, isActiveEvent} from "../utils";
-import logger from "../logger.js";
-import CookieKeys from "../CookieKeys.js";
+import {getGuestByGuestSid} from "../../DB/queries/guest";
+import {decodeEventCode} from "../utils";
 import {getEventByEventCode} from "../../DB/queries/event.js";
+import logger from "../logger.js";
+import parseGuestJWt from "./parseGuestJWT.js";
+import verifyEvent from "./verifyEvent.js";
+import verifyGuest from "./verifyGuest.js";
 
 const {tokenArgs, routePage} = config;
 
-// todo refactoring location
-function isGuestBelongToEvent(guest, event) {
-	return guest.EventId === event.id;
-}
-
 export default async function(req, res, next) {
-	const path = req.params.path;
-	const eventCode = convertPathToEventCode(path);
-
 	try {
+		const guestJWT = parseGuestJWt(req);
 		const payload = jwt.verify(
-			req.cookies[CookieKeys.GUEST_APP],
+			guestJWT,
 			tokenArgs.secret,
 		);
 
-		const [guest, event] = Promise.all(
-			[isExistGuest(payload.sub), getEventByEventCode(eventCode)],
+		const guestSid = payload.sub;
+		const encodedEventCode = req.params.path;
+		const eventCode = decodeEventCode(encodedEventCode);
+		const [guest, event] = await Promise.all(
+			[getGuestByGuestSid(guestSid), getEventByEventCode(eventCode)],
 		);
 
-		// todo better logic flow
-		if (!isActiveEvent(event)) {
-			// todo fix this line of lint
-			throw new Error("이벤트 만료기간이 지났습니다.");
-		}
+		verifyEvent(event);
+		verifyGuest(guest, event);
 
-		if (!isGuestBelongToEvent(guest, event)) {
-			return res.redirect(routePage.guest);
-		}
-
-		return next();
+		return res.redirect(routePage.guest);
 	} catch (e) {
-		logger.error(e);
+		logger.error(e, e.stack);
 		return next();
 	}
 }

@@ -9,8 +9,8 @@ export function isActiveEvent(event) {
 	return diff > 0;
 }
 
-// todo refactoring name
-export function convertPathToEventCode(path) {
+// todo refactoring location
+export function decodeEventCode(path) {
 	return Buffer.from(path, "base64").toString();
 }
 
