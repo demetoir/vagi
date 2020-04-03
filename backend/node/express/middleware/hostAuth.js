@@ -1,26 +1,34 @@
 import jwt from "jsonwebtoken";
-import CookieKeys from "../CookieKeys.js";
-import {isExistHostOAuthId} from "../../DB/queries/host.js";
 import logger from "../logger.js";
 import config from "../config";
+import parseHostJWt from "./parseHostJWt.js";
+import verifyHostByOauthId from "./verifyHostByOauthId.js";
 
 const {tokenArgs, routePage} = config;
 
+
+/**
+ *
+ * @param req {object}
+ * @param res {object}
+ * @param next {function}
+ * @return {Promise<*>}
+ */
 export default async function hostAuthenticate(req, res, next) {
 	try {
+		const hostJwt = parseHostJWt(req);
 		const payload = jwt.verify(
-			req.cookies[CookieKeys.HOST_APP],
+			hostJwt,
 			tokenArgs.secret,
 		);
-		const isExist = await isExistHostOAuthId(payload.sub);
 
-		if (isExist) {
-			res.redirect(routePage.host);
-		}
+		const hostOauthId = payload.sub;
 
-		return next();
+		verifyHostByOauthId(hostOauthId);
+
+		return res.redirect(routePage.host);
 	} catch (e) {
-		logger.error(e);
+		logger.error(e, e.stack);
 		return next();
 	}
 }

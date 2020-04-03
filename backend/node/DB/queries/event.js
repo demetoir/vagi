@@ -2,7 +2,7 @@ import models from "../models";
 
 /**
  *
- * @returns {Promise<object[]|any[]>}
+ * @returns {Promise<object[]>}
  */
 export async function getAllEvents() {
 	const res = await models.Event.findAll();

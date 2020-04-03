@@ -4,7 +4,7 @@ import generateAccessToken from "../authentication/token";
 import config from "../config";
 import guestAuth from "../middleware/guestAuth.js";
 import {createGuest, isExistGuest} from "../../DB/queries/guest";
-import {convertPathToEventCode, getTokenExpired, isActiveEvent} from "../utils";
+import {decodeEventCode, getTokenExpired, isActiveEvent} from "../utils";
 import CookieKeys from "../CookieKeys.js";
 import logger from "../logger.js";
 import {AUTHORITY_TYPE_GUEST} from "../../constants/authorityTypes.js";
@@ -50,7 +50,7 @@ router.get("/logout", logoutHandler);
 // todo add test
 const loginByEventPathHandler = async (req, res) => {
 	const path = req.params.path;
-	const eventCode = convertPathToEventCode(path);
+	const eventCode = decodeEventCode(path);
 
 	try {
 		const event = await getEventByEventCode(eventCode);

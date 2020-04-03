@@ -1,5 +1,5 @@
 import {getVotersByCandidateIds} from "../../../DB/queries/vote.js";
-import {getCandidatesByPollId} from "../../../DB/queries/candidate.js";
+import {getCandidatesByPollIds} from "../../../DB/queries/candidate.js";
 
 export const simplifyList = list => list.map(n => n.get({plain: true}));
 
@@ -63,9 +63,9 @@ export async function getItems(pollId, candidates) {
  * 하나의 poll에 속한 candidates들을 DB에서 읽어오는 함수
  */
 export async function getCandidatesByPolls(polls) {
-	const pollIdList = polls.map(poll => poll.id);
+	const pollIds = polls.map(poll => poll.id);
 
-	return getCandidatesByPollId(pollIdList);
+	return getCandidatesByPollIds(pollIds);
 }
 
 /**
