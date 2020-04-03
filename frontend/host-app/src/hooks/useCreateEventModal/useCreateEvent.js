@@ -7,7 +7,6 @@ function buildMutateEventVariables(eventInfo, hostId) {
 		return moment(date).format("YYYY-MM-DD HH:mm:ss");
 	}
 
-
 	return {
 		info: {
 			HostId: hostId,

@@ -1,5 +1,5 @@
 import React from "react";
-import useModal from "../../customhook/useModal.js";
+import useModal from "../../hooks/useModal.js";
 import HeaderConfigAvatar from "./HeaderConfigAvatar.js";
 import HeaderAccountAvatar from "./HeaderAccountAvatar.js";
 import EventSettingModal from "../../components/EventSettingModal/EventSettingModal.js";

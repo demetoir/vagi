@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import EventCreateButton from "../Event/EventCreateButton.js";
 import CreateEventModal from "../CreateEventModal/CreateEventModal";
-import useModal from "../../customhook/useModal";
+import useModal from "../../hooks/useModal";
 import {EmptyContentBox, EmptyContentDiv} from "./ComponentsStyle";
 
 

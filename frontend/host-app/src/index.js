@@ -6,7 +6,7 @@ import "./index.css";
 import * as serviceWorker from "./libs/serviceWorker.js";
 import {initSocketIoClientWrapper} from "./libs/socket.io-Client-wrapper.js";
 import config from "./config";
-import createApolloClient from "./libs/createApolloClient";
+import createApolloClient from "./graphql/createApolloClient.js";
 import AppLoadingWrapper from "./App/AppLoadingWrapper.js";
 
 const NAME_SPACE = "event";

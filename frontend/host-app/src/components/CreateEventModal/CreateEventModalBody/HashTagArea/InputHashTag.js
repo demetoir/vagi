@@ -2,7 +2,7 @@ import React from "react";
 import {styled} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
 import uuidv1 from "uuid/v1";
-import {SET_PROPERTY} from "./createEventModalActions.js";
+import {SET_PROPERTY} from "../../../../hooks/useCreateEventModal/createEventModalActions.js";
 
 const ENTER_KEY_CODE = 13;
 const CustomTextField = styled(TextField)({
@@ -41,8 +41,8 @@ function InputHashTag(props) {
 	return (
 		<CustomTextField
 			id="hashTag"
-			label="해시태그를 입력 후 Enter키를 눌러주세요"
 			color="primary"
+			label="해시태그를 입력 후 Enter키를 눌러주세요"
 			onKeyDown={addHashTag}
 		/>
 	);

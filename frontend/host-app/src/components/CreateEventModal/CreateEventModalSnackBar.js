@@ -4,7 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 
-function AlertSnackbar(props) {
+function CreateEventModalSnackBar(props) {
 	const {onClose, open, message} = props;
 
 	return (
@@ -34,4 +34,4 @@ function AlertSnackbar(props) {
 	);
 }
 
-export default AlertSnackbar;
+export default CreateEventModalSnackBar;

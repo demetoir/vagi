@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import useQueryQuestions from "../../libs/useQueryQuestions";
+import useQueryQuestions from "../../graphql/useQueryQuestions.js";
 import {HostContext} from "../../libs/hostContext";
 import SkeletonContent from "../Skeleton/SkeletonContent";
 import EventDashboard from "./EventDashboard.js";

@@ -13,7 +13,7 @@ import {generalSettingReducer} from "../../settingReducer/settingReducer";
 import ButtonField from "../ButtonField";
 import {HostContext} from "../../../../libs/hostContext";
 import config from "../../../../config";
-import {mutateUpdateEvent} from "../../../../libs/gql";
+import {mutateUpdateEvent} from "../../../../graphql/gql.js";
 
 const PopUpLayOutStyle = styled.div`
 	display: flex;
