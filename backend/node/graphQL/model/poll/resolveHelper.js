@@ -1,4 +1,4 @@
-import {getVotersByCandidateList} from "../../../DB/queries/vote.js";
+import {getVotersByCandidateIds} from "../../../DB/queries/vote.js";
 import {getCandidatesByPollId} from "../../../DB/queries/candidate.js";
 
 export const simplifyList = list => list.map(n => n.get({plain: true}));
@@ -29,7 +29,7 @@ export async function getItems(pollId, candidates) {
 
 	for (const n of candidates) {
 		if (n.PollId === pollId) {
-			const voters = await getVotersByCandidateList([n.id]);
+			const voters = await getVotersByCandidateIds([n.id]);
 
 			nItems.push({
 				...n,
@@ -83,7 +83,7 @@ export async function setPollItems(polls, candidates) {
 		poll.nItems = await getItems(poll.id, candidates);
 		const candidateList = getCandidateList(poll.nItems);
 
-		poll.totalVoters = await getVotersByCandidateList(candidateList);
+		poll.totalVoters = await getVotersByCandidateIds(candidateList);
 	}
 
 	return polls;

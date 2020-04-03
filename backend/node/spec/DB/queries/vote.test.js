@@ -5,7 +5,7 @@ import {
 	addVote,
 	deleteVoteBy,
 	getCandidatesByGuestId,
-	getVotersByCandidateList,
+	getVotersByCandidateIds,
 	swapVoteByGuestId,
 } from "../../../DB/queries/vote.js";
 import {createCandidate} from "../../../DB/queries/candidate.js";
@@ -161,7 +161,7 @@ describe("vote DB query api", () => {
 		assert.deepStrictEqual(candidates, expected);
 	});
 
-	it(`should be able to ${getVotersByCandidateList.name}`, async () => {
+	it(`should be able to ${getVotersByCandidateIds.name}`, async () => {
 		// given
 		const EventId = null;
 		const guest = await createGuest(EventId);
@@ -181,7 +181,7 @@ describe("vote DB query api", () => {
 		await addVote({GuestId, CandidateId: CandidateIdToDelete});
 
 		// when
-		const voters = await getVotersByCandidateList([CandidateIdToDelete]);
+		const voters = await getVotersByCandidateIds([CandidateIdToDelete]);
 
 		// than
 		const expected = 1;
