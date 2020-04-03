@@ -1,6 +1,7 @@
 import {useSocket} from "../../libs/socket.io-Client-wrapper.js";
 import {makeNewData} from "../../libs/utils.js";
 
+// todo constant
 const useQuestionSocketEventHandler = dispatch => {
 	useSocket("question/create", req =>
 		dispatch({type: "addNewQuestion", data: makeNewData(req)}),

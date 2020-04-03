@@ -1,5 +1,6 @@
 import {socketClient} from "../../libs/socket.io-Client-wrapper";
 
+// todo constant
 const handleMoveQuestions = (EventId, from, to) => {
 	socketClient.emit("questions/move", {from, to, EventId});
 };

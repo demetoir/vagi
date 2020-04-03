@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {TextField} from "@material-ui/core";
 import {MdDelete, MdAdd} from "react-icons/md";
 
+// todo refactoring
 const DeleteItem = styled.div`
 	opacity: 0;
 	display: flex;

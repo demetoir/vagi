@@ -5,6 +5,8 @@ import CreateEventModal from "../CreateEventModal/CreateEventModal";
 import useModal from "../../customhook/useModal";
 import {EmptyContentBox, EmptyContentDiv} from "./ComponentsStyle";
 
+
+// todo refactoring decompose component
 function EmptyContent(props) {
 	const {value, index} = props;
 	const [eventModalOpen, handleOpen, handleClose] = useModal();

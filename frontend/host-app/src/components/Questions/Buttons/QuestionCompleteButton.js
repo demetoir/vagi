@@ -6,17 +6,16 @@ import {handleMoveQuestion} from "../../EventEmiter/QuestionSocketEventEmiter.js
 
 function QuestionCompleteButton(props) {
 	const classes = useStyles();
+	const onClick = () => handleMoveQuestion(props.data, props.id, props.type, "completeQuestion");
 
 	return (
-		<>
-			<Tooltip title="답변 완료">
-				<Icon
-					className={classes.approveButton}
-					onClick={() => handleMoveQuestion(props.data, props.id, props.type, "completeQuestion")}>
+		<Tooltip title="답변 완료">
+			<Icon
+				className={classes.approveButton}
+				onClick={onClick}>
 					check_circle_outline
-				</Icon>
-			</Tooltip>
-		</>
+			</Icon>
+		</Tooltip>
 	);
 }
 export default QuestionCompleteButton;

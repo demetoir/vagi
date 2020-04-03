@@ -16,10 +16,11 @@ const useStyles = makeStyles({
 	},
 });
 
+// todo refactoring
 function EventCard(props) {
+	const {isLive} = props;
 	const className = "none";
 	const classes = useStyles(undefined);
-	const {isLive} = props;
 
 	return (
 		<Card

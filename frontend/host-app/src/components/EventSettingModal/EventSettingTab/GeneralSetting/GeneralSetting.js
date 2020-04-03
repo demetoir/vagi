@@ -40,9 +40,10 @@ function convertDataToView(eventInfo) {
 	};
 }
 
+// todo refactoring
 export default function GeneralSetting({handleClose}) {
-	const [mutationUpdateEvent, {updatedEvent}] = useMutation(mutateUpdateEvent);
-	const {hostInfo, events, setEvents, allEvents} = useContext(HostContext);
+	const [mutationUpdateEvent] = useMutation(mutateUpdateEvent);
+	const {events, setEvents, allEvents} = useContext(HostContext);
 	const initialGeneralState = convertDataToView(events[0]);
 	const [generalSettingState, dispatch] = useReducer(
 		generalSettingReducer,
@@ -58,6 +59,7 @@ export default function GeneralSetting({handleClose}) {
 		eventCode,
 	} = generalSettingState;
 
+	// todo constant
 	const setEventName = event => {
 		dispatch({
 			type: "updateEventName",

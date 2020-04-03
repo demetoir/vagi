@@ -5,6 +5,7 @@ import {ModerationStyle, QuestionStyle} from "./ComponentsStyle";
 import {filterStared} from "../../libs/utils";
 import ColumnTypes from "./ColumnTypes.js";
 
+// todo refactoring name
 function Column({type, state, data}) {
 	const ColumnStyle =
 		type === ColumnTypes.MODERATION ? ModerationStyle : QuestionStyle;

@@ -4,7 +4,7 @@ import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import {Scrollbars} from "react-custom-scrollbars";
-import {SET_PROPERTY} from "./eventModalActions.js";
+import {SET_PROPERTY} from "./createEventModalActions.js";
 
 const MyPaper = styled(Paper)({
 	marginTop: 10,
@@ -19,10 +19,11 @@ const CustomChip = styled(Chip)({
 	margin: 5,
 });
 
+// todo refactoring here
 function HashTagField(props) {
 	const {hashTags, dispatch} = props;
-	// todo 이 부분은 reducer가 해야야할일이다
-	const deleteHashTag = hashTagToDelete => () => {
+
+	const bindOnDeleteHashTag = hashTagToDelete => () => {
 		const isDeletedHashTag = hashTag => hashTag.key !== hashTagToDelete.key;
 		const deletedHashTagList = hashTags.filter(isDeletedHashTag);
 
@@ -38,12 +39,12 @@ function HashTagField(props) {
 			<MyPaper>
 				{hashTags.map(hashTag => (
 					<CustomChip
-						icon={<LocalOfferIcon />}
+						icon={<LocalOfferIcon/>}
 						color="primary"
 						variant="outlined"
 						key={hashTag.key}
 						label={hashTag.label}
-						onDelete={deleteHashTag(hashTag)}
+						onDelete={bindOnDeleteHashTag(hashTag)}
 					/>
 				))}
 			</MyPaper>

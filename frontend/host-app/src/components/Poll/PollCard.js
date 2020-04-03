@@ -6,7 +6,7 @@ import SelectionItems from "./SelectionItems";
 import RatingItem from "./RatingItem";
 import {socketClient} from "../../libs/socket.io-Client-wrapper";
 
-const ColumnWrapper = styled.div`
+const PollCardStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -53,6 +53,7 @@ const onClosePoll = id => {
 	socketClient.emit("poll/close", req);
 };
 
+// todo refactoring
 function PollCard(props) {
 	const {
 		id,
@@ -86,7 +87,7 @@ function PollCard(props) {
 	}
 
 	return (
-		<ColumnWrapper>
+		<PollCardStyle>
 			<RowWrapper left bold>
 				{pollName}
 				<div>{state === "running" && "(투표중)"}</div>
@@ -132,7 +133,7 @@ function PollCard(props) {
 					</Button>
 				</>
 			)}
-		</ColumnWrapper>
+		</PollCardStyle>
 	);
 }
 

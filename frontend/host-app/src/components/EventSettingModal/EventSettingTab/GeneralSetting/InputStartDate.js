@@ -26,6 +26,7 @@ const CustomTimePicker = styled(TimePicker)({
 	marginTop: marginTopLength,
 });
 
+// todo refactoring
 function InputStartDate(props) {
 	const {startDate, endDate} = props;
 	const {setStartDate, setEndDate} = props.dispatch;

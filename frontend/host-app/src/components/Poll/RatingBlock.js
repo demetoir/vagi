@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Rating from "@material-ui/lab/Rating";
 
-const ColumnWrapper = styled.div`
+const RatingBlockStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -14,9 +14,10 @@ const ColumnWrapper = styled.div`
 	border: 1px solid gray;
 `;
 
+// todo refactoring
 function RatingBlock({ratingValue, maxValue, onChange}) {
 	return (
-		<ColumnWrapper>
+		<RatingBlockStyle>
 			별점 최대값을 정해주세요.
 			<div>
 				<Rating
@@ -28,7 +29,7 @@ function RatingBlock({ratingValue, maxValue, onChange}) {
 					}}
 				/>
 			</div>
-		</ColumnWrapper>
+		</RatingBlockStyle>
 	);
 }
 

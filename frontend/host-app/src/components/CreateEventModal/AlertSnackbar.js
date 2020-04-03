@@ -3,24 +3,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-const ERROR_MESSAGE = {
-	nameError: "이벤트 이름을 확인해주세요",
-	dateError: "시작날짜를 다시 선택해주세요",
-};
-
-function getErrorMessage(errorState) {
-	let message = ERROR_MESSAGE.dateError;
-
-	if (errorState.eventName === true) {
-		message = ERROR_MESSAGE.nameError;
-	}
-
-	return message;
-}
 
 function AlertSnackbar(props) {
-	const {handleClose, open, errorState} = props;
-	const errorMsg = getErrorMessage(errorState);
+	const {onClose, open, message} = props;
 
 	return (
 		<Snackbar
@@ -32,19 +17,19 @@ function AlertSnackbar(props) {
 			ContentProps={{
 				"aria-describedby": "can't create event",
 			}}
-			message={<span id="message-id">{errorMsg}</span>}
+			message={<span id="message-id">{message}</span>}
 			action={[
 				<IconButton
 					key="close"
 					aria-label="close"
 					color="inherit"
-					onClick={handleClose}
+					onClick={onClose}
 				>
-					<CloseIcon />
+					<CloseIcon/>
 				</IconButton>,
 			]}
 			open={open}
-			onClose={handleClose}
+			onClose={onClose}
 		/>
 	);
 }

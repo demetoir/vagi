@@ -20,6 +20,9 @@ const isActiveEvent = event => {
 function App(props) {
 	const {data} = props;
 	const [events, setEvents] = useState(data.init.events);
+	const addEvent = event => {
+		setEvents([...events, event]);
+	};
 
 	const activeEvents = events.filter(isActiveEvent);
 	const activeEventsNum = activeEvents.length;
@@ -36,14 +39,16 @@ function App(props) {
 		hostInfo: data.init.host,
 		events: activeEvents,
 		setEvents,
+		addEvent,
 		allEvents: events,
 	};
+
 
 	return (
 		<HostProvider value={hostProviderValue}>
 			<div className="App">
-				<AppHeader />
-				<AppBody eventNum={activeEventsNum} />
+				<AppHeader/>
+				<AppBody eventNum={activeEventsNum}/>
 			</div>
 		</HostProvider>
 	);

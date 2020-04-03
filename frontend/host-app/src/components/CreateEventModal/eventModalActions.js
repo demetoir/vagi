@@ -1,2 +1,0 @@
-export const SET_PROPERTY = "SET_PROPERTY";
-export const SET_ERROR_STATE = "SET_ERROR_STATE";

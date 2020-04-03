@@ -4,7 +4,7 @@ import {styled} from "@material-ui/core/styles";
 import TabContent from "./TabContent";
 import GeneralSetting from "./GeneralSetting/GeneralSetting";
 
-const MyContainer = styled(Box)({
+const TabNavigationStyle = styled(Box)({
 	display: "flex",
 	flexShrink: 1,
 	padding: 0,
@@ -27,7 +27,7 @@ export default function TabNavigation({handleClose}) {
 	};
 
 	return (
-		<MyContainer>
+		<TabNavigationStyle>
 			<Tabs
 				orientation="vertical"
 				value={value}
@@ -42,6 +42,6 @@ export default function TabNavigation({handleClose}) {
 			<TabContent value={value} index={1}>
 				<GeneralSetting handleClose={handleClose} />
 			</TabContent>
-		</MyContainer>
+		</TabNavigationStyle>
 	);
 }

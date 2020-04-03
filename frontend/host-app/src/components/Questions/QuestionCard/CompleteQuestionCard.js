@@ -12,6 +12,7 @@ import ThumbUpButton from "../Buttons/ThumbUpButton";
 import Replies from "./Replies";
 import QuestionRestoreButton from "../Buttons/QuestionRestoreButton";
 
+// todo refactoring
 function CompleteQuestionCard(props) {
 	const classes = useQuestionCardStyles();
 	const [openReplies, setOpenReplies] = useState(false);

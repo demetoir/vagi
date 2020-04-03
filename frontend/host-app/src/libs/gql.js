@@ -49,6 +49,8 @@ const mutateCreateHashTags = gql`
     mutation Mutation($hashTags: [HashTagInput]!) {
         createHashTags(hashTags: $hashTags) {
             id
+            name
+            EventId
         }
     }
 `;

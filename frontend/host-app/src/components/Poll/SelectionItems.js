@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Item from "./Item";
 
-const ColumnWrapper = styled.div`
+const SelectionItemStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -12,11 +12,12 @@ const ColumnWrapper = styled.div`
 	width: 100%;
 `;
 
+// todo refactoring
 function SelectionItem(props) {
 	const {nItems, totalVoters, ...others} = props;
 
 	return (
-		<ColumnWrapper>
+		<SelectionItemStyle>
 			{nItems.map((item, index) => (
 				<Item
 					{...item}
@@ -25,7 +26,7 @@ function SelectionItem(props) {
 					{...others}
 				/>
 			))}
-		</ColumnWrapper>
+		</SelectionItemStyle>
 	);
 }
 
