@@ -27,7 +27,7 @@ const httpServer = http.createServer(app).listen(port, () => {
 const socketServer = io(httpServer);
 const namedServer = socketServer.of(NAME_SPACE);
 
-socketServer.use(authenticate());
+socketServer.use(authenticate);
 namedServer.on(SOCKET_IO_EVENT_CONNECTION, async socket => {
 	const id = socket.id;
 
