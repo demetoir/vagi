@@ -102,6 +102,7 @@ export async function createPoll(
 }
 
 // todo: refactoring
+// todo add test
 const makeCandidateRows = (id, pollType, candidates) => {
 	let i = 0;
 	const nItems = [];
@@ -120,6 +121,7 @@ const makeCandidateRows = (id, pollType, candidates) => {
 };
 
 // todo: refactoring
+// todo add test
 // look for inject transaction object
 // https://sequelize.org/master/manual/transactions.html#automatically-pass-transactions-to-all-queries
 export async function createPollAndCandidates(
