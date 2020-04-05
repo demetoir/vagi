@@ -4,13 +4,12 @@ import generateAccessToken from "../authentication/token";
 import config from "../config";
 import CookieKeys from "../CookieKeys.js";
 import {AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
-import {getTokenExpired} from "../utils.js";
+import JWTCooKieOptions from "../JWTCookie/JWTCooKieOptions.js";
 
-const EXPIRE_TIME = 2;
 const {routePage} = config;
-const router = express.Router();
+const authRouter = express.Router();
 
-router.get(
+authRouter.get(
 	"/login",
 	passport.authenticate("google", {
 		session: false,
@@ -19,7 +18,7 @@ router.get(
 	}),
 );
 
-router.get(
+authRouter.get(
 	"/google/callback",
 	passport.authenticate("google", {
 		session: false,
@@ -27,12 +26,11 @@ router.get(
 	(req, res) => {
 		const {user} = req;
 		const accessToken = generateAccessToken(user.oauthId, AUTHORITY_TYPE_HOST);
+		const options = JWTCooKieOptions.build();
 
-		res.cookie(CookieKeys.HOST_APP, accessToken, {
-			expires: getTokenExpired(EXPIRE_TIME),
-		});
+		res.cookie(CookieKeys.HOST_APP, accessToken, options);
 		res.redirect(routePage.host);
 	},
 );
 
-export default router;
+export default authRouter;

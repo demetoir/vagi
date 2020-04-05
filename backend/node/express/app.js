@@ -7,9 +7,9 @@ import morgan from "morgan";
 import config from "./config";
 import applyStaticAppServing from "./middleware/applyStaticAppServing.js";
 import "./authentication/google.js";
-import authRouter from "./routes/auth";
-import guestRouter from "./routes/guest";
-import hostRouter from "./routes/host";
+import authRouter from "./routes/authRouter.js";
+import guestRouter from "./routes/guestRouter.js";
+import hostRouter from "./routes/hostRouter.js";
 import logger from "./logger.js";
 
 dotenv.config();

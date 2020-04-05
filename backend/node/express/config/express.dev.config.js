@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const env = process.env;
+
 const config = {
 	port: env.EXPRESS_DEV_PORT,
 	publicPath: env.EXPRESS_DEV_PUBLIC_PATH,
