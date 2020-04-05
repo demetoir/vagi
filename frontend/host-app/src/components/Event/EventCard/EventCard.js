@@ -5,7 +5,7 @@ import {Card, CardContent} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import EventIcon from "./EventIcon.js";
-import EventCardContent from "./EventCardContent.js";
+import EventCardContent from "./EventCardContent/EventCardContent.js";
 
 const useStyles = makeStyles({
 	selected: {

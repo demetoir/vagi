@@ -4,8 +4,8 @@ import {styled} from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import Container from "@material-ui/core/Container";
 import moment from "moment";
-import {validDate} from "../../libs/eventValidation";
-import {SET_ERROR_STATE, SET_PROPERTY} from "./createEventModalActions.js";
+import {validDate} from "../../../../../libs/eventValidation.js";
+import {SET_ERROR_STATE, SET_PROPERTY} from "../../../../../hooks/useCreateEventModal/createEventModalActions.js";
 import CustomDateTimePicker from "./CustomDateTimePicker.js";
 import CustomTimePicker from "./CustomTimePicker.js";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import {useQuery} from "@apollo/react-hooks";
-import {queryEventsByHost} from "../libs/gql.js";
+import {queryEventsByHost} from "../graphql/gql.js";
 import AppSkeleton from "../components/Skeleton/AppSkeleton.js";
 import config from "../config";
 import App from "./App.js";

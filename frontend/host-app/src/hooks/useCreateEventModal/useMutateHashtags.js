@@ -1,5 +1,5 @@
 import {useMutation} from "@apollo/react-hooks";
-import {mutateCreateHashTags} from "../../libs/gql.js";
+import {mutateCreateHashTags} from "../../graphql/gql.js";
 
 export default function useMutateHashtags() {
 	const [mutationHashTags] = useMutation(mutateCreateHashTags);

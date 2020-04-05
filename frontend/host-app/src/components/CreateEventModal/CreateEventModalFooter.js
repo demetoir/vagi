@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {Button} from "@material-ui/core";
 
-const ButtonFieldStyle = styled.div`
+const CreateEventModalFooterStyle = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
@@ -12,7 +12,7 @@ const ButtonFieldStyle = styled.div`
 
 function CreateEventModalFooter({onConfirm, onClose}) {
 	return (
-		<ButtonFieldStyle>
+		<CreateEventModalFooterStyle>
 			<Button
 				size="large"
 				variant="contained"
@@ -29,7 +29,7 @@ function CreateEventModalFooter({onConfirm, onClose}) {
 			>
 				확인
 			</Button>
-		</ButtonFieldStyle>
+		</CreateEventModalFooterStyle>
 	);
 }
 

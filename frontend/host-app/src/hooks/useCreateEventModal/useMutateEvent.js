@@ -1,5 +1,5 @@
 import {useMutation} from "@apollo/react-hooks";
-import {mutateCreateEvent} from "../../libs/gql.js";
+import {mutateCreateEvent} from "../../graphql/gql.js";
 
 export default function useMutateEvent() {
 	const [mutationEvent] = useMutation(mutateCreateEvent);

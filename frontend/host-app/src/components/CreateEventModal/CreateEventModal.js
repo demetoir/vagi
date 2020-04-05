@@ -1,21 +1,14 @@
-import React, {useContext, useReducer} from "react";
+import React, {useContext} from "react";
 import {Modal} from "@material-ui/core";
 import styled from "styled-components";
-import moment from "moment";
-import InputEventName from "./InputEventName";
-import InputStartDate from "./InputStartDate";
-import InputHashTag from "./InputHashTag";
-import EndDateField from "./EndDateField";
-import HashTagsField from "./HashTagsField";
 import CreateEventModalFooter from "./CreateEventModalFooter.js";
-import AlertSnackbar from "./AlertSnackbar";
-import createEventModalReducer from "./createEventModalReducer.js";
+import CreateEventModalSnackBar from "./CreateEventModalSnackBar.js";
 import {HostContext} from "../../libs/hostContext";
-import useSnackBar from "../../customhook/useSnackBar";
-import {propertyEventName, SET_ERROR_STATE, SET_PROPERTY} from "./createEventModalActions.js";
-import {isValidEventName} from "../../libs/eventValidation.js";
+import useSnackBar from "../../hooks/useSnackBar";
 import CreateEventModalHeader from "./CreateEventModalHeader.js";
-import useCreateEvent from "./useCreateEvent.js";
+import useCreateEvent from "../../hooks/useCreateEventModal/useCreateEvent.js";
+import CreateEventModalBody from "./CreateEventModalBody/CreateEventModalBody.js";
+import useCreateEventModalReducer from "../../hooks/useCreateEventModal/useCreateEventModalReducer.js";
 
 const modalHeight = 38;
 const modalWidth = 28.125;
@@ -33,14 +26,6 @@ const PopUpLayOutStyle = styled.div`
 	border-radius: 15px;
 	outline: none;
 `;
-
-const CreateEventModalBodyStyle = styled.form`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: 75%;
-`;
-
 
 const ERROR_MESSAGE = {
 	nameError: "이벤트 이름을 확인해주세요",
@@ -65,51 +50,9 @@ function isInvalidInputData(errorState) {
 	return Object.values(errorState).some(inputValue => inputValue);
 }
 
-
-function buildInitialEventInfo(hostName) {
-	const startDate = new Date();
-	const endDate = moment(startDate)
-		.add(1, "h")
-		.toDate();
-
-	return {
-		eventName: `${hostName}님의 이벤트`,
-		startDate,
-		endDate,
-		hashTags: [],
-		errorState: {eventName: false, date: false},
-	};
-}
-
-
-const bindOnChangeEventName = dispatch => event => {
-	const eventName = event.target.value;
-
-	dispatch({
-		type: SET_ERROR_STATE,
-		property: propertyEventName,
-		value: !isValidEventName(eventName),
-	});
-
-	dispatch({
-		type: SET_PROPERTY,
-		property: propertyEventName,
-		value: eventName,
-	});
-};
-
-// todo refactoring
-function CreateEventModal({open, handleClose}) {
-	const {hostInfo, addEvent} = useContext(HostContext);
-	const {hostName, id: hostId} = hostInfo;
-
+function CreateEventModal({open, handleClose, addEvent, hostId, hostName}) {
 	const {snackBarOpen, snackBarHandleClose, snackBarHandleOpen} = useSnackBar();
-
-	const initialValue = buildInitialEventInfo(hostName);
-	const [eventForm, dispatch] = useReducer(
-		createEventModalReducer,
-		initialValue,
-	);
+	const [eventForm, dispatch] = useCreateEventModalReducer(hostName);
 	const [createEvent] = useCreateEvent();
 
 	const onConfirm = async () => {
@@ -130,12 +73,6 @@ function CreateEventModal({open, handleClose}) {
 		}
 	};
 
-	const InputEventNameProps = {
-		onChange: bindOnChangeEventName(dispatch),
-		error: eventForm.errorState.eventName,
-		value: eventForm.eventName,
-	};
-
 	const errorMsg = getErrorMessage(eventForm.errorState);
 
 	return (
@@ -147,26 +84,9 @@ function CreateEventModal({open, handleClose}) {
 		>
 			<PopUpLayOutStyle>
 				<CreateEventModalHeader/>
-				<CreateEventModalBodyStyle>
-					<InputEventName {...InputEventNameProps}/>
-					<InputStartDate
-						errorState={eventForm.errorState}
-						startDate={eventForm.startDate}
-						endDate={eventForm.endDate}
-						dispatch={dispatch}
-					/>
-					<EndDateField endDate={eventForm.endDate}/>
-					<InputHashTag
-						hashTags={eventForm.hashTags}
-						dispatch={dispatch}
-					/>
-					<HashTagsField
-						hashTags={eventForm.hashTags}
-						dispatch={dispatch}
-					/>
-				</CreateEventModalBodyStyle>
+				<CreateEventModalBody eventForm={eventForm} dispatch={dispatch}/>
 				<CreateEventModalFooter onConfirm={onConfirm} onClose={handleClose}/>
-				<AlertSnackbar
+				<CreateEventModalSnackBar
 					message={errorMsg}
 					onClose={snackBarHandleClose}
 					open={snackBarOpen}
@@ -176,4 +96,12 @@ function CreateEventModal({open, handleClose}) {
 	);
 }
 
-export default CreateEventModal;
+function CreateEventModalWrapper(props) {
+	const {hostInfo, addEvent} = useContext(HostContext);
+	const {name, id: hostId} = hostInfo;
+	const injectProps = {hostId, addEvent, hostName: name};
+
+	return <CreateEventModal {...props} {...injectProps}/>;
+}
+
+export default CreateEventModalWrapper;
