@@ -1,48 +1,11 @@
 import {createGuest} from "../../DB/queries/guest.js";
-import Validator from "../validator/Validator.js";
 import CookieKeys from "../CookieKeys.js";
-import {getEventByEventCode} from "../../DB/queries/event.js";
-import generateAccessToken from "../authentication/token.js";
-import {AUTHORITY_TYPE_GUEST} from "../../constants/authorityTypes.js";
 import config from "../config";
 import JWTCooKieOptions from "../JWTCookie/JWTCooKieOptions.js";
+import validateEventCode from "../validator/validateEventCode.js";
+import guestJWTCookie from "../JWTCookie/guestJWTCookie.js";
 
 const {routePage} = config;
-
-
-/**
- *
- * @param eventCode {string}
- * @return {Promise<boolean[]|(boolean|Object)[]>}
- */
-async function validateEventCode(eventCode) {
-	try {
-		const event = await getEventByEventCode(eventCode);
-
-		Validator.isExistEvent(event);
-		Validator.isActiveEvent(event);
-
-		return [true, event];
-	} catch (e) {
-		return [false, null];
-	}
-}
-
-
-/**
- *
- * @param event {object}
- * @return {Promise<string>}
- */
-async function createGuestJWT(event) {
-	const eventId = event.id;
-	const guest = await createGuest(eventId);
-
-	return generateAccessToken(
-		guest.guestSid,
-		AUTHORITY_TYPE_GUEST,
-	);
-}
 
 
 function decodeEventCode(path) {
@@ -75,7 +38,6 @@ export default class GuestController {
 	 * @return {Promise<void>}
 	 */
 	async logOut(req, res) {
-		this.logger.info("guest log out");
 		res.clearCookie(CookieKeys.GUEST_APP).redirect(routePage.main);
 	}
 
@@ -88,13 +50,19 @@ export default class GuestController {
 	async signUp(req, res) {
 		const path = req.params.encodedEventCode;
 		const eventCode = decodeEventCode(path);
-		const [isValidEventCode, event] = await validateEventCode(eventCode);
+		const [isValid, event] = await validateEventCode(eventCode);
 
-		if (!isValidEventCode) {
+		if (!isValid) {
 			return res.redirect(routePage.main);
 		}
 
-		const accessToken = await createGuestJWT(event);
+
+		// todo need try catch
+		const eventId = event.id;
+		const guest = await createGuest(eventId);
+
+		const payload = {guestSid: guest.guestSid};
+		const accessToken = guestJWTCookie.sign(payload);
 		const cookieOption = JWTCooKieOptions.build();
 
 		res.cookie(CookieKeys.GUEST_APP, accessToken, cookieOption);

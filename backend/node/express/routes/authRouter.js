@@ -1,10 +1,9 @@
 import express from "express";
 import passport from "passport";
-import generateAccessToken from "../authentication/token";
 import config from "../config";
 import CookieKeys from "../CookieKeys.js";
-import {AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
 import JWTCooKieOptions from "../JWTCookie/JWTCooKieOptions.js";
+import hostJWTCookie from "../JWTCookie/hostJWTCookie.js";
 
 const {routePage} = config;
 const authRouter = express.Router();
@@ -18,6 +17,7 @@ authRouter.get(
 	}),
 );
 
+
 authRouter.get(
 	"/google/callback",
 	passport.authenticate("google", {
@@ -25,7 +25,10 @@ authRouter.get(
 	}),
 	(req, res) => {
 		const {user} = req;
-		const accessToken = generateAccessToken(user.oauthId, AUTHORITY_TYPE_HOST);
+
+
+		const payload = {oauthId: user.oauthId};
+		const accessToken = hostJWTCookie.sign(payload);
 		const options = JWTCooKieOptions.build();
 
 		res.cookie(CookieKeys.HOST_APP, accessToken, options);

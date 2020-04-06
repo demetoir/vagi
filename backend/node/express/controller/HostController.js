@@ -15,6 +15,7 @@ export default class HostController {
 	 * @param res {express.Response}
 	 */
 	logout(req, res) {
+		// this.logger.debug("host logout");
 		res.clearCookie(CookieKeys.HOST_APP).redirect(routePage.main);
 	}
 
@@ -24,6 +25,7 @@ export default class HostController {
 	 * @param res {express.Response}
 	 */
 	redirectToHostApp(req, res) {
+		// this.logger.debug("redirect to host");
 		res.redirect(routePage.host);
 	}
 }

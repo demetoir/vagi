@@ -1,8 +1,4 @@
 import jwt from "jsonwebtoken";
-import CookieKeys from "../CookieKeys.js";
-import config from "../config";
-
-const {tokenArgs} = config;
 
 
 export class JWTCookieError extends Error {
@@ -15,9 +11,10 @@ export class JWTCookieError extends Error {
 
 
 export class JWTCookie {
-	constructor(cookieKey, secret) {
+	constructor(cookieKey, secret, options) {
 		this.cookieKey = cookieKey;
 		this.secret = secret;
+		this.options = options;
 	}
 
 	verify(jwts) {
@@ -25,10 +22,10 @@ export class JWTCookie {
 			throw new JWTCookieError(`jwt of cookie key '${this.cookieKey}' not found`);
 		}
 
-		const payload = jwts[this.cookieKey];
+		const token = jwts[this.cookieKey];
 
 		return jwt.verify(
-			payload,
+			token,
 			this.secret,
 		);
 	}
@@ -37,11 +34,8 @@ export class JWTCookie {
 		return jwt.sign(
 			payload,
 			this.secret,
+			this.options,
 		);
 	}
 }
 
-
-export const guestJWTCookie = new JWTCookie(CookieKeys.GUEST_APP, tokenArgs.secret);
-
-export const hostJWTCookie = new JWTCookie(CookieKeys.HOST_APP, tokenArgs.secret);

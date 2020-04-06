@@ -2,14 +2,14 @@ import assert from "assert";
 import gql from "graphql-tag";
 import EasyGraphQLTester from "easygraphql-tester";
 import {after, before, beforeEach, describe, it} from "mocha";
-import typeDefs from "../../graphQL/model/typeDefs.js";
-import resolvers from "../../graphQL/model/resolvers.js";
-import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
-import models from "../../DB/models";
-import {createGuest} from "../../DB/queries/guest.js";
-import {createQuestion} from "../../DB/queries/question.js";
-import questionResolvers from "../../graphQL/model/question/question.resolver.js";
-import {findOrCreateEvent} from "../../DB/queries/event.js";
+import typeDefs from "../../../graphQL/model/typeDefs.js";
+import resolvers from "../../../graphQL/model/resolvers.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
+import models from "../../../DB/models";
+import {createGuest} from "../../../DB/queries/guest.js";
+import {createQuestion} from "../../../DB/queries/question.js";
+import questionResolvers from "../../../graphQL/model/question/question.resolver.js";
+import {findOrCreateEvent} from "../../../DB/queries/event.js";
 
 describe("graphql yoga question model", () => {
 	const sequelizeMock = new SequelizeTestHelper();

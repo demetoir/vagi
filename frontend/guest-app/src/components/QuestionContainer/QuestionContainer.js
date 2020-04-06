@@ -4,7 +4,7 @@ import QuestionContainerTabBar from "./QuestionContainerTabBar.js";
 import useTabs from "../../hooks/useTabs.js";
 import AddQuestionInputButton from "./AddQuestionInputButton.js";
 import QuestionCardList from "../QuestionCard/QuestionCardList.js";
-import {socketClient} from "../../socket.io";
+import {socketClient} from "../../socket";
 import PaddingArea from "../atoms/PaddingArea.js";
 import QuestionCardEditMenuDrawer from "../QuestionCardEditMenuDrawer/QuestionCardEditMenuDrawer.js";
 import NewQuestionInputDrawer from "./NewQuestionInputDrawer.js";

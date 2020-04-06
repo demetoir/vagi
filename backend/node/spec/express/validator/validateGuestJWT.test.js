@@ -6,7 +6,7 @@ import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 import {findOrCreateEvent} from "../../../DB/queries/event.js";
 import validateGuestJWT from "../../../express/validator/validateGuestJWT.js";
 import {createGuest} from "../../../DB/queries/guest.js";
-import {guestJWTCookie} from "../../../express/JWTCookie/JWTCookie.js";
+import guestJWTCookie from "../../../express/JWTCookie/guestJWTCookie.js";
 
 
 let stampCounter = 0;
@@ -22,7 +22,7 @@ async function createEventMock({HostId = null, stamp = getStamp(), endAt = new D
 	return findOrCreateEvent({eventCode, HostId, eventName, endAt});
 }
 
-describe(`express validator ${validateGuestJWT.name}`, () => {
+describe(`express validator validateGuestJWT`, () => {
 	const cookieKey = CookieKeys.GUEST_APP;
 	const sequelizeMock = new SequelizeTestHelper();
 
@@ -85,7 +85,7 @@ describe(`express validator ${validateGuestJWT.name}`, () => {
 		const guestSid = guest.guestSid;
 
 		// create jwt
-		const payload = {sub: guestSid};
+		const payload = {guestSid};
 		const token = guestJWTCookie.sign(payload);
 
 		// given
@@ -113,7 +113,7 @@ describe(`express validator ${validateGuestJWT.name}`, () => {
 		const guestSid = guest.guestSid;
 
 		// create jwt
-		const payload = {sub: guestSid};
+		const payload = {guestSid};
 		const token = guestJWTCookie.sign(payload);
 
 		// given
@@ -136,7 +136,7 @@ describe(`express validator ${validateGuestJWT.name}`, () => {
 		const guestSid = "invalid guest sid";
 
 		// create jwt
-		const payload = {sub: guestSid};
+		const payload = {guestSid};
 		const token = guestJWTCookie.sign(payload);
 
 		// given
@@ -165,7 +165,7 @@ describe(`express validator ${validateGuestJWT.name}`, () => {
 		const guestSid = guest.guestSid;
 
 		// create jwt
-		const payload = {sub: guestSid};
+		const payload = {guestSid};
 		const token = guestJWTCookie.sign(payload);
 
 		// given

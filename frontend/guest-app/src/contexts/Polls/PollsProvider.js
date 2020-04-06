@@ -2,7 +2,7 @@ import {useQuery} from "@apollo/react-hooks";
 import React from "react";
 import useGlobalData from "../GlobalData/useGlobalData.js";
 import PollsContext from "./PollsContext.js";
-import {POLL_QUERY} from "../../apollo/gqlSchemes.js";
+import {POLL_QUERY} from "../../graphql/gqlSchemes.js";
 
 function PollsProvider(props) {
 	const {event, guest} = useGlobalData();

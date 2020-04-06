@@ -16,7 +16,7 @@ import {
 
 dotenv.config();
 
-const NAME_SPACE = "event";
+
 const {port} = configLoader();
 const app = express();
 const httpServer = http.createServer(app).listen(port, () => {
@@ -25,9 +25,13 @@ const httpServer = http.createServer(app).listen(port, () => {
 	);
 });
 const socketServer = io(httpServer);
-const namedServer = socketServer.of(NAME_SPACE);
 
 socketServer.use(authenticate);
+
+
+const NAME_SPACE = "event";
+const namedServer = socketServer.of(NAME_SPACE);
+
 namedServer.on(SOCKET_IO_EVENT_CONNECTION, async socket => {
 	const id = socket.id;
 
@@ -50,5 +54,4 @@ namedServer.on(SOCKET_IO_EVENT_CONNECTION, async socket => {
 	});
 });
 
-// noinspection JSUnusedGlobalSymbols
 export default app;

@@ -8,13 +8,7 @@ import {
 	updateEventById,
 } from "../../../DB/queries/event.js";
 import {createHashtags, getHashtagByEventIds} from "../../../DB/queries/hashtag.js";
-import {AUTHORITY_TYPE_HOST} from "../../../constants/authorityTypes.js";
 
-function verifySubjectHostJwt(jwtSub) {
-	if (jwtSub !== AUTHORITY_TYPE_HOST) {
-		throw new Error("AuthenticationError");
-	}
-}
 
 // todo do something
 function mappingHashTagsToEvents(hashTags, events, eventMap) {
@@ -52,9 +46,9 @@ const getEventOptionResolver = async (_, {EventId}) =>
 
 // todo do something
 const initQueryResolver = async (_, {param}, authority) => {
-	verifySubjectHostJwt(authority.sub);
+	// verifySubjectHostJwt(authority.sub);
 
-	const host = authority.info;
+	const host = authority;
 	let events = await getEventsByHostId(host.id);
 
 	const eventMap = new Map();
@@ -70,20 +64,20 @@ const initQueryResolver = async (_, {param}, authority) => {
 	return {events, host};
 };
 
-const createHashTagsResolver = async (_, {hashTags}, authority) => {
-	verifySubjectHostJwt(authority.sub);
+const createHashTagsResolver = async (_, {hashTags}, authority) =>
+// verifySubjectHostJwt(authority.sub);
 
-	return createHashtags(hashTags);
-};
+	 createHashtags(hashTags)
+;
 
 const createEventResolver = async (_, {info}, authority) => {
-	verifySubjectHostJwt(authority.sub);
+	// verifySubjectHostJwt(authority.sub);
 
 	const eventCode = await generateEventCode();
 	const event = await findOrCreateEvent({
 		eventName: info.eventName,
 		eventCode,
-		HostId: authority.info.id,
+		HostId: authority.id,
 		startAt: info.startAt,
 		endAt: info.endAt,
 	});
@@ -92,7 +86,7 @@ const createEventResolver = async (_, {info}, authority) => {
 };
 
 const updateEventResolver = async (_, {event}, authority) => {
-	verifySubjectHostJwt(authority.sub);
+	// verifySubjectHostJwt(authority.sub);
 
 	await updateEventById({
 		id: event.EventId,

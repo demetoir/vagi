@@ -1,25 +1,25 @@
 import dotenv from "dotenv";
 import express from "express";
-import passport from "passport";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import config from "./config";
-import applyStaticAppServing from "./middleware/applyStaticAppServing.js";
-import "./authentication/google.js";
 import authRouter from "./routes/authRouter.js";
 import guestRouter from "./routes/guestRouter.js";
 import hostRouter from "./routes/hostRouter.js";
 import logger from "./logger.js";
+import customPassport from "./authentication/CustomPassport.js";
 
 dotenv.config();
 
 const {port, publicPath, routePage} = config;
 const app = express();
 
-applyStaticAppServing(app, publicPath);
+app.use("/host-app", express.static(`${publicPath}/host-app`));
+app.use("/guest-app", express.static(`${publicPath}/guest-app`));
+app.use("/main-app", express.static(`${publicPath}/main-app`));
 
-app.use(passport.initialize());
+app.use(customPassport());
 app.use(morgan("dev"));
 app.use(cors());
 app.use(cookieParser());

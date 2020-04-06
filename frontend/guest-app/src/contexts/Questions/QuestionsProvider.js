@@ -1,9 +1,9 @@
 import React, {useEffect, useReducer} from "react";
 import {useQuery} from "@apollo/react-hooks";
-import {QUERY_INIT_QUESTIONS} from "../../apollo/gqlSchemes.js";
+import {QUERY_INIT_QUESTIONS} from "../../graphql/gqlSchemes.js";
 import QuestionsRepliesReducer from "../../reducers/QuestionsRepliesReducer.js";
-import {useSocket} from "../../socket.io";
-import buildQuestions from "../../apollo/asembleGetQuestionQuerys.js";
+import {useSocket} from "../../socket";
+import buildQuestions from "../../graphql/asembleGetQuestionQuerys.js";
 import QuestionsContext from "./QuestionsContext.js";
 import useGlobalData from "../GlobalData/useGlobalData.js";
 import {

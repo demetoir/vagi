@@ -28,7 +28,7 @@ export default function(cookieKey, logger = console) {
 		}
 
 		req.jwtCookies[cookieKey] = req.cookies[cookieKey];
-		logger.debug(`parse JWT cookie of cookie key ${cookieKey}`)
+		logger.debug(`parse JWT cookie of cookie key ${cookieKey}`);
 
 		return next();
 	};

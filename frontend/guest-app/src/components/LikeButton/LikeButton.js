@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import useCommonModal from "../CommonComponent/CommonModal/useCommonModal.js";
 import UndoLikeConfirmModal from "./LikeUndoModal.js";
-import {socketClient} from "../../socket.io";
+import {socketClient} from "../../socket";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
 import {
 	SOCKET_IO_EVENT,

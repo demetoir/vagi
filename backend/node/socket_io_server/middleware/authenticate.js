@@ -1,21 +1,20 @@
 import jwt from "jsonwebtoken";
 import loadConfig from "../config/configLoader";
 import logger from "../logger";
-import {isExistHostOAuthId} from "../../DB/queries/host";
-import {isExistGuest} from "../../DB/queries/guest";
-import {AUTHORITY_TYPE_GUEST, AUTHORITY_TYPE_HOST,} from "../../constants/authorityTypes.js";
+import {findHostByOAuthId} from "../../DB/queries/host.js";
+import {getGuestByGuestSid} from "../../DB/queries/guest";
+import {AUTHORITY_TYPE_GUEST, AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
 
 const {tokenArgs} = loadConfig();
-
-const subjectVerifierMapperByAud = {guest: isExistGuest, host: isExistHostOAuthId};
 
 const isInValidAud = aud =>
 	aud !== AUTHORITY_TYPE_GUEST && aud !== AUTHORITY_TYPE_HOST;
 
 const isInValidIss = iss => iss !== tokenArgs.issuer;
 
+// todo refactoring
 async function verifyPayload(payload) {
-	const {aud, iss, sub} = payload;
+	const {aud, iss} = payload;
 
 	if (isInValidIss(iss)) {
 		throw new Error("Authentication Error: invalid iss");
@@ -25,10 +24,15 @@ async function verifyPayload(payload) {
 		throw new Error("Authentication Error: invalid aud");
 	}
 
-	const verifySubject = subjectVerifierMapperByAud[aud];
-	const isValidSub = await verifySubject(sub);
+	let user = null;
 
-	if (!isValidSub) {
+	if (aud === "guest") {
+		user = getGuestByGuestSid(payload.guestSid);
+	} else if (aud === "host") {
+		user = findHostByOAuthId(payload.oauthId);
+	}
+
+	if (!user) {
 		throw new Error("Authentication Error: invalid userInfo");
 	}
 }
