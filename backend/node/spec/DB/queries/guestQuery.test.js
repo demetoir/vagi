@@ -5,7 +5,6 @@ import {
 	getGuestByEventId,
 	getGuestByGuestSid,
 	getGuestById,
-	isExistGuest,
 	updateGuestById,
 } from "../../../DB/queries/guest.js";
 import models from "../../../DB/models";
@@ -95,19 +94,5 @@ describe("guest query api", () => {
 
 		// then
 		assert(res.length > 0);
-	});
-
-	it("should able to isExistGuest", async () => {
-		// given
-		const EventId = null;
-		const guest = await createGuest(EventId);
-		const guestSid = guest.guestSid;
-
-		// when
-		const res = await isExistGuest(guestSid);
-
-		// then
-		assert(typeof res === "boolean");
-		assert(res === true);
 	});
 });

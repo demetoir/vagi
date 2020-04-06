@@ -2,14 +2,14 @@ import assert from "assert";
 import gql from "graphql-tag";
 import {after, before, beforeEach, describe, it} from "mocha";
 import EasyGraphQLTester from "easygraphql-tester";
-import typeDefs from "../../graphQL/model/typeDefs.js";
-import resolvers from "../../graphQL/model/resolvers.js";
-import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
-import models from "../../DB/models";
-import likeResolvers from "../../graphQL/model/like/like.resolver.js";
-import {createLike} from "../../DB/queries/like.js";
-import {createGuest} from "../../DB/queries/guest.js";
-import {createQuestion} from "../../DB/queries/question.js";
+import typeDefs from "../../../graphQL/model/typeDefs.js";
+import resolvers from "../../../graphQL/model/resolvers.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
+import models from "../../../DB/models";
+import likeResolvers from "../../../graphQL/model/like/like.resolver.js";
+import {createLike} from "../../../DB/queries/like.js";
+import {createGuest} from "../../../DB/queries/guest.js";
+import {createQuestion} from "../../../DB/queries/question.js";
 
 describe("graphql yoga like model", () => {
 	const sequelizeMock = new SequelizeTestHelper();

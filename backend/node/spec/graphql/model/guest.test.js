@@ -2,15 +2,15 @@ import assert from "assert";
 import gql from "graphql-tag";
 import EasyGraphQLTester from "easygraphql-tester";
 import {after, before, beforeEach, describe, it} from "mocha";
-import guestResolvers from "../../graphQL/model/guest/guest.resolver.js";
-import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
-import typeDefs from "../../graphQL/model/typeDefs.js";
-import resolvers from "../../graphQL/model/resolvers.js";
-import models from "../../DB/models";
-import {createGuest} from "../../DB/queries/guest.js";
-import {findOrCreateEvent} from "../../DB/queries/event.js";
-import {AUTHORITY_TYPE_GUEST} from "../../constants/authorityTypes.js";
-import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
+import guestResolvers from "../../../graphQL/model/guest/guest.resolver.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
+import typeDefs from "../../../graphQL/model/typeDefs.js";
+import resolvers from "../../../graphQL/model/resolvers.js";
+import models from "../../../DB/models";
+import {createGuest} from "../../../DB/queries/guest.js";
+import {findOrCreateEvent} from "../../../DB/queries/event.js";
+import {AUTHORITY_TYPE_GUEST} from "../../../constants/authorityTypes.js";
+import {findOrCreateHostByOAuth} from "../../../DB/queries/host.js";
 
 describe("graphql yoga guest model", () => {
 	const sequelizeMock = new SequelizeTestHelper();
@@ -156,7 +156,7 @@ describe("graphql yoga guest model", () => {
 		const guest = await createGuest(EventId);
 
 		const guestSid = guest.guestSid;
-		const authority = {sub: AUTHORITY_TYPE_GUEST, info: guestSid};
+		const authority = {sub: AUTHORITY_TYPE_GUEST, guestSid};
 
 		// when
 		const root = null;
@@ -266,7 +266,7 @@ describe("graphql yoga guest model", () => {
 
 		// when
 		const guestSid = guest.guestSid;
-		const authority = {sub: AUTHORITY_TYPE_GUEST, info: guestSid};
+		const authority = {sub: AUTHORITY_TYPE_GUEST, guestSid};
 
 		const real = await guestResolvers.Query.guestInEvent(
 			null,

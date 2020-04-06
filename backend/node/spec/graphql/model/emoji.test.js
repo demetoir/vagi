@@ -2,15 +2,15 @@ import assert from "assert";
 import {after, before, beforeEach, describe, it} from "mocha";
 import gql from "graphql-tag";
 import EasyGraphQLTester from "easygraphql-tester";
-import emojiResolvers from "../../graphQL/model/emoji/emoji.resolver.js";
-import typeDefs from "../../graphQL/model/typeDefs.js";
-import resolvers from "../../graphQL/model/resolvers.js";
-import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
-import {createEmoji} from "../../DB/queries/emoji.js";
-import models from "../../DB/models";
-import {findOrCreateEvent} from "../../DB/queries/event.js";
-import {createQuestion} from "../../DB/queries/question.js";
-import {createGuest} from "../../DB/queries/guest.js";
+import emojiResolvers from "../../../graphQL/model/emoji/emoji.resolver.js";
+import typeDefs from "../../../graphQL/model/typeDefs.js";
+import resolvers from "../../../graphQL/model/resolvers.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
+import {createEmoji} from "../../../DB/queries/emoji.js";
+import models from "../../../DB/models";
+import {findOrCreateEvent} from "../../../DB/queries/event.js";
+import {createQuestion} from "../../../DB/queries/question.js";
+import {createGuest} from "../../../DB/queries/guest.js";
 
 describe("graphql yoga emoji model", () => {
 	const sequelizeMock = new SequelizeTestHelper();

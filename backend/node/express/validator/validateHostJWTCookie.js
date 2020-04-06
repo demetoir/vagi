@@ -1,6 +1,6 @@
 import {findHostByOAuthId} from "../../DB/queries/host.js";
 import Validator from "./Validator.js";
-import {hostJWTCookie} from "../JWTCookie/JWTCookie.js";
+import hostJWTCookie from "../JWTCookie/hostJWTCookie.js";
 
 
 /**
@@ -15,10 +15,8 @@ export default async function validateHostJWTCookie(req) {
 		}
 
 		const payload = hostJWTCookie.verify(req.jwtCookies);
+		const hostOauthId = payload.oauthId;
 
-		const hostOauthId = payload.sub;
-
-		console.log(payload);
 		const host = await findHostByOAuthId(hostOauthId);
 
 		Validator.isExistHost(host);

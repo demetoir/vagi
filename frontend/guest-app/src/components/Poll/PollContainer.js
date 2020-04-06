@@ -1,7 +1,7 @@
 import React, {useReducer, useState} from "react";
 import styled from "styled-components";
 import PollCard from "./PollCard";
-import {useSocket} from "../../socket.io";
+import {useSocket} from "../../socket";
 import reducer from "../../reducers/PollsReducer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
 import usePolls from "../../contexts/Polls/usePolls.js";

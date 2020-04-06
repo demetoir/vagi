@@ -4,10 +4,10 @@ import CookieKeys from "../../../express/CookieKeys.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 import validateHostJWTCookie from "../../../express/validator/validateHostJWTCookie.js";
 import {findOrCreateHostByOAuth} from "../../../DB/queries/host.js";
-import {hostJWTCookie} from "../../../express/JWTCookie/JWTCookie.js";
+import hostJWTCookie from "../../../express/JWTCookie/hostJWTCookie.js";
 
 
-describe(`express hostAuth ${validateHostJWTCookie.name}`, () => {
+describe(`express hostAuth validateHostJWTCookie`, () => {
 	const cookieKey = CookieKeys.HOST_APP;
 
 	const sequelizeMock = new SequelizeTestHelper();
@@ -66,7 +66,7 @@ describe(`express hostAuth ${validateHostJWTCookie.name}`, () => {
 
 	it("should be able to fail on verify host user", async () => {
 		// given
-		const payload = {sub: "sefsef"};
+		const payload = {oauthId: "sefsef"};
 
 		const token = hostJWTCookie.sign(payload);
 		const req = {jwtCookies: {[cookieKey]: token}};
@@ -89,7 +89,7 @@ describe(`express hostAuth ${validateHostJWTCookie.name}`, () => {
 		const email = "email";
 		const host = await findOrCreateHostByOAuth({name, email, image, oauthId});
 
-		const payload = {sub: host.oauthId};
+		const payload = {oauthId: host.oauthId};
 
 		const token = hostJWTCookie.sign(payload);
 		const req = {jwtCookies: {[cookieKey]: token}};

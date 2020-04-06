@@ -1,16 +1,16 @@
 import assert from "assert";
 import gql from "graphql-tag";
-import {after, before, beforeEach, describe, it} from "mocha";
+import {after, before, afterEach, describe, it} from "mocha";
 import EasyGraphQLTester from "easygraphql-tester";
-import typeDefs from "../../graphQL/model/typeDefs.js";
-import resolvers from "../../graphQL/model/resolvers.js";
-import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
-import models from "../../DB/models";
-import hostpageResolvers from "../../graphQL/model/hostpage/hostpage.resolver.js";
-import {AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
-import {findOrCreateEvent} from "../../DB/queries/event.js";
-import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
-import {createHashtag} from "../../DB/queries/hashtag.js";
+import typeDefs from "../../../graphQL/model/typeDefs.js";
+import resolvers from "../../../graphQL/model/resolvers.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
+import models from "../../../DB/models";
+import hostpageResolvers from "../../../graphQL/model/hostpage/hostpage.resolver.js";
+import {AUTHORITY_TYPE_HOST} from "../../../constants/authorityTypes.js";
+import {findOrCreateEvent} from "../../../DB/queries/event.js";
+import {findOrCreateHostByOAuth} from "../../../DB/queries/host.js";
+import {createHashtag} from "../../../DB/queries/hashtag.js";
 
 describe("graphql yoga hostpage model", () => {
 	const sequelizeMock = new SequelizeTestHelper();
@@ -27,31 +27,8 @@ describe("graphql yoga hostpage model", () => {
 		await Promise.all([sequelizeMock.teardown()]);
 	});
 
-	beforeEach(async () => {
-		models.Like.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Guest.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Question.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Host.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Hashtag.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Event.destroy({
-			where: {},
-			truncate: true,
-		});
+	afterEach(async () => {
+		await sequelizeMock.dropAllAfterEach();
 	});
 
 	it("should be able to query 'init'", async () => {
@@ -116,7 +93,7 @@ describe("graphql yoga hostpage model", () => {
 		const variables = {
 			GuestId,
 		};
-		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const context = {sub: AUTHORITY_TYPE_HOST, ...host};
 		const root = null;
 
 		// when
@@ -250,7 +227,7 @@ describe("graphql yoga hostpage model", () => {
 		const hashtag1 = await createHashtag({name: "one", EventId: event1.id});
 		const hashtag2 = await createHashtag({name: "two", EventId: event2.id});
 
-		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const context = {...host};
 		const GuestId = null;
 
 		// when
@@ -515,7 +492,7 @@ describe("graphql yoga hostpage model", () => {
 		const variables = {
 			info,
 		};
-		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const context = {sub: AUTHORITY_TYPE_HOST, ...host};
 		const root = null;
 
 		// when
@@ -583,7 +560,7 @@ describe("graphql yoga hostpage model", () => {
 		const startAt = new Date().toISOString();
 		const endAt = new Date().toISOString();
 
-		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const context = {sub: AUTHORITY_TYPE_HOST, ...host};
 
 		const info = {
 			HostId,
@@ -649,7 +626,7 @@ describe("graphql yoga hostpage model", () => {
 				endAt,
 			},
 		};
-		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const context = {sub: AUTHORITY_TYPE_HOST, ...host};
 		const root = null;
 
 		// when

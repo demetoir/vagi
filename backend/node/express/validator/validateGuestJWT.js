@@ -1,7 +1,7 @@
 import {getGuestByGuestSid} from "../../DB/queries/guest.js";
 import Validator from "./Validator.js";
 import {getEventById} from "../../DB/queries/event.js";
-import {guestJWTCookie} from "../JWTCookie/JWTCookie.js";
+import guestJWTCookie from "../JWTCookie/guestJWTCookie.js";
 
 /**
  *
@@ -16,7 +16,7 @@ export default async function validateGuestJWT(req) {
 
 		const payload = guestJWTCookie.verify(req.jwtCookies);
 
-		const guestSid = payload.sub;
+		const guestSid = payload.guestSid;
 		const guest = await getGuestByGuestSid(guestSid);
 
 		Validator.isExistGuest(guest);

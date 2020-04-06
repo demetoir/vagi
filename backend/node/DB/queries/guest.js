@@ -21,15 +21,6 @@ export async function getGuestByGuestSid(guestSid) {
 	return res;
 }
 
-// todo refactoring
-/**
- *
- * @param guestSid {string}
- * @returns {Promise<boolean>}
- */
-export async function isExistGuest(guestSid) {
-	return !!(await getGuestByGuestSid(guestSid));
-}
 
 /**
  *

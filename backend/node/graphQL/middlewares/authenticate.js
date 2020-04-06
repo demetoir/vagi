@@ -1,31 +1,30 @@
+import jwt from "jsonwebtoken";
 import {findHostByOAuthId} from "../../DB/queries/host.js";
 import logger from "../logger.js";
 import {AUTHORITY_TYPE_GUEST, AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
+import config from "../config/config.js";
+import {getGuestByGuestSid} from "../../DB/queries/guest.js";
 
-async function onHost(sub) {
-	const hostInfo = await findHostByOAuthId(sub);
-
-	return {sub: AUTHORITY_TYPE_HOST, info: hostInfo};
-}
-
-function onGuest(sub) {
-	return {sub: AUTHORITY_TYPE_GUEST, info: sub};
-}
 
 const authenticate = async (resolve, root, args, context, info) => {
-	// todo refactoring here
-	const audience = context.payload && context.payload.aud;
-	const sub = context.payload.sub;
-	let authority = {sub: null, info: null};
-
+	const jwtToken = context.request.headers.authorization;
+	const secret = config.tokenArgs.secret;
+	const jwtPayload = jwt.verify(jwtToken, secret);
+	const {aud: audience} = jwtPayload;
+	let authority;
 
 	switch (audience) {
 		case AUTHORITY_TYPE_HOST: {
-			authority = await onHost(sub);
+			const {oauthId} = jwtPayload;
+
+			authority = await findHostByOAuthId(oauthId);
+
 			break;
 		}
 		case AUTHORITY_TYPE_GUEST: {
-			authority = onGuest(sub);
+			const {guestSid} = jwtPayload;
+
+			authority = await getGuestByGuestSid(guestSid);
 			break;
 		}
 		default: {
@@ -35,5 +34,6 @@ const authenticate = async (resolve, root, args, context, info) => {
 
 	return resolve(root, args, authority, info);
 };
+
 
 export default authenticate;

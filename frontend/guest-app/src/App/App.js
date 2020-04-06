@@ -4,7 +4,7 @@ import "./App.css";
 import NavBar from "../components/NavBar/NavBar.js";
 import TabGroup from "../components/TabGroup/TabGroup.js";
 import UIControllerProvider from "../contexts/UIController/UIControllerProvider.js";
-import ApolloClientProvider from "../apollo/ApolloClientProvider.js";
+import ApolloClientProvider from "../graphql/ApolloClientProvider.js";
 import useGlobalData from "../contexts/GlobalData/useGlobalData.js";
 import GlobalDataProvider from "../contexts/GlobalData/GlobalDataProvider.js";
 

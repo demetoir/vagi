@@ -1,5 +1,5 @@
 import React from "react";
-import {socketClient} from "../../socket.io";
+import {socketClient} from "../../socket";
 import QuestionInputDrawer from "./QuestionInputDrawer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
 import {SOCKET_IO_EVENT_QUESTION_CREATE} from "../../constants/socket.io-event.js";
