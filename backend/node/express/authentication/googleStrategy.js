@@ -17,7 +17,6 @@ function extractProfile(profile) {
 	};
 }
 
-
 const verify = async (accessToken, refreshToken, profile, cb) => {
 	try {
 		const {id, displayName, image, email} = extractProfile(profile);
@@ -31,14 +30,12 @@ const verify = async (accessToken, refreshToken, profile, cb) => {
 			email,
 		});
 
-
 		return cb(null, host);
 	} catch (error) {
 		logger.error(error);
 		return null;
 	}
 };
-
 
 export default function googleStrategy(oAuthArgs) {
 	return new Strategy({...oAuthArgs}, verify);

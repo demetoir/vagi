@@ -26,7 +26,6 @@ authRouter.get(
 	(req, res) => {
 		const {user} = req;
 
-
 		const payload = {oauthId: user.oauthId};
 		const accessToken = hostJWTCookie.sign(payload);
 		const options = JWTCooKieOptions.build();
