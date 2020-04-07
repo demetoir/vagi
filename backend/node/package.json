@@ -60,6 +60,8 @@
     "@types/passport-jwt": "^3.0.3",
     "@types/sequelize": "^4.28.8",
     "@types/shelljs": "^0.8.7",
+    "@types/supertest": "^2.0.8",
+    "@types/url-parse": "^1.4.3",
     "async-redis": "^1.1.7",
     "babel-watch": "^7.0.0",
     "chalk": "^4.0.0",
@@ -101,6 +103,8 @@
     "sinon": "^9.0.1",
     "socket.io": "^2.3.0",
     "sqlite3": "^4.1.1",
+    "supertest": "^4.0.2",
+    "url-parse": "^1.4.7",
     "uuid": "^7.0.3",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.3.0"

@@ -17,6 +17,12 @@ const config = {
 		host: "process.env.DEV_HOST_PAGE",
 		guest: "process.env.DEV_GUEST_PAGE",
 	},
+	// todo better way
+	oAuthArgs: {
+		clientID: process.env.OAUTH2_CLIENT_DEV_ID,
+		clientSecret: process.env.OAUTH2_CLIENT_DEV_SECRET,
+		callbackURL: process.env.OAUTH2_DEV_CALLBACK,
+	},
 };
 
 export default config;
