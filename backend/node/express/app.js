@@ -15,7 +15,7 @@ function App(config) {
 	app.use("/guest-app", express.static(`${publicPath}/guest-app`));
 	app.use("/main-app", express.static(`${publicPath}/main-app`));
 
-	app.use(customPassport());
+	app.use(customPassport(config));
 	app.use(morgan("dev"));
 	app.use(cors());
 	app.use(cookieParser());

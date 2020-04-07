@@ -1,5 +1,5 @@
 import {Strategy as RealStrategy} from "passport-google-oauth20";
-import {Strategy as MockStrategy} from "passport-mocked";
+import {OAuth2Strategy as MockStrategy} from "passport-mocked";
 import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
 import logger from "../logger.js";
 
@@ -47,7 +47,6 @@ export default function googleStrategy(oAuthArgs) {
 		options = {
 			...options,
 			name: "google",
-			callbackURL: "https://accounts.google.com/o/oauth2/v2/auth",
 		};
 	} else {
 		Strategy = RealStrategy;

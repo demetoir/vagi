@@ -1,5 +1,6 @@
 import assert from "assert";
 import {after, afterEach, before, describe, it} from "mocha";
+import parse from "url-parse";
 import superTest from "supertest";
 import App from "../../express/app.js";
 import config from "../../express/config";
@@ -33,9 +34,10 @@ describe(`express app`, () => {
 			await agent.get(url).expect(res => {
 				assert.equal(res.status, 302);
 				const location = res.headers.location;
-				const redirectURL = new URL(location);
+				const parsedUrl = parse(location);
+				const expectURL = `${parsedUrl.origin}${parsedUrl.pathname}`;
 
-				assert.equal(redirectURL.host, "accounts.google.com");
+				assert.equal(expectURL, config.oAuthArgs.callbackURL);
 			});
 		});
 
@@ -46,9 +48,10 @@ describe(`express app`, () => {
 				assert.equal(res.status, 302);
 
 				const location = res.headers.location;
-				const redirectURL = new URL(location);
+				const parsedUrl = parse(location);
+				const expectURL = `${parsedUrl.origin}${parsedUrl.pathname}`;
 
-				assert.equal(redirectURL.host, "accounts.google.com");
+				assert.equal(expectURL, config.oAuthArgs.callbackURL);
 			});
 		});
 	});
