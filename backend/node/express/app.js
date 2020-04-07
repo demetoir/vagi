@@ -7,12 +7,11 @@ import config from "./config";
 import authRouter from "./routes/authRouter.js";
 import guestRouter from "./routes/guestRouter.js";
 import hostRouter from "./routes/hostRouter.js";
-import logger from "./logger.js";
 import customPassport from "./authentication/CustomPassport.js";
 
 dotenv.config();
 
-const {port, publicPath, routePage} = config;
+const {publicPath, routePage} = config;
 const app = express();
 
 app.use("/host-app", express.static(`${publicPath}/host-app`));
@@ -32,11 +31,4 @@ app.get("/", (req, res) => {
 	res.redirect(routePage.main);
 });
 
-app.listen(port, () => {
-	logger.info(
-		`start express server at ${port} with ${process.env.NODE_ENV} mode at public path = ${publicPath}`,
-	);
-});
-
-// noinspection JSUnusedGlobalSymbols
 export default app;
