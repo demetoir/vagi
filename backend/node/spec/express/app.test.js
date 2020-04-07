@@ -1,13 +1,31 @@
 import assert from "assert";
-import {describe, it} from "mocha";
+import {after, afterEach, before, describe, it} from "mocha";
 import superTest from "supertest";
-import app from "../../express/app.js";
+import App from "../../express/app.js";
 import config from "../../express/config";
 import CookieJar from "../testHelper/CookieJar.js";
+import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
 
+const app = App(config);
 const agent = superTest.agent(app);
 
 describe(`express app`, () => {
+	// todo better way to test oauth
+
+	const sequelizeMock = new SequelizeTestHelper();
+
+	before(async () => {
+		await Promise.all([sequelizeMock.setup()]);
+	});
+
+	after(async () => {
+		await Promise.all([sequelizeMock.teardown()]);
+	});
+
+	afterEach(async () => {
+		await sequelizeMock.dropAllAfterEach();
+	});
+
 	describe("route `/auth`", () => {
 		it("should be able to `/auth/login`", async () => {
 			const url = "/auth/login";
