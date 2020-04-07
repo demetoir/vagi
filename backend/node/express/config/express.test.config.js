@@ -19,9 +19,9 @@ const config = {
 	},
 	// todo better way
 	oAuthArgs: {
-		clientID: process.env.OAUTH2_CLIENT_DEV_ID,
-		clientSecret: process.env.OAUTH2_CLIENT_DEV_SECRET,
-		callbackURL: process.env.OAUTH2_DEV_CALLBACK,
+		clientID: "process.env.OAUTH2_CLIENT_DEV_ID",
+		clientSecret: "process.env.OAUTH2_CLIENT_DEV_SECRET",
+		callbackURL: "http://localhost:3001/auth/google/callback",
 	},
 };
 
