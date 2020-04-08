@@ -1,5 +1,5 @@
 import {Strategy as RealStrategy} from "passport-google-oauth20";
-import {OAuth2Strategy as MockStrategy} from "passport-mocked";
+import {Strategy as MockStrategy} from "passport-mocked";
 import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
 import logger from "../logger.js";
 
@@ -33,24 +33,23 @@ const verifyFunc = async (accessToken, refreshToken, profile, cb) => {
 
 		return cb(null, host);
 	} catch (error) {
-		logger.error(error);
-		return null;
+		logger.error(error, error.stack);
+		return cb(error, false);
 	}
 };
 
 export default function googleStrategy(oAuthArgs) {
-	let Strategy;
 	let options = oAuthArgs;
 
 	if (process.env.NODE_ENV === "test") {
-		Strategy = MockStrategy;
 		options = {
 			...options,
+			authorizationURL: "https://accounts.google.com/o/oauth2/v2/auth",
 			name: "google",
 		};
-	} else {
-		Strategy = RealStrategy;
-	}
 
-	return new Strategy(options, verifyFunc);
+		return new MockStrategy(options, verifyFunc);
+	} else {
+		return new RealStrategy(options, verifyFunc);
+	}
 }
