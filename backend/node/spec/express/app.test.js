@@ -1,5 +1,6 @@
 import assert from "assert";
-import {after, afterEach, before, describe, it} from "mocha";
+import {afterEach, describe, it, beforeEach} from "mocha";
+import moment from "moment";
 import passport from "passport";
 import parse from "url-parse";
 import superTest from "supertest";
@@ -9,14 +10,15 @@ import CookiePot from "../testHelper/CookiePot.js";
 import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
 import guestJWTCookie from "../../express/JWTCookie/guestJWTCookie";
 import {findOrCreateEvent} from "../../DB/queries/event.js";
+import {createGuest} from "../../DB/queries/guest.js";
 
 const app = App(config);
-const agent = superTest.agent(app);
 
 describe(`express app`, () => {
 	// todo better way to test oauth
-	const sequelizeMock = new SequelizeTestHelper();
+	new SequelizeTestHelper().autoSetup();
 	const oauthId = "1234";
+	let agent;
 
 	const cookiePot = new CookiePot();
 	const strategy = passport._strategies.google;
@@ -37,16 +39,11 @@ describe(`express app`, () => {
 		],
 	};
 
-	before(async () => {
-		await Promise.all([sequelizeMock.setup()]);
-	});
-
-	after(async () => {
-		await Promise.all([sequelizeMock.teardown()]);
+	beforeEach(() => {
+		agent = superTest.agent(app);
 	});
 
 	afterEach(async () => {
-		await sequelizeMock.dropAllAfterEach();
 		cookiePot.reset();
 	});
 
@@ -106,26 +103,32 @@ describe(`express app`, () => {
 
 		describe("redirect to guest app", () => {
 			it("on success", async () => {
+				const agent = superTest.agent(app);
+
 				const event = await findOrCreateEvent({
 					eventName: "eventName",
 					eventCode: "eventcode",
 					HostId: null,
+					endAt: moment().add("h", 3),
 				});
 				const eventId = event.id;
 				const guest = await createGuest(eventId);
 				const payload = {guestSid: guest.guestSid};
-				const accessToken = guestJWTCookie.sign(payload);
 
-				const payload = {};
-				guestJWTCookie.sign(payload);
-				const token = "malformed jwt";
+				const token = guestJWTCookie.sign(payload);
 
 				cookiePot.set("vaagle-guest", token);
 
-				await agent.get(url).expect(res => {
-					assert.equal(res.status, 302);
-					assert.equal(res.headers.location, config.routePage.guest);
-				});
+				await agent
+					.get(url)
+					.set("Cookie", [cookiePot.toEncodedString()])
+					.expect(res => {
+						assert.equal(res.status, 302);
+						assert.equal(
+							res.headers.location,
+							config.routePage.guest,
+						);
+					});
 			});
 		});
 
@@ -149,7 +152,7 @@ describe(`express app`, () => {
 						assert.equal(res.status, 302);
 						assert.equal(
 							res.headers.location,
-							config.routePage.main
+							config.routePage.main,
 						);
 					});
 			});
