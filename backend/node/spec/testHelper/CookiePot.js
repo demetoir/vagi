@@ -1,4 +1,4 @@
-export default class CookieJar {
+export default class CookiePot {
 	constructor() {
 		this.cookies = {};
 	}
@@ -15,5 +15,9 @@ export default class CookieJar {
 		return Object.keys(this.cookies)
 			.map(k => `${k}=${this.cookies[k]}`)
 			.join(";");
+	}
+
+	reset() {
+		this.cookies = {};
 	}
 }
