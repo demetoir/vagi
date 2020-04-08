@@ -1,29 +1,11 @@
 import assert from "assert";
-import moment from "moment";
 import {describe, it} from "mocha";
 import CookieKeys from "../../../express/CookieKeys.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
-import {findOrCreateEvent} from "../../../DB/queries/event.js";
 import validateGuestJWT from "../../../express/validator/validateGuestJWT.js";
-import {createGuest} from "../../../DB/queries/guest.js";
 import guestJWTCookie from "../../../express/JWTCookie/guestJWTCookie.js";
-
-let stampCounter = 0;
-
-function getStamp() {
-	return stampCounter++;
-}
-
-async function createEventMock({
-	HostId = null,
-	stamp = getStamp(),
-	endAt = new Date(),
-} = {}) {
-	const eventCode = `event code${stamp}`;
-	const eventName = ` event name${stamp}`;
-
-	return findOrCreateEvent({eventCode, HostId, eventName, endAt});
-}
+import GuestFixtures from "../../fixtures/GuestFixtures.js";
+import EventFixtures from "../../fixtures/EventFixtures.js";
 
 describe(`express validator validateGuestJWT`, () => {
 	new SequelizeTestHelper().autoSetup();
@@ -73,7 +55,7 @@ describe(`express validator validateGuestJWT`, () => {
 
 	it("should be able to fail on verify event with not exist event", async () => {
 		// create guest
-		const guest = await createGuest(null);
+		const guest = await GuestFixtures.guest();
 		const guestSid = guest.guestSid;
 
 		// create jwt
@@ -95,13 +77,8 @@ describe(`express validator validateGuestJWT`, () => {
 	it("should be able to fail on verify event with not active event", async () => {
 		// given
 		// create event
-		const endAt = moment().add(-4, "h")
-			.toDate();
-		const event = await createEventMock({endAt});
-		const eventId = event.id;
-
-		// create guest
-		const guest = await createGuest(eventId);
+		const event = await EventFixtures.closedEvent();
+		const guest = await GuestFixtures.guest(event);
 		const guestSid = guest.guestSid;
 
 		// create jwt
@@ -145,13 +122,10 @@ describe(`express validator validateGuestJWT`, () => {
 	it("should be able to pass", async () => {
 		// given
 		// create event
-		const endAt = moment().add(4, "h")
-			.toDate();
-		const event = await createEventMock({endAt});
-		const eventId = event.id;
+		const event = await EventFixtures.activeEvent();
 
 		// create guest
-		const guest = await createGuest(eventId);
+		const guest = await GuestFixtures.guest(event);
 		const guestSid = guest.guestSid;
 
 		// create jwt
