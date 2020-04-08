@@ -1,6 +1,5 @@
 import assert from "assert";
 import {afterEach, describe, it, beforeEach} from "mocha";
-import moment from "moment";
 import passport from "passport";
 import parse from "url-parse";
 import superTest from "supertest";
@@ -9,8 +8,8 @@ import config from "../../express/config";
 import CookiePot from "../testHelper/CookiePot.js";
 import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
 import guestJWTCookie from "../../express/JWTCookie/guestJWTCookie";
-import {findOrCreateEvent} from "../../DB/queries/event.js";
-import {createGuest} from "../../DB/queries/guest.js";
+import EventFixtures from "../fixtures/EventFixtures.js";
+import GuestFixtures from "../fixtures/GuestFixtures.js";
 
 const app = App(config);
 
@@ -105,16 +104,9 @@ describe(`express app`, () => {
 			it("on success", async () => {
 				const agent = superTest.agent(app);
 
-				const event = await findOrCreateEvent({
-					eventName: "eventName",
-					eventCode: "eventcode",
-					HostId: null,
-					endAt: moment().add("h", 3),
-				});
-				const eventId = event.id;
-				const guest = await createGuest(eventId);
+				const event = await EventFixtures.activeEvent();
+				const guest = await GuestFixtures.guest(event);
 				const payload = {guestSid: guest.guestSid};
-
 				const token = guestJWTCookie.sign(payload);
 
 				cookiePot.set("vaagle-guest", token);
