@@ -4,6 +4,5 @@ module.exports = {
 	up: queryInterface =>
 		queryInterface.bulkInsert("Hosts", makeHostDummy(), {}),
 
-	down: queryInterface =>
-		queryInterface.bulkDelete("Hosts", null, {}),
+	down: queryInterface => queryInterface.bulkDelete("Hosts", null, {}),
 };

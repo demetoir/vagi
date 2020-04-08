@@ -48,4 +48,3 @@ export default class Guest extends Model {
 		models.Guest.hasMany(models.Emoji);
 	}
 }
-

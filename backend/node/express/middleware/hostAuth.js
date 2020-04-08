@@ -4,7 +4,6 @@ import validateHostJWTCookie from "../validator/validateHostJWTCookie.js";
 
 const {routePage} = config;
 
-
 /**
  *
  * @return {function}

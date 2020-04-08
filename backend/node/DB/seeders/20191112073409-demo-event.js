@@ -4,6 +4,5 @@ module.exports = {
 	up: queryInterface =>
 		queryInterface.bulkInsert("Events", makeEventDummy(), {}),
 
-	down: queryInterface =>
-		queryInterface.bulkDelete("Events", null, {}),
+	down: queryInterface => queryInterface.bulkDelete("Events", null, {}),
 };

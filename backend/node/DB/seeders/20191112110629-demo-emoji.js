@@ -6,6 +6,5 @@ module.exports = {
 			queryInterface.bulkInsert("Emojis", data, {}),
 		),
 
-	down: queryInterface =>
-		queryInterface.bulkDelete("Emojis", null, {}),
+	down: queryInterface => queryInterface.bulkDelete("Emojis", null, {}),
 };

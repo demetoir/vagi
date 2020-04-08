@@ -16,7 +16,6 @@ import {
 
 dotenv.config();
 
-
 const {port} = configLoader();
 const app = express();
 const httpServer = http.createServer(app).listen(port, () => {
@@ -27,7 +26,6 @@ const httpServer = http.createServer(app).listen(port, () => {
 const socketServer = io(httpServer);
 
 socketServer.use(authenticate);
-
 
 const NAME_SPACE = "event";
 const namedServer = socketServer.of(NAME_SPACE);

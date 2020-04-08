@@ -7,7 +7,6 @@ import guestJWTCookie from "../JWTCookie/guestJWTCookie.js";
 
 const {routePage} = config;
 
-
 function decodeEventCode(path) {
 	return Buffer.from(path, "base64").toString();
 }
@@ -55,7 +54,6 @@ export default class GuestController {
 		if (!isValid) {
 			return res.redirect(routePage.main);
 		}
-
 
 		// todo need try catch
 		const eventId = event.id;

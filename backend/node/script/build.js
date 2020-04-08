@@ -11,4 +11,3 @@ shell.exec("yarn build:babel");
 
 shell.echo("inject env");
 shell.exec("yarn build:inject-env");
-

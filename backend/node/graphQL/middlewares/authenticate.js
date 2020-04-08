@@ -1,10 +1,12 @@
 import jwt from "jsonwebtoken";
 import {findHostByOAuthId} from "../../DB/queries/host.js";
 import logger from "../logger.js";
-import {AUTHORITY_TYPE_GUEST, AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
+import {
+	AUTHORITY_TYPE_GUEST,
+	AUTHORITY_TYPE_HOST,
+} from "../../constants/authorityTypes.js";
 import config from "../config/config.js";
 import {getGuestByGuestSid} from "../../DB/queries/guest.js";
-
 
 const authenticate = async (resolve, root, args, context, info) => {
 	const jwtToken = context.request.headers.authorization;
@@ -34,6 +36,5 @@ const authenticate = async (resolve, root, args, context, info) => {
 
 	return resolve(root, args, authority, info);
 };
-
 
 export default authenticate;

@@ -21,7 +21,6 @@ export async function getGuestByGuestSid(guestSid) {
 	return res;
 }
 
-
 /**
  *
  * @param eventId {number|null}
@@ -78,6 +77,7 @@ export async function updateGuestById({id, name, isAnonymous, company, email}) {
  * @param EventId {number}
  * @returns {Promise<Model[]|any[]>}
  */
+// todo rename function
 export async function getGuestByEventId(EventId) {
 	const res = Guest.findAll({where: {EventId}});
 

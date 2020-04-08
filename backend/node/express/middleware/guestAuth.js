@@ -4,7 +4,6 @@ import RedirectOnFailValidate from "./RedirectOnFailValidate.js";
 
 const {routePage} = config;
 
-
 /**
  *
  * @return {function}

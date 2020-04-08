@@ -36,7 +36,11 @@ export async function deleteVoteBy({GuestId, CandidateId}) {
  * @param oldCandidateId {number|null}
  * @return {Promise<object>} swapped vote object
  */
-export async function swapVoteByGuestId(GuestId, newCandidateId, oldCandidateId) {
+export async function swapVoteByGuestId(
+	GuestId,
+	newCandidateId,
+	oldCandidateId,
+) {
 	let transaction;
 
 	try {

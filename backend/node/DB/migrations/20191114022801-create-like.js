@@ -22,6 +22,6 @@ module.exports = {
 		}),
 
 	down: queryInterface =>
-	// remove table
+		// remove table
 		queryInterface.dropTable("Likes"),
 };

@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 
-
 export class JWTCookieError extends Error {
 	constructor(message) {
 		super();
@@ -8,7 +7,6 @@ export class JWTCookieError extends Error {
 		this.name = "JWTCookieError";
 	}
 }
-
 
 export class JWTCookie {
 	constructor(cookieKey, secret, options) {
@@ -19,23 +17,17 @@ export class JWTCookie {
 
 	verify(jwts) {
 		if (!(this.cookieKey in jwts)) {
-			throw new JWTCookieError(`jwt of cookie key '${this.cookieKey}' not found`);
+			throw new JWTCookieError(
+				`jwt of cookie key '${this.cookieKey}' not found`,
+			);
 		}
 
 		const token = jwts[this.cookieKey];
 
-		return jwt.verify(
-			token,
-			this.secret,
-		);
+		return jwt.verify(token, this.secret);
 	}
 
 	sign(payload) {
-		return jwt.sign(
-			payload,
-			this.secret,
-			this.options,
-		);
+		return jwt.sign(payload, this.secret, this.options);
 	}
 }
-

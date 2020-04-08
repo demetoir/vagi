@@ -23,7 +23,9 @@ export default class RedisJSONCache {
 		try {
 			value = await this.onMiss(key);
 		} catch (e) {
-			throw Error(`while execute onMiss callback in RedisJSONCache.get ${key}, error raised \n ${e}`);
+			throw Error(
+				`while execute onMiss callback in RedisJSONCache.get ${key}, error raised \n ${e}`,
+			);
 		}
 
 		await this.set(key, value);

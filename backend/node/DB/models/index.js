@@ -62,8 +62,8 @@ Object.values(models)
 const db = {
 	...models,
 	sequelize,
-	sequelizeSingleton:sequelize,
-	modelList:Object.values(models)
+	sequelizeSingleton: sequelize,
+	modelList: Object.values(models),
 };
 
 module.exports = db;
