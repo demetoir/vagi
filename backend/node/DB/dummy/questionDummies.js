@@ -13,31 +13,30 @@ export default async function makeQuestionDummy(number = 1000) {
 
 	const guests = (await Guest.findAll()).map(x => x.get({plain: true}));
 
-	return _.range(number)
-		.map(() => {
-			const content = faker.lorem.sentence();
-			const createdAt = faker.date.past(1);
-			const updatedAt = createdAt;
-			const state = QUESTION_STATE_ACTIVE;
+	return _.range(number).map(() => {
+		const content = faker.lorem.sentence();
+		const createdAt = faker.date.past(1);
+		const updatedAt = createdAt;
+		const state = QUESTION_STATE_ACTIVE;
 
-			const guestIdx = faker.random.number({min: 0, max: guests.length - 1});
-			const guest = guests[guestIdx];
-			const GuestId = guest.id;
-			const EventId = guest.EventId;
-			const QuestionId = null;
-			const isStared = false;
-			const likeCount = 0;
+		const guestIdx = faker.random.number({min: 0, max: guests.length - 1});
+		const guest = guests[guestIdx];
+		const GuestId = guest.id;
+		const EventId = guest.EventId;
+		const QuestionId = null;
+		const isStared = false;
+		const likeCount = 0;
 
-			return {
-				content,
-				createdAt,
-				state,
-				updatedAt,
-				EventId,
-				GuestId,
-				QuestionId,
-				isStared,
-				likeCount,
-			};
-		});
+		return {
+			content,
+			createdAt,
+			state,
+			updatedAt,
+			EventId,
+			GuestId,
+			QuestionId,
+			isStared,
+			likeCount,
+		};
+	});
 }

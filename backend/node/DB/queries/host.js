@@ -3,7 +3,6 @@ import models from "../models";
 // noinspection JSUnresolvedVariable
 const Host = models.Host;
 
-
 /**
  *
  * @param oauthId {String}

@@ -52,14 +52,14 @@ describe("graphql yoga emoji model", () => {
 
 		// gql input
 		const query = gql`
-            query get_emojis($EventId: ID!) {
-                emojis(EventId: $EventId) {
-                    name
-                    count
-                    QuestionId
-                    createdAt
-                }
-            }
+			query get_emojis($EventId: ID!) {
+				emojis(EventId: $EventId) {
+					name
+					count
+					QuestionId
+					createdAt
+				}
+			}
 		`;
 		const variables = {
 			EventId,
@@ -92,13 +92,13 @@ describe("graphql yoga emoji model", () => {
 
 	it("should be able to pass schema test 'query emojis'", async () => {
 		const query = gql`
-            query query_emojis($EventId: ID!) {
-                emojis(EventId: $EventId) {
-                    name
-                    count
-                    QuestionId
-                }
-            }
+			query query_emojis($EventId: ID!) {
+				emojis(EventId: $EventId) {
+					name
+					count
+					QuestionId
+				}
+			}
 		`;
 
 		const variables = {
@@ -154,12 +154,12 @@ describe("graphql yoga emoji model", () => {
 		await createEmoji({GuestId, QuestionId, name, EventId});
 
 		const query = gql`
-            query get_emojipicks($EventId: ID!, $GuestId: ID!) {
-                emojiPicks(EventId: $EventId, GuestId: $GuestId) {
-                    name
-                    QuestionId
-                }
-            }
+			query get_emojipicks($EventId: ID!, $GuestId: ID!) {
+				emojiPicks(EventId: $EventId, GuestId: $GuestId) {
+					name
+					QuestionId
+				}
+			}
 		`;
 		const variables = {
 			EventId,
@@ -179,12 +179,12 @@ describe("graphql yoga emoji model", () => {
 
 	it("should be able to pass schema test 'query emojiPicks'", async () => {
 		const query = gql`
-            query get_emojipicks($EventId: ID!, $GuestId: ID!) {
-                emojiPicks(EventId: $EventId, GuestId: $GuestId) {
-                    name
-                    QuestionId
-                }
-            }
+			query get_emojipicks($EventId: ID!, $GuestId: ID!) {
+				emojiPicks(EventId: $EventId, GuestId: $GuestId) {
+					name
+					QuestionId
+				}
+			}
 		`;
 
 		const variables = {

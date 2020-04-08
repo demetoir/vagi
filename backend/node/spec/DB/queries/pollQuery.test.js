@@ -7,7 +7,10 @@ import {
 	getPollsByEventId,
 	openPoll,
 } from "../../../DB/queries/poll.js";
-import {POLL_STATE_CLOSED, POLL_STATE_RUNNING} from "../../../constants/pollState.js";
+import {
+	POLL_STATE_CLOSED,
+	POLL_STATE_RUNNING,
+} from "../../../constants/pollState.js";
 
 describe("poll query api", () => {
 	const Poll = models.Poll;

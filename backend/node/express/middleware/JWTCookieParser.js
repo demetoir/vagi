@@ -19,7 +19,9 @@ export default function(cookieKey, logger = console) {
 		}
 
 		if (!(cookieKey in req.cookies)) {
-			logger.debug(`jwtCookies not Found in request by cookie key ${cookieKey}`);
+			logger.debug(
+				`jwtCookies not Found in request by cookie key ${cookieKey}`,
+			);
 			return next();
 		}
 
@@ -33,4 +35,3 @@ export default function(cookieKey, logger = console) {
 		return next();
 	};
 }
-

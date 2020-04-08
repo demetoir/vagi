@@ -12,7 +12,9 @@ const guestJWTOptions = {
 };
 
 const guestJWTCookie = new JWTCookie(
-	CookieKeys.GUEST_APP, tokenArgs.secret, guestJWTOptions);
-
+	CookieKeys.GUEST_APP,
+	tokenArgs.secret,
+	guestJWTOptions,
+);
 
 export default guestJWTCookie;

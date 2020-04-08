@@ -21,7 +21,6 @@ export async function getGuestByGuestSid(guestSid) {
 	return res;
 }
 
-
 /**
  *
  * @param eventId {number|null}

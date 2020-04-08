@@ -8,14 +8,17 @@ import validateGuestJWT from "../../../express/validator/validateGuestJWT.js";
 import {createGuest} from "../../../DB/queries/guest.js";
 import guestJWTCookie from "../../../express/JWTCookie/guestJWTCookie.js";
 
-
 let stampCounter = 0;
 
 function getStamp() {
 	return stampCounter++;
 }
 
-async function createEventMock({HostId = null, stamp = getStamp(), endAt = new Date()} = {}) {
+async function createEventMock({
+	HostId = null,
+	stamp = getStamp(),
+	endAt = new Date(),
+} = {}) {
 	const eventCode = `event code${stamp}`;
 	const eventName = ` event name${stamp}`;
 
@@ -38,7 +41,6 @@ describe(`express validator validateGuestJWT`, () => {
 		await sequelizeMock.dropAllAfterEach();
 	});
 
-
 	it("should be able to fail on jwtCookies not found", async () => {
 		// given
 		const req = {};
@@ -52,7 +54,6 @@ describe(`express validator validateGuestJWT`, () => {
 		assert.equal(error.message, `jwtCookies not found in request object`);
 	});
 
-
 	it("should be able to fail on parse guest jwt", async () => {
 		// given
 		const req = {jwtCookies: {}};
@@ -63,7 +64,10 @@ describe(`express validator validateGuestJWT`, () => {
 		// than
 		assert.equal(isValid, false);
 		assert.equal(error.name, "JWTCookieError");
-		assert.equal(error.message, `jwt of cookie key '${CookieKeys.GUEST_APP}' not found`);
+		assert.equal(
+			error.message,
+			`jwt of cookie key '${CookieKeys.GUEST_APP}' not found`,
+		);
 	});
 
 	it("should be able to fail on verify guest jwt with invalid jwt", async () => {
@@ -128,7 +132,6 @@ describe(`express validator validateGuestJWT`, () => {
 		assert.equal(error.message, `이벤트 만료기간이 지났습니다.`);
 	});
 
-
 	//
 	it("should be able to fail on verify guest is not exist", async () => {
 		// given
@@ -150,7 +153,6 @@ describe(`express validator validateGuestJWT`, () => {
 		assert.equal(error.name, "ValidationError");
 		assert.equal(error.message, `존재하지 않는 guest`);
 	});
-
 
 	it("should be able to pass", async () => {
 		// given

@@ -1,4 +1,7 @@
-import {SOCKET_IO_EVENT_JOIN_ROOM, SOCKET_IO_EVENT_LEAVE_ROOM} from "../constants/socket.io-Events.js";
+import {
+	SOCKET_IO_EVENT_JOIN_ROOM,
+	SOCKET_IO_EVENT_LEAVE_ROOM,
+} from "../constants/socket.io-Events.js";
 
 class RoomSocket {
 	constructor({socket, server, handlerEventPair}) {

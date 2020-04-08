@@ -1,4 +1,7 @@
-import {getEmojiCountByEventIdGroupByQuestionId, getEmojiPick} from "../../../DB/queries/emoji.js";
+import {
+	getEmojiCountByEventIdGroupByQuestionId,
+	getEmojiPick,
+} from "../../../DB/queries/emoji.js";
 
 const emojisResolver = async (_, {EventId}) => {
 	const res = await getEmojiCountByEventIdGroupByQuestionId({EventId});

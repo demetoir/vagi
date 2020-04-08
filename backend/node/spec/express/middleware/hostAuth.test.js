@@ -1,7 +1,6 @@
 import {after, afterEach, before, describe} from "mocha";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
-
 describe("express guestAuth middleware", () => {
 	const sequelizeMock = new SequelizeTestHelper();
 

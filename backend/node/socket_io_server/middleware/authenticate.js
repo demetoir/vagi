@@ -3,7 +3,10 @@ import loadConfig from "../config/configLoader";
 import logger from "../logger";
 import {findHostByOAuthId} from "../../DB/queries/host.js";
 import {getGuestByGuestSid} from "../../DB/queries/guest";
-import {AUTHORITY_TYPE_GUEST, AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
+import {
+	AUTHORITY_TYPE_GUEST,
+	AUTHORITY_TYPE_HOST,
+} from "../../constants/authorityTypes.js";
 
 const {tokenArgs} = loadConfig();
 

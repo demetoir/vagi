@@ -32,6 +32,5 @@ module.exports = {
 		return queryInterface.bulkInsert("Events", dummy, {});
 	},
 
-	down: queryInterface =>
-		queryInterface.bulkDelete("Events", null, {}),
+	down: queryInterface => queryInterface.bulkDelete("Events", null, {}),
 };

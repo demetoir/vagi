@@ -1,6 +1,5 @@
 module.exports = {
-	up: queryInterface =>
-		queryInterface.dropTable("EventHashtags"),
+	up: queryInterface => queryInterface.dropTable("EventHashtags"),
 
 	down: (queryInterface, Sequelize) =>
 		queryInterface.createTable("EventHashtags", {

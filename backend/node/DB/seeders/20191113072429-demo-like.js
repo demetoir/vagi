@@ -5,6 +5,5 @@ module.exports = {
 		makeLikeDummy().then(data =>
 			queryInterface.bulkInsert("Likes", data, {}),
 		),
-	down: queryInterface =>
-		queryInterface.bulkDelete("Likes", null, {}),
+	down: queryInterface => queryInterface.bulkDelete("Likes", null, {}),
 };

@@ -8,7 +8,6 @@ function toMapped(data, attr) {
 		mappped[x[attr]] = x;
 	});
 
-
 	return mappped;
 }
 
@@ -26,7 +25,6 @@ function joinGuest(data, guests) {
 			// console.log(questionsMapped[x.id]);
 		}
 	});
-
 
 	return fromMapped(data);
 }

@@ -2,7 +2,6 @@ import {findHostByOAuthId} from "../../DB/queries/host.js";
 import Validator from "./Validator.js";
 import hostJWTCookie from "../JWTCookie/hostJWTCookie.js";
 
-
 /**
  *
  * @param req {express.Request}

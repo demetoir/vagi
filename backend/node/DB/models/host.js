@@ -42,4 +42,3 @@ export default class Host extends Model {
 		models.Host.hasMany(models.Event);
 	}
 }
-

@@ -4,7 +4,6 @@ import {
 } from "../../../DB/queries/guest.js";
 import {getEventById} from "../../../DB/queries/event.js";
 
-
 const guestResolver = async (_, {EventId}) => getGuestByEventId(EventId);
 
 const guestInEventResolver = async (_, args, authority) => {

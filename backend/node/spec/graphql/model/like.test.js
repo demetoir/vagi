@@ -59,11 +59,11 @@ describe("graphql yoga like model", () => {
 
 		// gql input
 		const query = gql`
-            query get_didILikes($GuestId: ID!) {
-                didILikes(GuestId: $GuestId) {
-                    QuestionId
-                }
-            }
+			query get_didILikes($GuestId: ID!) {
+				didILikes(GuestId: $GuestId) {
+					QuestionId
+				}
+			}
 		`;
 		const variables = {
 			GuestId,
@@ -93,11 +93,11 @@ describe("graphql yoga like model", () => {
 
 	it("should be able to pass schema test 'query didILikes'", async () => {
 		const query = gql`
-            query get_didILikes($GuestId: ID!) {
-                didILikes(GuestId: $GuestId) {
-                    QuestionId
-                }
-            }
+			query get_didILikes($GuestId: ID!) {
+				didILikes(GuestId: $GuestId) {
+					QuestionId
+				}
+			}
 		`;
 
 		const variables = {

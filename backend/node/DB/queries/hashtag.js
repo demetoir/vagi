@@ -29,7 +29,6 @@ export async function createHashtags(hashTags) {
 	return res.map(x => x.get({plain: true}));
 }
 
-
 /**
  *
  * @param name <string>
