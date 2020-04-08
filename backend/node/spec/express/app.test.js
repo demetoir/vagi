@@ -18,6 +18,7 @@ describe(`express app`, () => {
 	new SequelizeTestHelper().autoSetup();
 	const oauthId = "1234";
 	let agent;
+	const cookieKey = "vaagle-guest";
 
 	const cookiePot = new CookiePot();
 	const strategy = passport._strategies.google;
@@ -102,14 +103,12 @@ describe(`express app`, () => {
 
 		describe("redirect to guest app", () => {
 			it("on success", async () => {
-				const agent = superTest.agent(app);
-
 				const event = await EventFixtures.activeEvent();
 				const guest = await GuestFixtures.guest(event);
 				const payload = {guestSid: guest.guestSid};
 				const token = guestJWTCookie.sign(payload);
 
-				cookiePot.set("vaagle-guest", token);
+				cookiePot.set(cookieKey, token);
 
 				await agent
 					.get(url)
@@ -132,10 +131,50 @@ describe(`express app`, () => {
 				});
 			});
 
+
 			it("on jwt malformed", async () => {
 				const token = "malformed jwt";
 
-				cookiePot.set("vaagle-guest", token);
+				cookiePot.set(cookieKey, token);
+
+				await agent
+					.get(url)
+					.set("Cookie", [cookiePot.toEncodedString()])
+					.expect(res => {
+						assert.equal(res.status, 302);
+						assert.equal(
+							res.headers.location,
+							config.routePage.main,
+						);
+					});
+			});
+
+			it("on not exist event", async () => {
+				const guest = await GuestFixtures.guest();
+				const payload = {guestSid: guest.guestSid};
+				const token = guestJWTCookie.sign(payload);
+
+				cookiePot.set(cookieKey, token);
+
+				await agent
+					.get(url)
+					.set("Cookie", [cookiePot.toEncodedString()])
+					.expect(res => {
+						assert.equal(res.status, 302);
+						assert.equal(
+							res.headers.location,
+							config.routePage.main,
+						);
+					});
+			});
+
+			it("on closed event", async () => {
+				const event = await EventFixtures.closedEvent();
+				const guest = await GuestFixtures.guest(event);
+				const payload = {guestSid: guest.guestSid};
+				const token = guestJWTCookie.sign(payload);
+
+				cookiePot.set(cookieKey, token);
 
 				await agent
 					.get(url)
