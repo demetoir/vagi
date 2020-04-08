@@ -77,8 +77,7 @@ export async function updateGuestById({id, name, isAnonymous, company, email}) {
  * @param EventId {number}
  * @returns {Promise<Model[]|any[]>}
  */
-// todo rename function
-export async function getGuestByEventId(EventId) {
+export async function getGuestsByEventId(EventId) {
 	const res = Guest.findAll({where: {EventId}});
 
 	return res.map(x => x.get({plain: true}));

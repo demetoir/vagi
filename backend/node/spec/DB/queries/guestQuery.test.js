@@ -2,7 +2,7 @@ import assert from "assert";
 import {describe, it} from "mocha";
 import {
 	createGuest,
-	getGuestByEventId,
+	getGuestsByEventId,
 	getGuestByGuestSid,
 	getGuestById,
 	updateGuestById,
@@ -89,7 +89,7 @@ describe("guest query api", () => {
 		const guest = await createGuest(EventId);
 
 		// when
-		const res = await getGuestByEventId(EventId);
+		const res = await getGuestsByEventId(EventId);
 
 		assert.deepStrictEqual(res, [guest]);
 	});
