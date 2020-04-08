@@ -1,29 +1,15 @@
 import assert from "assert";
-import {after, afterEach, before, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import CookieKeys from "../../../express/CookieKeys.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 import validateHostJWTCookie from "../../../express/validator/validateHostJWTCookie.js";
 import {findOrCreateHostByOAuth} from "../../../DB/queries/host.js";
 import hostJWTCookie from "../../../express/JWTCookie/hostJWTCookie.js";
 
-
 describe(`express hostAuth validateHostJWTCookie`, () => {
 	const cookieKey = CookieKeys.HOST_APP;
 
-	const sequelizeMock = new SequelizeTestHelper();
-
-	before(async () => {
-		await Promise.all([sequelizeMock.setup()]);
-	});
-
-	after(async () => {
-		await Promise.all([sequelizeMock.teardown()]);
-	});
-
-	afterEach(async () => {
-		await sequelizeMock.dropAllAfterEach();
-	});
-
+	new SequelizeTestHelper().autoSetup();
 
 	it("should be able to fail on jwtCookies not found", async () => {
 		// given
@@ -48,7 +34,10 @@ describe(`express hostAuth validateHostJWTCookie`, () => {
 		// than
 		assert.equal(isValid, false);
 		assert.equal(error.name, "JWTCookieError");
-		assert.equal(error.message, `jwt of cookie key '${cookieKey}' not found`);
+		assert.equal(
+			error.message,
+			`jwt of cookie key '${cookieKey}' not found`,
+		);
 	});
 
 	it("should be able to fail on jwt invalid", async () => {
@@ -87,7 +76,12 @@ describe(`express hostAuth validateHostJWTCookie`, () => {
 		const oauthId = "oauthId";
 		const image = "image";
 		const email = "email";
-		const host = await findOrCreateHostByOAuth({name, email, image, oauthId});
+		const host = await findOrCreateHostByOAuth({
+			name,
+			email,
+			image,
+			oauthId,
+		});
 
 		const payload = {oauthId: host.oauthId};
 

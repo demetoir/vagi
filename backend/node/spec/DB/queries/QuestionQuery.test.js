@@ -1,5 +1,5 @@
 import assert from "assert";
-import {afterEach, before, beforeEach, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import {
 	createQuestion,
 	deleteQuestionById,
@@ -11,19 +11,10 @@ import {
 	updateQuestionIsStared,
 } from "../../../DB/queries/question.js";
 import models from "../../../DB/models";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("questions query api", () => {
-	before(async () => {
-		await models.sequelize.sync();
-	});
-
-	beforeEach(async () => {
-		await models.Question.destroy({where: {}, truncate: true});
-	});
-
-	afterEach(async () => {
-		await models.Question.destroy({where: {}, truncate: true});
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it("should able to create question", async () => {
 		// given

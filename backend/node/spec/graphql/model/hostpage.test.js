@@ -1,6 +1,6 @@
 import assert from "assert";
 import gql from "graphql-tag";
-import {after, before, afterEach, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import EasyGraphQLTester from "easygraphql-tester";
 import typeDefs from "../../../graphQL/model/typeDefs.js";
 import resolvers from "../../../graphQL/model/resolvers.js";
@@ -13,23 +13,8 @@ import {findOrCreateHostByOAuth} from "../../../DB/queries/host.js";
 import {createHashtag} from "../../../DB/queries/hashtag.js";
 
 describe("graphql yoga hostpage model", () => {
-	const sequelizeMock = new SequelizeTestHelper();
-
-	let gqlTester = null;
-
-	before(async () => {
-		gqlTester = new EasyGraphQLTester(typeDefs, resolvers);
-
-		await Promise.all([sequelizeMock.setup()]);
-	});
-
-	after(async () => {
-		await Promise.all([sequelizeMock.teardown()]);
-	});
-
-	afterEach(async () => {
-		await sequelizeMock.dropAllAfterEach();
-	});
+	new SequelizeTestHelper().autoSetup();
+	const gqlTester = new EasyGraphQLTester(typeDefs, resolvers);
 
 	it("should be able to query 'init'", async () => {
 		// given

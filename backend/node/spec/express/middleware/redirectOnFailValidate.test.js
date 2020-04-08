@@ -3,7 +3,6 @@ import sinon from "sinon";
 import {describe, it} from "mocha";
 import RedirectOnFailValidate from "../../../express/middleware/RedirectOnFailValidate.js";
 
-
 describe(`express middleware ${RedirectOnFailValidate.name}`, () => {
 	it("should be able to redirect on validate fail", async () => {
 		// given
@@ -28,7 +27,6 @@ describe(`express middleware ${RedirectOnFailValidate.name}`, () => {
 		assert(redirectSpy.calledWith(redirectPath));
 		assert(nextSpy.notCalled);
 	});
-
 
 	it("should be able to call next", async () => {
 		// given

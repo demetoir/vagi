@@ -1,5 +1,5 @@
 import assert from "assert";
-import {before, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import {
 	findOrCreateEvent,
 	getAllEvents,
@@ -9,12 +9,10 @@ import {
 	getEventsByHostId,
 	updateEventById,
 } from "../../../DB/queries/event.js";
-import models from "../../../DB/models";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("event query api", () => {
-	before(async () => {
-		await models.sequelize.sync();
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it("should be able to find all events", async () => {
 		const eventCode = "event code";
@@ -82,7 +80,14 @@ describe("event query api", () => {
 	});
 
 	it("should be able to updateEventById", async () => {
-		const id = 1;
+		const eventCode = "event code";
+		const eventName = "event name";
+		const HostId = null;
+
+		const event = await findOrCreateEvent({eventCode, HostId, eventName});
+
+		const id = event.id;
+
 		const newValue = {
 			eventCode: "15125",
 			moderationOption: true,

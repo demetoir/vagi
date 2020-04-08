@@ -1,45 +1,18 @@
 import assert from "assert";
 import gql from "graphql-tag";
-import {after, before, beforeEach, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import EasyGraphQLTester from "easygraphql-tester";
 import typeDefs from "../../../graphQL/model/typeDefs.js";
 import resolvers from "../../../graphQL/model/resolvers.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
-import models from "../../../DB/models";
 import likeResolvers from "../../../graphQL/model/like/like.resolver.js";
 import {createLike} from "../../../DB/queries/like.js";
 import {createGuest} from "../../../DB/queries/guest.js";
 import {createQuestion} from "../../../DB/queries/question.js";
 
 describe("graphql yoga like model", () => {
-	const sequelizeMock = new SequelizeTestHelper();
-
-	let gqlTester = null;
-
-	before(async () => {
-		gqlTester = new EasyGraphQLTester(typeDefs, resolvers);
-
-		await Promise.all([sequelizeMock.setup()]);
-	});
-
-	after(async () => {
-		await Promise.all([sequelizeMock.teardown()]);
-	});
-
-	beforeEach(async () => {
-		models.Like.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Guest.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Question.destroy({
-			where: {},
-			truncate: true,
-		});
-	});
+	new SequelizeTestHelper().autoSetup();
+	const gqlTester = new EasyGraphQLTester(typeDefs, resolvers);
 
 	it("should be able to query 'didILikes'", async () => {
 		// given
@@ -59,11 +32,11 @@ describe("graphql yoga like model", () => {
 
 		// gql input
 		const query = gql`
-            query get_didILikes($GuestId: ID!) {
-                didILikes(GuestId: $GuestId) {
-                    QuestionId
-                }
-            }
+			query get_didILikes($GuestId: ID!) {
+				didILikes(GuestId: $GuestId) {
+					QuestionId
+				}
+			}
 		`;
 		const variables = {
 			GuestId,
@@ -93,11 +66,11 @@ describe("graphql yoga like model", () => {
 
 	it("should be able to pass schema test 'query didILikes'", async () => {
 		const query = gql`
-            query get_didILikes($GuestId: ID!) {
-                didILikes(GuestId: $GuestId) {
-                    QuestionId
-                }
-            }
+			query get_didILikes($GuestId: ID!) {
+				didILikes(GuestId: $GuestId) {
+					QuestionId
+				}
+			}
 		`;
 
 		const variables = {

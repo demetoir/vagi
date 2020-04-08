@@ -4,7 +4,6 @@ import {describe, it} from "mocha";
 
 import JWTCookieParser from "../../../express/middleware/JWTCookieParser.js";
 
-
 describe(`express middleware ${JWTCookieParser.name}`, () => {
 	it("should be able to not found cookies", async () => {
 		// given
@@ -46,9 +45,12 @@ describe(`express middleware ${JWTCookieParser.name}`, () => {
 		// than
 		assert(nextSpy.calledOnce);
 		assert(loggerSpy.calledOnce);
-		assert(loggerSpy.calledWithExactly(`jwtCookies not Found in request by cookie key ${cookieKey}`));
+		assert(
+			loggerSpy.calledWithExactly(
+				`jwtCookies not Found in request by cookie key ${cookieKey}`,
+			),
+		);
 	});
-
 
 	it("should be able to parser jwt cookie", async () => {
 		// given
@@ -68,6 +70,10 @@ describe(`express middleware ${JWTCookieParser.name}`, () => {
 		// than
 		assert(nextSpy.calledOnce);
 		assert(loggerSpy.calledOnce);
-		assert(loggerSpy.calledWithExactly(`parse JWT cookie of cookie key ${cookieKey}`));
+		assert(
+			loggerSpy.calledWithExactly(
+				`parse JWT cookie of cookie key ${cookieKey}`,
+			),
+		);
 	});
 });

@@ -1,5 +1,5 @@
 import assert from "assert";
-import {before, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import {
 	createGuest,
 	getGuestByEventId,
@@ -7,14 +7,12 @@ import {
 	getGuestById,
 	updateGuestById,
 } from "../../../DB/queries/guest.js";
-import models from "../../../DB/models";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("guest query api", () => {
-	before(async () => {
-		await models.sequelize.sync();
-	});
+	new SequelizeTestHelper().autoSetup();
 
-	it("should be able to create guest", async () => {
+	it("create guest", async () => {
 		// given
 		const EventId = null;
 
@@ -31,13 +29,13 @@ describe("guest query api", () => {
 		assert(guest.email === null);
 	});
 
-	it("should be able to return null when can not getGuestByGuestSid", async () => {
+	it("return null when can not getGuestByGuestSid", async () => {
 		const res = await getGuestByGuestSid("234234");
 
 		assert(res === null);
 	});
 
-	it("should be able to getGuestByGuestSid", async () => {
+	it("getGuestByGuestSid", async () => {
 		// given
 		const EventId = null;
 		const guest = await createGuest(EventId);
@@ -49,7 +47,7 @@ describe("guest query api", () => {
 		assert.deepStrictEqual(guest, res);
 	});
 
-	it("should able to get guest by Id", async () => {
+	it("get guest by Id", async () => {
 		// given
 		const EventId = null;
 		const guest = await createGuest(EventId);
@@ -61,7 +59,7 @@ describe("guest query api", () => {
 		assert.deepStrictEqual(guest, res);
 	});
 
-	it("should able to return when can not get guest by Id", async () => {
+	it("return when can not get guest by Id", async () => {
 		// given
 		const id = 1236123;
 
@@ -72,7 +70,7 @@ describe("guest query api", () => {
 		assert(res === null);
 	});
 
-	it("should able to update guest", async () => {
+	it("update guest", async () => {
 		// given
 		const EventId = null;
 		const guest = await createGuest(EventId);
@@ -85,14 +83,14 @@ describe("guest query api", () => {
 		assert(res > 0);
 	});
 
-	it("should able to get guest by EventId", async () => {
+	it("get guest by EventId", async () => {
 		// given
 		const EventId = null;
+		const guest = await createGuest(EventId);
 
 		// when
 		const res = await getGuestByEventId(EventId);
 
-		// then
-		assert(res.length > 0);
+		assert.deepStrictEqual(res, [guest]);
 	});
 });

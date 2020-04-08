@@ -1,5 +1,5 @@
 import assert from "assert";
-import {before, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import {
 	createHashtag,
 	deleteHashTagById,
@@ -7,13 +7,11 @@ import {
 	getHashtagByEventIds,
 	updateHashtagById,
 } from "../../../DB/queries/hashtag.js";
-import models from "../../../DB/models";
 import {findOrCreateEvent} from "../../../DB/queries/event.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("hashtag query api", () => {
-	before(async () => {
-		await models.sequelize.sync();
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it("should able to create hashtag", async () => {
 		// given
