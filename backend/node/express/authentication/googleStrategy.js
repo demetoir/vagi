@@ -1,4 +1,5 @@
-import {Strategy} from "passport-google-oauth20";
+import {Strategy as RealStrategy} from "passport-google-oauth20";
+import {Strategy as MockStrategy} from "passport-mocked";
 import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
 import logger from "../logger.js";
 
@@ -17,8 +18,7 @@ function extractProfile(profile) {
 	};
 }
 
-
-const verify = async (accessToken, refreshToken, profile, cb) => {
+const verifyFunc = async (accessToken, refreshToken, profile, cb) => {
 	try {
 		const {id, displayName, image, email} = extractProfile(profile);
 
@@ -31,15 +31,25 @@ const verify = async (accessToken, refreshToken, profile, cb) => {
 			email,
 		});
 
-
 		return cb(null, host);
 	} catch (error) {
-		logger.error(error);
-		return null;
+		logger.error(error, error.stack);
+		return cb(error, false);
 	}
 };
 
-
 export default function googleStrategy(oAuthArgs) {
-	return new Strategy({...oAuthArgs}, verify);
+	let options = oAuthArgs;
+
+	if (process.env.NODE_ENV === "test") {
+		options = {
+			...options,
+			authorizationURL: "https://accounts.google.com/o/oauth2/v2/auth",
+			name: "google",
+		};
+
+		return new MockStrategy(options, verifyFunc);
+	} else {
+		return new RealStrategy(options, verifyFunc);
+	}
 }

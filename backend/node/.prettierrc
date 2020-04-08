@@ -4,3 +4,4 @@ useTabs: true
 semi: true
 singleQuote: false
 bracketSpacing: false
+arrowParens: avoid

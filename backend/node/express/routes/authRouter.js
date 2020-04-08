@@ -9,14 +9,13 @@ const {routePage} = config;
 const authRouter = express.Router();
 
 authRouter.get(
-	"/login",
+	"/google/login",
 	passport.authenticate("google", {
 		session: false,
 		scope: ["email", "profile"],
 		prompt: "select_account",
 	}),
 );
-
 
 authRouter.get(
 	"/google/callback",
@@ -25,7 +24,6 @@ authRouter.get(
 	}),
 	(req, res) => {
 		const {user} = req;
-
 
 		const payload = {oauthId: user.oauthId};
 		const accessToken = hostJWTCookie.sign(payload);
