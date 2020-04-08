@@ -8,9 +8,8 @@ import hostJWTCookie from "../JWTCookie/hostJWTCookie.js";
 const {routePage} = config;
 const authRouter = express.Router();
 
-// todo better path name
 authRouter.get(
-	"/login",
+	"/google/login",
 	passport.authenticate("google", {
 		session: false,
 		scope: ["email", "profile"],

@@ -46,8 +46,8 @@ describe(`express app`, () => {
 		await sequelizeMock.dropAllAfterEach();
 	});
 
-	describe(`route  /auth/login`, () => {
-		const baseURL = "/auth/login";
+	describe(`route  /auth/google/login`, () => {
+		const baseURL = "/auth/google/login";
 
 		it("should be able to redirect to AuthorizationURL ", async () => {
 			const url = `${baseURL}`;
