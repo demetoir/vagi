@@ -66,6 +66,7 @@
 		"@types/url-parse": "^1.4.3",
 		"async-redis": "^1.1.7",
 		"babel-watch": "^7.0.0",
+		"btoa": "^1.2.1",
 		"chai": "^4.2.0",
 		"chalk": "^4.0.0",
 		"cli-progress": "^3.6.0",
