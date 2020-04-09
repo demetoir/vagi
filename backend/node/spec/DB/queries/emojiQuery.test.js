@@ -1,5 +1,5 @@
 import assert from "assert";
-import {before, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import {
 	createEmoji,
 	deleteEmojiBy,
@@ -11,21 +11,13 @@ import {
 } from "../../../DB/queries/emoji.js";
 
 import models from "../../../DB/models";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 // noinspection JSUnresolvedVariable
 const Emoji = models.Emoji;
 
 describe("emoji query api", () => {
-	before(async () => {
-		await models.sequelize.sync();
-	});
-
-	after(async () => {
-		Emoji.destroy({
-			where: {},
-			truncate: true,
-		});
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it("should able to create emoji", async () => {
 		// given

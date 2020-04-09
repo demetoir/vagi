@@ -10,6 +10,6 @@ const app = App(config);
 
 app.listen(port, () => {
 	logger.info(
-		`start express server at ${port} with ${process.env.NODE_ENV} mode at public path = ${publicPath}`
+		`start express server at ${port} with ${process.env.NODE_ENV} mode at public path = ${publicPath}`,
 	);
 });

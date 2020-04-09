@@ -1,5 +1,5 @@
 import assert from "assert";
-import {before, beforeEach, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import models from "../../../DB/models";
 import {
 	closePoll,
@@ -7,18 +7,16 @@ import {
 	getPollsByEventId,
 	openPoll,
 } from "../../../DB/queries/poll.js";
-import {POLL_STATE_CLOSED, POLL_STATE_RUNNING} from "../../../constants/pollState.js";
+import {
+	POLL_STATE_CLOSED,
+	POLL_STATE_RUNNING,
+} from "../../../constants/pollState.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("poll query api", () => {
 	const Poll = models.Poll;
 
-	before(async () => {
-		await models.sequelize.sync();
-	});
-
-	beforeEach(async () => {
-		await models.Poll.destroy({where: {}, truncate: true});
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it("should able to getPollsByEventId", async () => {
 		// given

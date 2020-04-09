@@ -1,16 +1,14 @@
-import {before, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import assert from "assert";
 import {
 	findHostByOAuthId,
 	findOrCreateHostByOAuth,
 	isExistHostOAuthId,
 } from "../../../DB/queries/host.js";
-import models from "../../../DB/models";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("host query api", () => {
-	before(async () => {
-		await models.sequelize.sync();
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it("be able to find or create host by oauthId", async () => {
 		const oauthId = "1234";

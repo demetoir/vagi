@@ -12,7 +12,10 @@ const hostJWTOptions = {
 	subject: HOST_JWT_SUBJECT,
 };
 
-const hostJWTCookie = new JWTCookie(CookieKeys.HOST_APP, tokenArgs.secret, hostJWTOptions);
-
+const hostJWTCookie = new JWTCookie(
+	CookieKeys.HOST_APP,
+	tokenArgs.secret,
+	hostJWTOptions,
+);
 
 export default hostJWTCookie;

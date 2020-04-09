@@ -1,6 +1,9 @@
 import logger from "./logger.js";
 import RoomSocket from "./RoomSocket.js";
-import {SOCKET_IO_EVENT_JOIN_ROOM, SOCKET_IO_EVENT_LEAVE_ROOM} from "../constants/socket.io-Events.js";
+import {
+	SOCKET_IO_EVENT_JOIN_ROOM,
+	SOCKET_IO_EVENT_LEAVE_ROOM,
+} from "../constants/socket.io-Events.js";
 
 const RoomSocketHelper = ({server, socket, handlerEventPair}) => {
 	const id = socket.id;

@@ -1,45 +1,18 @@
 import assert from "assert";
 import gql from "graphql-tag";
 import EasyGraphQLTester from "easygraphql-tester";
-import {after, before, beforeEach, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import typeDefs from "../../../graphQL/model/typeDefs.js";
 import resolvers from "../../../graphQL/model/resolvers.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
-import models from "../../../DB/models";
 import {createGuest} from "../../../DB/queries/guest.js";
 import {createQuestion} from "../../../DB/queries/question.js";
 import questionResolvers from "../../../graphQL/model/question/question.resolver.js";
 import {findOrCreateEvent} from "../../../DB/queries/event.js";
 
 describe("graphql yoga question model", () => {
-	const sequelizeMock = new SequelizeTestHelper();
-
-	let gqlTester = null;
-
-	before(async () => {
-		gqlTester = new EasyGraphQLTester(typeDefs, resolvers);
-
-		await Promise.all([sequelizeMock.setup()]);
-	});
-
-	after(async () => {
-		await Promise.all([sequelizeMock.teardown()]);
-	});
-
-	beforeEach(async () => {
-		models.Event.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Guest.destroy({
-			where: {},
-			truncate: true,
-		});
-		models.Question.destroy({
-			where: {},
-			truncate: true,
-		});
-	});
+	new SequelizeTestHelper().autoSetup();
+	const gqlTester = new EasyGraphQLTester(typeDefs, resolvers);
 
 	it("should be able to query 'questions'", async () => {
 		// given
@@ -59,19 +32,19 @@ describe("graphql yoga question model", () => {
 
 		// gql input
 		const query = gql`
-            query getQuestions($EventId: ID!) {
-                questions(EventId: $EventId) {
-                    id
-                    EventId
-                    GuestId
-                    createdAt
-                    content
-                    state
-                    isStared
-                    likeCount
-                    QuestionId
-                }
-            }
+			query getQuestions($EventId: ID!) {
+				questions(EventId: $EventId) {
+					id
+					EventId
+					GuestId
+					createdAt
+					content
+					state
+					isStared
+					likeCount
+					QuestionId
+				}
+			}
 		`;
 		const variables = {
 			EventId,
@@ -108,19 +81,19 @@ describe("graphql yoga question model", () => {
 
 	it("should be able to pass schema test 'query questions'", async () => {
 		const query = gql`
-            query getQuestions($EventId: ID!) {
-                questions(EventId: $EventId) {
-                    id
-                    EventId
-                    GuestId
-                    createdAt
-                    content
-                    state
-                    isStared
-                    likeCount
-                    QuestionId
-                }
-            }
+			query getQuestions($EventId: ID!) {
+				questions(EventId: $EventId) {
+					id
+					EventId
+					GuestId
+					createdAt
+					content
+					state
+					isStared
+					likeCount
+					QuestionId
+				}
+			}
 		`;
 
 		const variables = {

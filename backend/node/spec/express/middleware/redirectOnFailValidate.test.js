@@ -1,18 +1,22 @@
 import assert from "assert";
 import sinon from "sinon";
-import {describe, it} from "mocha";
+import {describe, it, beforeEach} from "mocha";
 import RedirectOnFailValidate from "../../../express/middleware/RedirectOnFailValidate.js";
 
-
 describe(`express middleware ${RedirectOnFailValidate.name}`, () => {
-	it("should be able to redirect on validate fail", async () => {
+	const redirectSpy = sinon.spy();
+	const resSpy = {redirect: redirectSpy};
+	const nextSpy = sinon.spy();
+	const redirectPath = "redirectPath";
+
+	beforeEach(() => {
+		redirectSpy.resetHistory();
+		nextSpy.resetHistory();
+	});
+
+	it("redirect on validate fail", async () => {
 		// given
-		// create http stuff and spies
 		const req = {};
-		const redirectSpy = sinon.spy();
-		const resSpy = {redirect: redirectSpy};
-		const nextSpy = sinon.spy();
-		const redirectPath = "redirectPath";
 
 		function alwaysFalse() {
 			return [false, new Error("always false")];
@@ -29,15 +33,9 @@ describe(`express middleware ${RedirectOnFailValidate.name}`, () => {
 		assert(nextSpy.notCalled);
 	});
 
-
-	it("should be able to call next", async () => {
+	it("call next", async () => {
 		// given
-		// create http stuff and spies
 		const req = {};
-		const redirectSpy = sinon.spy();
-		const resSpy = {redirect: redirectSpy};
-		const nextSpy = sinon.spy();
-		const redirectPath = "redirectPath";
 
 		function alwaysTrue() {
 			return [true, null];

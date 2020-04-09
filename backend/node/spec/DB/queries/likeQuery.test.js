@@ -1,20 +1,14 @@
 import assert from "assert";
-import {before, beforeEach, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import {
 	createLike,
 	deleteLikeBy,
 	getLikesByGuestId,
 } from "../../../DB/queries/like.js";
-import models from "../../../DB/models";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("like query api", () => {
-	before(async () => {
-		await models.sequelize.sync();
-	});
-
-	beforeEach(async () => {
-		await models.Like.destroy({where: {}, truncate: true});
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it("should able to create Like", async () => {
 		// given

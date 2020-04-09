@@ -1,20 +1,14 @@
 import assert from "assert";
-import {before, beforeEach, describe, it} from "mocha";
-import models from "../../../DB/models";
+import {describe, it} from "mocha";
 import {
 	createBulkCandidates,
 	createCandidate,
 	getCandidatesByPollIds,
 } from "../../../DB/queries/candidate.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("candidate DB query api", () => {
-	before(async () => {
-		await models.sequelize.sync();
-	});
-
-	beforeEach(async () => {
-		await models.Candidate.destroy({where: {}, truncate: true});
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it("should be able to create candidate", async () => {
 		// given

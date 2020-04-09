@@ -1,5 +1,5 @@
 import assert from "assert";
-import {before, beforeEach, describe, it} from "mocha";
+import {describe, it} from "mocha";
 import models from "../../../DB/models";
 import {
 	addVote,
@@ -10,17 +10,12 @@ import {
 } from "../../../DB/queries/vote.js";
 import {createCandidate} from "../../../DB/queries/candidate.js";
 import {createGuest} from "../../../DB/queries/guest.js";
+import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
 describe("vote DB query api", () => {
 	const Vote = models.Vote;
 
-	before(async () => {
-		await models.sequelize.sync({force: true});
-	});
-
-	beforeEach(async () => {
-		await models.Vote.destroy({where: {}, truncate: true});
-	});
+	new SequelizeTestHelper().autoSetup();
 
 	it(`should be able to ${addVote.name}`, async () => {
 		// given

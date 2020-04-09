@@ -30,4 +30,3 @@ export default class Hashtag extends Model {
 		models.Hashtag.belongsTo(models.Event);
 	}
 }
-

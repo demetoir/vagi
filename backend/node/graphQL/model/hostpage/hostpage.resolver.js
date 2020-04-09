@@ -7,8 +7,10 @@ import {
 	getEventsByHostId,
 	updateEventById,
 } from "../../../DB/queries/event.js";
-import {createHashtags, getHashtagByEventIds} from "../../../DB/queries/hashtag.js";
-
+import {
+	createHashtags,
+	getHashtagByEventIds,
+} from "../../../DB/queries/hashtag.js";
 
 // todo do something
 function mappingHashTagsToEvents(hashTags, events, eventMap) {
@@ -67,9 +69,7 @@ const initQueryResolver = async (_, {param}, authority) => {
 const createHashTagsResolver = async (_, {hashTags}, authority) =>
 // verifySubjectHostJwt(authority.sub);
 
-	 createHashtags(hashTags)
-;
-
+	createHashtags(hashTags);
 const createEventResolver = async (_, {info}, authority) => {
 	// verifySubjectHostJwt(authority.sub);
 

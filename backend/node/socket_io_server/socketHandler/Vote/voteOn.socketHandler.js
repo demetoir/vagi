@@ -1,4 +1,4 @@
-import {swapVoteByGuestId, addVote} from "../../../DB/queries/vote";
+import {addVote, swapVoteByGuestId} from "../../../DB/queries/vote";
 import updateVoters from "./updateVoters";
 import logger from "../../logger.js";
 import {

@@ -21,7 +21,6 @@ export async function getGuestByGuestSid(guestSid) {
 	return res;
 }
 
-
 /**
  *
  * @param eventId {number|null}
@@ -78,7 +77,7 @@ export async function updateGuestById({id, name, isAnonymous, company, email}) {
  * @param EventId {number}
  * @returns {Promise<Model[]|any[]>}
  */
-export async function getGuestByEventId(EventId) {
+export async function getGuestsByEventId(EventId) {
 	const res = Guest.findAll({where: {EventId}});
 
 	return res.map(x => x.get({plain: true}));

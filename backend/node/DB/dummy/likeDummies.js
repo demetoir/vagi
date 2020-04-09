@@ -1,7 +1,7 @@
 import faker from "faker";
 import config from "./initialConfig";
 import {getQuestionById} from "../queries/question.js";
-import {getGuestByEventId} from "../queries/guest.js";
+import {getGuestsByEventId} from "../queries/guest.js";
 
 const {INIT_SEED} = config;
 
@@ -17,7 +17,7 @@ export default async function makeLikeDummy(number = 100) {
 		// eslint-disable-next-line no-await-in-loop
 		const EventId = (await getQuestionById(QuestionId)).EventId;
 		// eslint-disable-next-line no-await-in-loop
-		const candidate = await getGuestByEventId(EventId);
+		const candidate = await getGuestsByEventId(EventId);
 		const candidateIdx = faker.random.number({
 			min: 0,
 			max: candidate.length - 1,

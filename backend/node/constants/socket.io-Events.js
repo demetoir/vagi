@@ -4,4 +4,3 @@ export const SOCKET_IO_EVENT_ERROR = "error";
 export const SOCKET_IO_EVENT_CONNECTION = "connection";
 export const SOCKET_IO_EVENT_DISCONNECTING = "disconnecting";
 export const SOCKET_IO_EVENT_DISCONNECT = "disconnect";
-

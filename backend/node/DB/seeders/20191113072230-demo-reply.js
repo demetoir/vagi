@@ -6,6 +6,5 @@ module.exports = {
 			queryInterface.bulkInsert("Questions", data, {}),
 		),
 
-	down: queryInterface =>
-		queryInterface.bulkDelete("Questions", null, {}),
+	down: queryInterface => queryInterface.bulkDelete("Questions", null, {}),
 };

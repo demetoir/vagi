@@ -1,3 +1,4 @@
+import {after, afterEach, before} from "mocha";
 import MochaTestHelper from "./MochaTestHelper.js";
 import models from "../../DB/models";
 
@@ -9,7 +10,7 @@ export default class SequelizeTestHelper extends MochaTestHelper {
 	}
 
 	async teardown() {
-		return null;
+		return this;
 	}
 
 	async dropAllAfterEach() {
@@ -21,5 +22,23 @@ export default class SequelizeTestHelper extends MochaTestHelper {
 		});
 
 		await Promise.all(promiseList);
+
+		return this;
+	}
+
+	autoSetup() {
+		before(async () => {
+			await Promise.all([this.setup()]);
+		});
+
+		after(async () => {
+			await Promise.all([this.teardown()]);
+		});
+
+		afterEach(async () => {
+			await this.dropAllAfterEach();
+		});
+
+		return this;
 	}
 }

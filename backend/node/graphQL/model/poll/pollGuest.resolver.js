@@ -52,7 +52,6 @@ async function setVotedOnPolls(polls, guestId) {
 	return polls;
 }
 
-
 // todo fix this
 /**
  *

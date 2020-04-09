@@ -28,7 +28,6 @@ export default async function validateGuestJWT(req) {
 		Validator.isActiveEvent(event);
 		Validator.isGuestBelongToEvent(guest, event);
 
-
 		return [true, {event, guest}];
 	} catch (e) {
 		return [false, e];

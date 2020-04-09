@@ -3,7 +3,6 @@ import config from "../config";
 
 const {routePage} = config;
 
-
 export default class HostController {
 	constructor(logger) {
 		this.logger = logger;
