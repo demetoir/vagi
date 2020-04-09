@@ -1,3 +1,4 @@
+import btoa from "btoa";
 import {createGuest} from "../../DB/queries/guest.js";
 import CookieKeys from "../CookieKeys.js";
 import config from "../config";
@@ -7,17 +8,24 @@ import guestJWTCookie from "../JWTCookie/guestJWTCookie.js";
 
 const {routePage} = config;
 
-function decodeEventCode(path) {
-	return Buffer.from(path, "base64").toString();
+// todo test and refactoring
+function decodeEventCode(encodedEventCode) {
+	const result = Buffer.from(encodedEventCode, "base64").toString();
+	const reverse = btoa(result);
+
+	if (reverse !== encodedEventCode) {
+		throw new Error("can not decode eventCode");
+	}
+
+	return result;
 }
 
-// todo test
 export default class GuestController {
 	/**
 	 *
 	 * @param logger {object}
 	 */
-	constructor(logger) {
+	constructor(logger = console) {
 		this.logger = logger;
 	}
 
@@ -43,7 +51,8 @@ export default class GuestController {
 		 * @return {Promise<void>}
 		 */
 		return (req, res) => {
-			res.clearCookie(CookieKeys.GUEST_APP).redirect(routePage.main);
+			res.clearCookie(CookieKeys.GUEST_APP);
+			res.redirect(routePage.main);
 
 			this.logger.info("guest logout");
 		};
@@ -57,8 +66,13 @@ export default class GuestController {
 		 * @return {Promise<void>}
 		 */
 		return async (req, res) => {
-			const path = req.params.encodedEventCode;
-			const eventCode = decodeEventCode(path);
+			const encodedEventCode = req.params.encodedEventCode || null;
+
+			if (encodedEventCode === null) {
+				throw new Error("encodedEventCode not found in request.params");
+			}
+
+			const eventCode = decodeEventCode(encodedEventCode);
 			const [isValid, event] = await validateEventCode(eventCode);
 
 			if (!isValid) {
