@@ -3,13 +3,13 @@ import guestAuth from "../middleware/guestAuth.js";
 import logger from "../logger.js";
 import GuestController from "../controller/GuestController.js";
 import CookieKeys from "../CookieKeys.js";
-import JWTParser from "../middleware/JWTCookieParser.js";
+import JWTCookieParser from "../middleware/JWTCookieParser.js";
 
 const guestRouter = express.Router();
 const guestController = new GuestController(logger);
 const cookieKey = CookieKeys.GUEST_APP;
 
-guestRouter.use(JWTParser(cookieKey, logger));
+guestRouter.use(JWTCookieParser(cookieKey, logger));
 guestRouter.get("/", guestAuth(), guestController.logIn());
 guestRouter.get("/logout", guestAuth(), guestController.logOut());
 
