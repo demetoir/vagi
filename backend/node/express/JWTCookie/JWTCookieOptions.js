@@ -3,7 +3,7 @@ const getTokenExpired = hour =>
 
 const COOKIE_EXPIRE_TIME = 2;
 
-export default class JWTCooKieOptions {
+export default class JWTCookieOptions {
 	static build() {
 		return {
 			expires: getTokenExpired(COOKIE_EXPIRE_TIME),

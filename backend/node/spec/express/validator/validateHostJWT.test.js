@@ -21,7 +21,7 @@ describe(`express hostAuth validateHostJWTCookie`, () => {
 
 			// than
 			assert.equal(isValid, false);
-			assert.equal(error.name, "Error");
+			assert.equal(error.name, "JWTCookieError");
 			assert.equal(
 				error.message,
 				"jwtCookies not found in request object",

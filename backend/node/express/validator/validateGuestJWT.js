@@ -10,11 +10,7 @@ import guestJWTCookie from "../JWTCookie/guestJWTCookie.js";
  */
 export default async function validateGuestJWT(req) {
 	try {
-		if (!("jwtCookies" in req)) {
-			throw new Error("jwtCookies not found in request object");
-		}
-
-		const payload = guestJWTCookie.verify(req.jwtCookies);
+		const payload = guestJWTCookie.verify(req);
 
 		const guestSid = payload.guestSid;
 		const guest = await getGuestByGuestSid(guestSid);

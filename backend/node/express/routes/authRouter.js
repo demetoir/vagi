@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import config from "../config";
 import CookieKeys from "../CookieKeys.js";
-import JWTCooKieOptions from "../JWTCookie/JWTCooKieOptions.js";
+import JWTCookieOptions from "../JWTCookie/JWTCookieOptions.js";
 import hostJWTCookie from "../JWTCookie/hostJWTCookie.js";
 
 const {routePage} = config;
@@ -27,7 +27,7 @@ authRouter.get(
 
 		const payload = {oauthId: user.oauthId};
 		const accessToken = hostJWTCookie.sign(payload);
-		const options = JWTCooKieOptions.build();
+		const options = JWTCookieOptions.build();
 
 		res.cookie(CookieKeys.HOST_APP, accessToken, options);
 		res.redirect(routePage.host);

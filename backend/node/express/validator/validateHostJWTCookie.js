@@ -9,11 +9,7 @@ import hostJWTCookie from "../JWTCookie/hostJWTCookie.js";
  */
 export default async function validateHostJWTCookie(req) {
 	try {
-		if (!("jwtCookies" in req)) {
-			throw new Error("jwtCookies not found in request object");
-		}
-
-		const payload = hostJWTCookie.verify(req.jwtCookies);
+		const payload = hostJWTCookie.verify(req);
 		const hostOauthId = payload.oauthId;
 
 		const host = await findHostByOAuthId(hostOauthId);
