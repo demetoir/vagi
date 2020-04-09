@@ -60,6 +60,7 @@
 		"@types/passport-jwt": "^3.0.3",
 		"@types/sequelize": "^4.28.8",
 		"@types/shelljs": "^0.8.7",
+		"@types/sinon": "^9.0.0",
 		"@types/supertest": "^2.0.8",
 		"@types/url-parse": "^1.4.3",
 		"async-redis": "^1.1.7",
