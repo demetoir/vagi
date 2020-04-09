@@ -1,7 +1,7 @@
 import {createGuest} from "../../DB/queries/guest.js";
 import CookieKeys from "../CookieKeys.js";
 import config from "../config";
-import JWTCooKieOptions from "../JWTCookie/JWTCooKieOptions.js";
+import JWTCookieOptions from "../JWTCookie/JWTCookieOptions.js";
 import validateEventCode from "../validator/validateEventCode.js";
 import guestJWTCookie from "../JWTCookie/guestJWTCookie.js";
 
@@ -61,7 +61,7 @@ export default class GuestController {
 
 		const payload = {guestSid: guest.guestSid};
 		const accessToken = guestJWTCookie.sign(payload);
-		const cookieOption = JWTCooKieOptions.build();
+		const cookieOption = JWTCookieOptions.build();
 
 		res.cookie(CookieKeys.GUEST_APP, accessToken, cookieOption);
 		return res.redirect(routePage.guest);

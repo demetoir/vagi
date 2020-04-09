@@ -15,14 +15,20 @@ export class JWTCookie {
 		this.options = options;
 	}
 
-	verify(jwts) {
-		if (!(this.cookieKey in jwts)) {
+	verify(req) {
+		if (!("jwtCookies" in req)) {
+			throw new JWTCookieError("jwtCookies not found in request object");
+		}
+
+		const JWTCookies = req.jwtCookies;
+
+		if (!(this.cookieKey in JWTCookies)) {
 			throw new JWTCookieError(
 				`jwt of cookie key '${this.cookieKey}' not found`,
 			);
 		}
 
-		const token = jwts[this.cookieKey];
+		const token = JWTCookies[this.cookieKey];
 
 		return jwt.verify(token, this.secret);
 	}
