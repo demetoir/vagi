@@ -1,9 +1,6 @@
 import sequelize from "sequelize";
 import models from "../models";
 
-// noinspection JSUnresolvedVariable
-const Emoji = models.Emoji;
-
 /**
  *
  * @param GuestId fk to guest table
@@ -13,7 +10,7 @@ const Emoji = models.Emoji;
  * @returns {Promise<object>}
  */
 export async function createEmoji({GuestId, QuestionId, name, EventId}) {
-	const res = await Emoji.create({
+	const res = await models.Emoji.create({
 		GuestId,
 		QuestionId,
 		name,
@@ -29,7 +26,7 @@ export async function createEmoji({GuestId, QuestionId, name, EventId}) {
  * @returns {Promise<Number>}
  */
 export async function deleteEmojiById(id) {
-	return Emoji.destroy({
+	return models.Emoji.destroy({
 		where: {id},
 	});
 }
@@ -42,7 +39,7 @@ export async function deleteEmojiById(id) {
  * @returns {Promise<Number>}
  */
 export async function deleteEmojiBy({name, GuestId, QuestionId}) {
-	return Emoji.destroy({where: {name, GuestId, QuestionId}});
+	return models.Emoji.destroy({where: {name, GuestId, QuestionId}});
 }
 
 /**
@@ -53,7 +50,7 @@ export async function deleteEmojiBy({name, GuestId, QuestionId}) {
  * @returns {Promise<object[]>}
  */
 export async function getDidIPicked({name, QuestionId, GuestId}) {
-	const res = await Emoji.findAll({where: {name, QuestionId, GuestId}});
+	const res = await models.Emoji.findAll({where: {name, QuestionId, GuestId}});
 
 	return res.map(x => x.get({plain: true}));
 }
@@ -65,7 +62,7 @@ export async function getDidIPicked({name, QuestionId, GuestId}) {
  * @returns {Promise<number>}
  */
 export async function getEmojiCountBy({name, QuestionId}) {
-	return Emoji.count({where: {name, QuestionId}});
+	return models.Emoji.count({where: {name, QuestionId}});
 }
 
 /**
@@ -74,7 +71,7 @@ export async function getEmojiCountBy({name, QuestionId}) {
  * @returns {Promise<object[]>}
  */
 export async function getEmojiCountByEventIdGroupByQuestionId({EventId}) {
-	const res = await Emoji.findAll({
+	const res = await models.Emoji.findAll({
 		attributes: ["QuestionId", "name", [sequelize.fn("count", "id"), "count"], [sequelize.literal("MIN(createdAt)"), "createdAt"]],
 		where: {EventId},
 		group: ["QuestionId", "name"],
@@ -92,7 +89,7 @@ export async function getEmojiCountByEventIdGroupByQuestionId({EventId}) {
  * @returns {Promise<object[]>}
  */
 export async function getEmojiPick({GuestId, EventId}) {
-	const res = await Emoji.findAll({
+	const res = await models.Emoji.findAll({
 		where: {GuestId, EventId},
 		attributes: ["name", "QuestionId"],
 	});

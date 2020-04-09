@@ -2,17 +2,13 @@ import uuidv1 from "uuid/v1";
 import models from "../models";
 import getRandomGuestName from "../dummy/RandomGuestName";
 
-// todo fix lint of line
-// noinspection JSUnresolvedVariable
-const Guest = models.Guest;
-
 /**
  *
  * @param guestSid {string}
  * @returns {Promise<object|null>}
  */
 export async function getGuestByGuestSid(guestSid) {
-	let res = await Guest.findOne({where: {guestSid}});
+	let res = await models.Guest.findOne({where: {guestSid}});
 
 	if (res !== null) {
 		res = res.get({plain: true});
@@ -27,7 +23,7 @@ export async function getGuestByGuestSid(guestSid) {
  * @returns {Promise<object>}
  */
 export async function createGuest(eventId) {
-	const guest = await Guest.create({
+	const guest = await models.Guest.create({
 		name: getRandomGuestName(),
 		EventId: eventId,
 		guestSid: uuidv1(),
@@ -43,7 +39,7 @@ export async function createGuest(eventId) {
  * @returns {Promise<object|null>}
  */
 export async function getGuestById(id) {
-	let res = await Guest.findOne({
+	let res = await models.Guest.findOne({
 		where: {id},
 	});
 
@@ -64,7 +60,7 @@ export async function getGuestById(id) {
  * @returns {Promise<number>}
  */
 export async function updateGuestById({id, name, isAnonymous, company, email}) {
-	const res = await Guest.update(
+	const res = await models.Guest.update(
 		{name, company, isAnonymous, email},
 		{where: {id}},
 	);
@@ -78,7 +74,7 @@ export async function updateGuestById({id, name, isAnonymous, company, email}) {
  * @returns {Promise<Model[]|any[]>}
  */
 export async function getGuestsByEventId(EventId) {
-	const res = Guest.findAll({where: {EventId}});
+	const res = models.Guest.findAll({where: {EventId}});
 
 	return res.map(x => x.get({plain: true}));
 }

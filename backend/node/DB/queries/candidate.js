@@ -2,7 +2,6 @@ import Sequelize from "sequelize";
 import models from "../models";
 
 const Op = Sequelize.Op;
-const Candidate = models.Candidate;
 
 /**
  *
@@ -29,7 +28,7 @@ export async function getCandidatesByPollIds(pollIds) {
  * @return {Promise<Object>} created Candidate object
  */
 export async function createCandidate({content, number, PollId}) {
-	const result = await Candidate.create({content, number, PollId});
+	const result = await models.Candidate.create({content, number, PollId});
 
 	return result.get({plain: true});
 }
@@ -41,7 +40,7 @@ export async function createCandidate({content, number, PollId}) {
  * @return {Promise<Object[]>} bulk created Candidate objects
  */
 export async function createBulkCandidates(candidates, transaction) {
-	const result = await Candidate.bulkCreate(candidates, {transaction});
+	const result = await models.Candidate.bulkCreate(candidates, {transaction});
 
 	return result.map(x => x.get({plain: true}));
 }
