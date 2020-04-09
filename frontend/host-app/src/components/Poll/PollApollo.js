@@ -27,6 +27,7 @@ const POLL_QUERY = gql`
 	}
 `;
 
+// todo refactoring
 function PollApollo() {
 	const {events} = useContext(HostContext);
 	const options = {

@@ -1,4 +1,4 @@
-import {socketClient} from "../socket.io";
+import {socketClient} from "../socket";
 
 // allowDuplication == false, 즉, 복수선택이 아닌 경우, 이전에 vote 한 candidate가 있으면 삭제해야 함
 const getCandidateToDelete = (items, candidateId) => {
@@ -223,9 +223,9 @@ export default function reducer(polls, action) {
 		// 나 또는 남이 vote(N지선다) 했음을 알려줌
 		case "SOMEONE_VOTE": {
 			thePoll.totalVoters = action.poll.totalVoters;
-			thePoll.nItems.forEach((item, index) => {
-				item.voters = action.poll.nItems[index].voters;
-				item.firstPlace = action.poll.nItems[index].firstPlace;
+			thePoll.nItems.forEach((item, i) => {
+				item.voters = action.poll.nItems[i].voters;
+				item.firstPlace = action.poll.nItems[i].firstPlace;
 			});
 
 			return polls.map(poll => (poll.id === pollId ? thePoll : poll));

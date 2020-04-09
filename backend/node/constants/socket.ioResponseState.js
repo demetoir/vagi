@@ -1,0 +1,6 @@
+export const SOCKET_IO_RESPONSE_STATE_ERROR = "error";
+export const SOCKET_IO_RESPONSE_STATE_OK = "ok";
+export const status = {
+	ERROR: SOCKET_IO_RESPONSE_STATE_ERROR,
+	SUCCESS: SOCKET_IO_RESPONSE_STATE_OK,
+};

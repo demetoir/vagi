@@ -13,6 +13,7 @@ import Replies from "./Replies";
 import TopFixButton from "../Buttons/TopFixButton";
 import QuestionCompleteButton from "../Buttons/QuestionCompleteButton";
 
+// todo refactoring
 function LiveQuestionCard(props) {
 	const classes = useQuestionCardStyles();
 	const [openReplies, setOpenReplies] = useState(false);

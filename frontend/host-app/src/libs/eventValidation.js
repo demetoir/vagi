@@ -12,10 +12,10 @@ function validDate(startDate, endDate) {
 	return !(diffValue < -1 || isAfterEndDate < 0);
 }
 
-function validEventName(eventName) {
+function isValidEventName(eventName) {
 	const regex = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-z0-9_\-\*\!\@\&\%\$\#\ ]{1,100}$/gi;
 
 	return regex.test(eventName);
 }
 
-export {validEventName, validDate};
+export {isValidEventName, validDate};

@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import useModal from "../../../customhook/useModal";
+import useModal from "../../../hooks/useModal";
 import ConfirmModal from "./ConfirmModal";
 
-const Container = styled.div`
+const ButtonFieldStyle = styled.div`
 	margin-top: auto;
 	display: flex;
 	margin-left: 10rem;
@@ -35,7 +35,7 @@ function ButtonField({submit, onClose}) {
 	const [confirmModalOpen, handleOpen, handleClose] = useModal();
 
 	return (
-		<Container>
+		<ButtonFieldStyle>
 			<CancelTextButton onClick={handleOpen}>취소</CancelTextButton>
 			<CreateTextButton onClick={submit}>확인</CreateTextButton>
 			{confirmModalOpen && (
@@ -45,7 +45,7 @@ function ButtonField({submit, onClose}) {
 					reset={onClose}
 				/>
 			)}
-		</Container>
+		</ButtonFieldStyle>
 	);
 }
 

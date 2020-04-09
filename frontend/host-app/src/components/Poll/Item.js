@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import {MdDone, MdPerson} from "react-icons/md";
 
-const RowWrapper = styled.div`
+const ItemStyle = styled.div`
 	position: relative;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: ${props => (props.left ? "flex-start" : "space-around")};
+	justify-content: flex-start;
 	width: 100%;
 	height: 3rem;
 	box-sizing: border-box;
@@ -45,9 +45,10 @@ const GraphWrapper = styled.div`
 	box-sizing: border-box;
 `;
 
+// todo refactoring
 function Item({content, voters, voted, totalVoters, firstPlace}) {
 	return (
-		<RowWrapper left>
+		<ItemStyle >
 			<div>{voted && <MdDone />}</div>
 			<div className="selection-name">{content}</div>
 			<RightEnd>
@@ -58,7 +59,7 @@ function Item({content, voters, voted, totalVoters, firstPlace}) {
 				firstPlace={firstPlace}
 				ratio={`${(voters / totalVoters) * 100}%`}
 			/>
-		</RowWrapper>
+		</ItemStyle>
 	);
 }
 

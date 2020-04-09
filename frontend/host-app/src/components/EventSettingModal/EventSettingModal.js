@@ -30,6 +30,7 @@ const AlertLayOut = styled.div`
 	outline: none;
 `;
 
+// todo refactoring
 function EventSettingModal(props) {
 	const {events} = useContext(HostContext);
 	const eventNum = events.length;

@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import EventCard from "./EventCard.js";
+import EventCard from "./EventCard/EventCard.js";
 import {HostContext} from "../../libs/hostContext";
 import {compareCurrentDateToTarget} from "../../libs/utils";
 

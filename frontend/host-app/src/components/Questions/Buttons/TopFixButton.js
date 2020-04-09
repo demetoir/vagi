@@ -4,6 +4,7 @@ import {Icon} from "@material-ui/core";
 import useStyles from "./useButtonStyles.js";
 import {handleStar} from "../../EventEmiter/QuestionSocketEventEmiter";
 
+// todo refactoring
 function TopFixButton(props) {
 	const classes = useStyles();
 

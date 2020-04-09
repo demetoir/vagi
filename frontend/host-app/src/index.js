@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Cookies from "js-cookie";
 import {ApolloProvider} from "@apollo/react-hooks";
 import "./index.css";
 import * as serviceWorker from "./libs/serviceWorker.js";
 import {initSocketIoClientWrapper} from "./libs/socket.io-Client-wrapper.js";
 import config from "./config";
-import createApolloClient from "./libs/createApolloClient";
+import createApolloClient from "./graphql/createApolloClient.js";
 import AppLoadingWrapper from "./App/AppLoadingWrapper.js";
 
 const NAME_SPACE = "event";
@@ -18,13 +17,11 @@ initSocketIoClientWrapper(
 );
 
 const HOST_COOKIE_KEY = "vaagle-host";
-const token = Cookies.get(HOST_COOKIE_KEY);
-
-const client = createApolloClient(config.apolloURI, token);
+const client = createApolloClient(config.apolloURI, HOST_COOKIE_KEY);
 
 ReactDOM.render(
 	<ApolloProvider client={client}>
-		<AppLoadingWrapper />
+		<AppLoadingWrapper/>
 	</ApolloProvider>,
 	document.getElementById("root"),
 );

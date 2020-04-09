@@ -1,9 +1,9 @@
 import React from "react";
 import {useQuery} from "@apollo/react-hooks";
-import {GET_GUEST_APP_GLOBAL_DATA} from "../../apollo/gqlSchemes.js";
+import {GET_GUEST_APP_GLOBAL_DATA} from "../../graphql/gqlSchemes.js";
 import TopProgressBar from "../../components/atoms/TopProcessBar.js";
 import config from "../../config";
-import {createSocketIOClient, SocketClientProvider} from "../../socket.io";
+import {createSocketIOClient, SocketClientProvider} from "../../socket";
 import GlobalDataContext from "./GlobalDataContext.js";
 import {SOCKET_IO_EVENT_CONNECT, SOCKET_IO_EVENT_JOIN_ROOM} from "../../constants/socket.io-event.js";
 

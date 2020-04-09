@@ -9,6 +9,7 @@ import {FocusedDiv, UnFocusedDiv} from "./QuestionStyle";
 const compareByCreateAt = (a, b) => b.createdAt.localeCompare(a.createdAt);
 const compareByLikeCount = (a, b) => b.likeCount - a.likeCount;
 
+// todo refactoring
 function QuestionContainer({datas, type, containerType}) {
 	const QuestionDiv = containerType === "focus" ? FocusedDiv : UnFocusedDiv;
 

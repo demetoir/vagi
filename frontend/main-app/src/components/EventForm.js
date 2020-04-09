@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import React, {useState} from "react";
 import config from "../config";
-import EventCodeInput from "./EventCodeInput.js";
-import EventEnterButton from "./EnterEventButton.js";
-import EventCodeInputErrorMessageStyle from "./EventCodeInputErrorMessageStyle.js";
+import EventCodeInput from "../atoms/EventCodeInput.js";
+import EventEnterButton from "../atoms/EnterEventButton.js";
+import EventCodeInputErrorMessage from "../atoms/EventCodeInputErrorMessage.js";
 
 const enterEventMessage = "이벤트 번호가 전달되었습니다.";
 const initialErrorMessage = "";
@@ -15,6 +15,7 @@ const EventFormStyle = styled.div`
 	justify-content: center;
 	align-items: center;
 `;
+
 
 function EventForm() {
 	const [errorMessage, setMessage] = useState(initialErrorMessage);
@@ -36,9 +37,7 @@ function EventForm() {
 			<EventFormStyle>
 				<EventCodeInput onChange={onChange} value={code}/>
 				<EventEnterButton onClick={onEnterEvent}/>
-				<EventCodeInputErrorMessageStyle>
-					{errorMessage}
-				</EventCodeInputErrorMessageStyle>
+				<EventCodeInputErrorMessage message={errorMessage}/>
 			</EventFormStyle>
 		</form>
 	);

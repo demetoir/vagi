@@ -1,7 +1,7 @@
 import React, {useReducer, useState} from "react";
 import styled from "styled-components";
 import PollCard from "./PollCard";
-import {useSocket} from "../../socket.io";
+import {useSocket} from "../../socket";
 import reducer from "../../reducers/PollsReducer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
 import usePolls from "../../contexts/Polls/usePolls.js";
@@ -26,7 +26,7 @@ import {
 	POLL_ACTION_TYPE_SOMEONE_VOTE,
 	POLL_ACTION_TYPE_VOTE,
 } from "../../constants/poll_action_type.js";
-import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../constants/socket_io_response.js";
+import {responseStatus} from "../../constants/socket_io_response.js";
 
 const colorGray3 = "#dee2e6";
 const ColumnWrapper = styled.div`
@@ -101,7 +101,7 @@ function PollContainer() {
 	// useReduer를 호출하여 투표에 상태를 update 함
 
 	useSocket(SOCKET_IO_EVENT_POLL_NOTIFY_OPEN, res => {
-		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
+		if (res.status === responseStatus.ERROR) {
 			return;
 		}
 
@@ -117,7 +117,7 @@ function PollContainer() {
 	// useReduer를 호출하여 투표에 상태를 update 함
 
 	useSocket(SOCKET_IO_EVENT_POLL_NOTIFY_CLOSE, res => {
-		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
+		if (res.status === responseStatus.ERROR) {
 			return;
 		}
 
@@ -138,7 +138,7 @@ function PollContainer() {
 	// useReduer를 호출하여 투표에 상태를 update 함
 
 	useSocket(SOCKET_IO_EVENT_VOTE_ON, res => {
-		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
+		if (res.status === responseStatus.ERROR) {
 			// eslint-disable-next-line no-console
 			console.error("vote/on ERROR");
 			return;
@@ -159,7 +159,7 @@ function PollContainer() {
 	// useReduer를 호출하여 투표에 상태를 update 함
 
 	useSocket(SOCKET_IO_EVENT_VOTE_OFF, res => {
-		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
+		if (res.status === responseStatus.ERROR) {
 			// eslint-disable-next-line no-console
 			console.error("vote/off ERROR");
 			return;
@@ -179,7 +179,7 @@ function PollContainer() {
 	// useReduer를 호출하여 투표에 상태를 update 함
 
 	useSocket(SOCKET_IO_EVENT_RATE_ON, res => {
-		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
+		if (res.status === responseStatus.ERROR) {
 			return;
 		}
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,
@@ -197,7 +197,7 @@ function PollContainer() {
 	// useReduer를 호출하여 투표에 상태를 update 함
 
 	useSocket(SOCKET_IO_EVENT_RATE_OFF, res => {
-		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
+		if (res.status === responseStatus.ERROR) {
 			return;
 		}
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,

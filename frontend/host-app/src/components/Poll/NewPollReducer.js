@@ -1,3 +1,5 @@
+
+// todo refactoring
 const initialText = {
 	value: "",
 	error: false,

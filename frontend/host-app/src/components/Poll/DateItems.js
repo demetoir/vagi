@@ -74,6 +74,7 @@ const ColumnWrapper = styled.div`
 
 const MIN_ITEMS_COUNT = 2;
 
+// todo refactoring
 function DateItems({dates, onDateChange, onDeleteDate, onAddDate}) {
 	return (
 		<>

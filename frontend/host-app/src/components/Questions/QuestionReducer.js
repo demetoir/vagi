@@ -1,3 +1,4 @@
+// todo refactoring
 const QuestionsReducer = (state, action) => {
 	const actionTable = {
 		addNewQuestion: () => ({questions: [...state.questions, action.data]}),

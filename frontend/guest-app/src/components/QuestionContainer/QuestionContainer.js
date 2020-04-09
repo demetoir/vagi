@@ -4,7 +4,7 @@ import QuestionContainerTabBar from "./QuestionContainerTabBar.js";
 import useTabs from "../../hooks/useTabs.js";
 import AddQuestionInputButton from "./AddQuestionInputButton.js";
 import QuestionCardList from "../QuestionCard/QuestionCardList.js";
-import {socketClient} from "../../socket.io";
+import {socketClient} from "../../socket";
 import PaddingArea from "../atoms/PaddingArea.js";
 import QuestionCardEditMenuDrawer from "../QuestionCardEditMenuDrawer/QuestionCardEditMenuDrawer.js";
 import NewQuestionInputDrawer from "./NewQuestionInputDrawer.js";
@@ -18,7 +18,6 @@ import {
 } from "../../constants/question_action_types.js";
 import {SOCKET_IO_EVENT_QUESTION_REMOVE} from "../../constants/socket.io-event.js";
 import {POPULAR_TAB_IDX, RECENT_TAB_IDX} from "../../constants/Question_tab_inner_TabBar_idx.js";
-
 
 
 const QuestionContainerStyle = styled.div`

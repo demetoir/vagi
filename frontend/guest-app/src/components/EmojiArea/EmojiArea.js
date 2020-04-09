@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EmojiBadge from "./EmojiBadge.js";
 import EmojiPickerModal from "./EmojiPickerModal";
 import useCommonModal from "../CommonComponent/CommonModal/useCommonModal";
-import {socketClient} from "../../socket.io";
+import {socketClient} from "../../socket";
 import EmojiInsertButton from "./EmojiInsertButton.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
 
@@ -69,9 +69,9 @@ function EmojiArea(props) {
 	const emojiPickerModal = useCommonModal();
 
 	const onEmojiInstanceClick = (name, didIPick) => {
-		didIPick
-			? unPickEmoji(emojis, name, guestGlobal, QuestionId)
-			: pickEmoji(emojis, name, guestGlobal, QuestionId);
+		didIPick ?
+			unPickEmoji(emojis, name, guestGlobal, QuestionId) :
+			pickEmoji(emojis, name, guestGlobal, QuestionId);
 	};
 
 	const onSelectOfEmojiPicker = value => {

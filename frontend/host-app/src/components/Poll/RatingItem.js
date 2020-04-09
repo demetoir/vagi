@@ -21,6 +21,7 @@ const RowWrapper = styled.div`
 	align-items: center;
 `;
 
+// todo refactoring
 function RatingItem({nItems, state, selectionType}) {
 	return (
 		<ColumnWrapper>
