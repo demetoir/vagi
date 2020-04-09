@@ -20,50 +20,63 @@ export default class GuestController {
 		this.logger = logger;
 	}
 
-	/**
-	 *
-	 * @param req {express.Request}
-	 * @param res {express.Response}
-	 * @return {Promise<void>}
-	 */
-	async logIn(req, res) {
-		res.redirect(routePage.guest);
+	logIn() {
+		/**
+		 *
+		 * @param req {express.Request}
+		 * @param res {express.Response}
+		 * @return {Promise<void>}
+		 */
+		return async (req, res) => {
+			res.redirect(routePage.guest);
+
+			this.logger.info("guest login");
+		};
 	}
 
-	/**
-	 *
-	 * @param req {express.Request}
-	 * @param res {express.Response}
-	 * @return {Promise<void>}
-	 */
-	async logOut(req, res) {
-		res.clearCookie(CookieKeys.GUEST_APP).redirect(routePage.main);
+	logOut() {
+		/**
+		 *
+		 * @param req {express.Request}
+		 * @param res {express.Response}
+		 * @return {Promise<void>}
+		 */
+		return (req, res) => {
+			res.clearCookie(CookieKeys.GUEST_APP).redirect(routePage.main);
+
+			this.logger.info("guest logout");
+		};
 	}
 
-	/**
-	 *
-	 * @param req {express.Request}
-	 * @param res {express.Response}
-	 * @return {Promise<void>}
-	 */
-	async signUp(req, res) {
-		const path = req.params.encodedEventCode;
-		const eventCode = decodeEventCode(path);
-		const [isValid, event] = await validateEventCode(eventCode);
+	signUp() {
+		/**
+		 *
+		 * @param req {express.Request}
+		 * @param res {express.Response}
+		 * @return {Promise<void>}
+		 */
+		return async (req, res) => {
+			const path = req.params.encodedEventCode;
+			const eventCode = decodeEventCode(path);
+			const [isValid, event] = await validateEventCode(eventCode);
 
-		if (!isValid) {
-			return res.redirect(routePage.main);
-		}
+			if (!isValid) {
+				this.logger.info("sign up fail");
+				return res.redirect(routePage.main);
+			}
 
-		// todo need try catch
-		const eventId = event.id;
-		const guest = await createGuest(eventId);
+			// todo need try catch
+			const eventId = event.id;
+			const guest = await createGuest(eventId);
 
-		const payload = {guestSid: guest.guestSid};
-		const accessToken = guestJWTCookie.sign(payload);
-		const cookieOption = JWTCookieOptions.build();
+			const payload = {guestSid: guest.guestSid};
+			const accessToken = guestJWTCookie.sign(payload);
+			const cookieOption = JWTCookieOptions.build();
 
-		res.cookie(CookieKeys.GUEST_APP, accessToken, cookieOption);
-		return res.redirect(routePage.guest);
+			res.cookie(CookieKeys.GUEST_APP, accessToken, cookieOption);
+
+			this.logger.info("sign up success");
+			return res.redirect(routePage.guest);
+		};
 	}
 }
