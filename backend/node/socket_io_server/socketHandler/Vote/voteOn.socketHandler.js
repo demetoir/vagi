@@ -6,6 +6,7 @@ import {
 	SOCKET_IO_RESPONSE_STATE_OK,
 } from "../../../constants/socket.ioResponseState.js";
 
+// todo test
 const voteOnSocketHandler = async (data, emit) => {
 	try {
 		const {

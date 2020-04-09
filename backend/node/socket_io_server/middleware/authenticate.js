@@ -16,6 +16,7 @@ const isInValidAud = aud =>
 const isInValidIss = iss => iss !== tokenArgs.issuer;
 
 // todo refactoring
+// todo test
 async function verifyPayload(payload) {
 	const {aud, iss} = payload;
 
@@ -40,6 +41,7 @@ async function verifyPayload(payload) {
 	}
 }
 
+// todo test
 async function authenticate(socket, next) {
 	try {
 		const token = socket.handshake.query.token;

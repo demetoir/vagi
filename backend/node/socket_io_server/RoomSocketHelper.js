@@ -5,6 +5,7 @@ import {
 	SOCKET_IO_EVENT_LEAVE_ROOM,
 } from "../constants/socket.io-Events.js";
 
+// todo test
 const RoomSocketHelper = ({server, socket, handlerEventPair}) => {
 	const id = socket.id;
 	const currentRoom = null;
