@@ -20,6 +20,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -34,6 +35,9 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    testImplementation('junit:junit:4.13')
+    testCompile "org.mockito:mockito-core:1.+"
+    testCompile("org.assertj:assertj-core:3.11.1")
 }
 
 test {
