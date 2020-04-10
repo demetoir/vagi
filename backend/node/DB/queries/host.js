@@ -17,17 +17,6 @@ export async function findHostByOAuthId(oauthId) {
 
 /**
  *
- * @param oauthId {String}
- * @returns {Promise<boolean>}
- */
-export async function isExistHostOAuthId(oauthId) {
-	const host = await findHostByOAuthId(oauthId);
-
-	return !!host;
-}
-
-/**
- *
  * @param oauthId {string}
  * @param name {string|undefined}
  * @param image {string|undefined}
