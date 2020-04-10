@@ -1,43 +1,6 @@
 import {Strategy as RealStrategy} from "passport-google-oauth20";
 import {Strategy as MockStrategy} from "passport-mocked";
-import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
-import logger from "../logger.js";
-
-function extractProfile(profile) {
-	let imageUrl = "";
-
-	if (profile.photos && profile.photos.length) {
-		imageUrl = profile.photos[0].value;
-	}
-
-	return {
-		id: profile.id,
-		displayName: profile.displayName,
-		image: imageUrl,
-		email: profile.emails[0].value,
-	};
-}
-
-// todo add test
-const verifyFunc = async (accessToken, refreshToken, profile, cb) => {
-	try {
-		const {id, displayName, image, email} = extractProfile(profile);
-
-		logger.info(`google auth id ${id}`);
-
-		const host = await findOrCreateHostByOAuth({
-			oauthId: id,
-			name: displayName,
-			image,
-			email,
-		});
-
-		return cb(null, host);
-	} catch (error) {
-		logger.error(error, error.stack);
-		return cb(error, false);
-	}
-};
+import googleStrategyVerifyFunc from "./googleStrategyVerifyFunc.js";
 
 export default function googleStrategy(oAuthArgs) {
 	let options = oAuthArgs;
@@ -49,8 +12,8 @@ export default function googleStrategy(oAuthArgs) {
 			name: "google",
 		};
 
-		return new MockStrategy(options, verifyFunc);
+		return new MockStrategy(options, googleStrategyVerifyFunc);
 	} else {
-		return new RealStrategy(options, verifyFunc);
+		return new RealStrategy(options, googleStrategyVerifyFunc);
 	}
 }
