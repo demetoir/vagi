@@ -28,7 +28,7 @@ if (config.use_env_variable) {
 // import es6 base sequelize model
 // ref https://codewithhugo.com/using-es6-classes-for-sequelize-4-models/
 // pass your sequelize config here
-import Host from "./host.js";
+import HostModel from "./HostModel.js";
 import Emoji from "./emoji.js";
 import Event from "./event.js";
 import Guest from "./guest.js";
@@ -41,7 +41,7 @@ import Candidate from "./candidate.js";
 
 // init all sequelize model
 const models = {
-	Host: Host.init(sequelize, Sequelize),
+	Host: HostModel.init(sequelize, Sequelize),
 	Event: Event.init(sequelize, Sequelize),
 	Emoji: Emoji.init(sequelize, Sequelize),
 	Guest: Guest.init(sequelize, Sequelize),
@@ -63,6 +63,7 @@ const db = {
 	...models,
 	sequelize,
 	sequelizeSingleton: sequelize,
+	modelsSingleton:models,
 	modelList: Object.values(models),
 };
 

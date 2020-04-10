@@ -1,6 +1,6 @@
 import {Model} from "sequelize";
 
-export default class Host extends Model {
+export default class HostModel extends Model {
 	static init(sequelize, DataTypes) {
 		return super.init(
 			{
@@ -40,5 +40,37 @@ export default class Host extends Model {
 
 	static associate(models) {
 		models.Host.hasMany(models.Event);
+	}
+
+	/**
+	 *
+	 * @param oauthId {String}
+	 * @returns {Promise<Model<any, any>|any>}
+	 */
+	static async findByOAuthId(oauthId) {
+		let res = await this.findOne({where: {oauthId}});
+
+		if (res !== null) {
+			res = res.get({plain: true});
+		}
+
+		return res;
+	}
+
+	/**
+	 *
+	 * @param oauthId {string}
+	 * @param name {string|undefined}
+	 * @param image {string|undefined}
+	 * @param email {string|undefined}
+	 * @returns {Promise<object>}
+	 */
+	static async findOrCreatByOAuth({oauthId, name, image, email}) {
+		const res = await this.findOrCreate({
+			where: {oauthId},
+			defaults: {name, image, email, emailFeedBack: false},
+		});
+
+		return res[0].get({plain: true});
 	}
 }
