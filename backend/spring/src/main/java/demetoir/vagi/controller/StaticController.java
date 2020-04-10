@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Log
 public class StaticController {
-
   @RequestMapping("/main-app")
   public String mainAppServe() {
     log.info("redirect to main-app");
