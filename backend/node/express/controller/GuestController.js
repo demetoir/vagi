@@ -11,6 +11,7 @@ function decodeEventCode(path) {
 	return Buffer.from(path, "base64").toString();
 }
 
+// todo test
 export default class GuestController {
 	/**
 	 *

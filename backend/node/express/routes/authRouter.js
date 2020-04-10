@@ -17,21 +17,24 @@ authRouter.get(
 	}),
 );
 
+// todo
+const googleAuthCallbackController = (req, res) => {
+	const {user} = req;
+
+	const payload = {oauthId: user.oauthId};
+	const accessToken = hostJWTCookie.sign(payload);
+	const options = JWTCookieOptions.build();
+
+	res.cookie(CookieKeys.HOST_APP, accessToken, options);
+	res.redirect(routePage.host);
+};
+
 authRouter.get(
 	"/google/callback",
 	passport.authenticate("google", {
 		session: false,
 	}),
-	(req, res) => {
-		const {user} = req;
-
-		const payload = {oauthId: user.oauthId};
-		const accessToken = hostJWTCookie.sign(payload);
-		const options = JWTCookieOptions.build();
-
-		res.cookie(CookieKeys.HOST_APP, accessToken, options);
-		res.redirect(routePage.host);
-	},
+	googleAuthCallbackController,
 );
 
 export default authRouter;

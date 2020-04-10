@@ -7,6 +7,7 @@ import {QUESTION_STATE_ACTIVE} from "../../../constants/questionState.js";
 
 const QUESTION_STATE_MODERATION = "moderation";
 
+// todo test
 function toQuestionRequestDTO({
 	EventId,
 	GuestId,

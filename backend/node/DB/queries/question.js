@@ -3,10 +3,8 @@ import models from "../models";
 import logger from "../logger.js";
 import {QUESTION_STATE_ACTIVE} from "../../constants/questionState.js";
 
-const sequelize = models.sequelize;
+const sequelize = models.sequelizeSingleton;
 const Op = Sequelize.Op;
-// noinspection JSUnresolvedVariable
-const Question = models.Question;
 
 /**
  *
@@ -24,7 +22,7 @@ export async function createQuestion({
 	QuestionId,
 	state = QUESTION_STATE_ACTIVE,
 }) {
-	const res = await Question.create({
+	const res = await models.Question.create({
 		content,
 		EventId,
 		GuestId,
@@ -41,7 +39,7 @@ export async function createQuestion({
  * @returns {Promise<object[]>}
  */
 export async function getQuestionsByEventId(EventId) {
-	const res = await Question.findAll({
+	const res = await models.Question.findAll({
 		where: {EventId},
 	});
 
@@ -54,7 +52,7 @@ export async function getQuestionsByEventId(EventId) {
  * @returns {Promise<object[]>}
  */
 export async function getQuestionReplyByEventId(EventId) {
-	const res = await Question.findAll({
+	const res = await models.Question.findAll({
 		where: {EventId, QuestionId: {[Op.ne]: null}},
 	});
 
@@ -67,7 +65,7 @@ export async function getQuestionReplyByEventId(EventId) {
  * @returns {Promise<object[]>}
  */
 export async function getQuestionByGuestId(GuestId) {
-	const res = await Question.findAll({
+	const res = await models.Question.findAll({
 		where: {GuestId},
 	});
 
@@ -80,7 +78,7 @@ export async function getQuestionByGuestId(GuestId) {
  * @returns {Promise<number>}
  */
 export async function deleteQuestionById(id) {
-	return Question.destroy({where: {id}});
+	return models.Question.destroy({where: {id}});
 }
 
 /**
@@ -92,7 +90,7 @@ export async function deleteQuestionById(id) {
  * @returns {Promise<number>}
  */
 export async function updateQuestionById({id, content, state, isStared}) {
-	return Question.update(
+	return models.Question.update(
 		{
 			content,
 			state,
@@ -114,14 +112,14 @@ export async function updateQuestionIsStared({from, to}) {
 
 	try {
 		if (from) {
-			await Question.update(
+			await models.Question.update(
 				{isStared: false},
 				{where: {id: from}},
 				{transaction},
 			);
 		}
 
-		await Question.update(
+		await models.Question.update(
 			{isStared: true},
 			{where: {id: to}},
 			{transaction},
@@ -143,7 +141,7 @@ export async function updateQuestionIsStared({from, to}) {
  * @returns {Promise<object|null>}
  */
 export async function getQuestionById(id) {
-	let res = await Question.findOne({where: {id}});
+	let res = await models.Question.findOne({where: {id}});
 
 	if (res) {
 		res = res.get({plain: true});
@@ -154,5 +152,5 @@ export async function getQuestionById(id) {
 
 // todo implement test code
 export async function updateQuestionsByStateAndEventId({from, to, EventId}) {
-	return Question.update({state: to}, {where: {state: from, EventId}});
+	return models.Question.update({state: to}, {where: {state: from, EventId}});
 }

@@ -1,3 +1,4 @@
+// todo test
 export default class RedisJSONCache {
 	constructor(type, onMiss = () => null, redisClient = undefined) {
 		this.type = type;

@@ -2,6 +2,7 @@ import {updateQuestionById} from "../../../DB/queries/question";
 import logger from "../../logger.js";
 import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
 
+// todo test
 const moveQuestionSocketHandler = async (data, emit) => {
 	try {
 		const {id, to} = data;

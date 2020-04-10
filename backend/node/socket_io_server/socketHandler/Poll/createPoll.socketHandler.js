@@ -5,6 +5,7 @@ import {
 	SOCKET_IO_RESPONSE_STATE_OK,
 } from "../../../constants/socket.ioResponseState.js";
 
+// todo test
 const createPollSocketHandler = async (data, emit) => {
 	try {
 		const {

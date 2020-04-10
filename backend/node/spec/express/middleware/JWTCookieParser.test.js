@@ -1,6 +1,6 @@
 import assert from "assert";
 import sinon from "sinon";
-import {describe, it, beforeEach} from "mocha";
+import {beforeEach, describe, it} from "mocha";
 
 import JWTCookieParser from "../../../express/middleware/JWTCookieParser.js";
 
@@ -13,6 +13,14 @@ describe(`express middleware JWTCookieParser`, () => {
 	beforeEach(() => {
 		nextSpy.resetHistory();
 		loggerSpy.resetHistory();
+	});
+
+	it("build middleware", async () => {
+		// when
+		const middleware = JWTCookieParser(cookieKey, logger);
+
+		assert.notEqual(middleware, undefined);
+		assert.equal(typeof middleware, "function");
 	});
 
 	describe("call next", () => {

@@ -18,6 +18,7 @@ function extractProfile(profile) {
 	};
 }
 
+// todo add test
 const verifyFunc = async (accessToken, refreshToken, profile, cb) => {
 	try {
 		const {id, displayName, image, email} = extractProfile(profile);

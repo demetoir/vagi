@@ -8,9 +8,7 @@ import {
 } from "../../constants/pollState.js";
 import {POLL_TYPE_N_ITEMS} from "../../constants/pollType.js";
 
-const sequelize = models.sequelize;
-// noinspection JSUnresolvedVariable
-const Poll = models.Poll;
+const sequelize = models.sequelizeSingleton;
 
 /**
  *
@@ -19,7 +17,7 @@ const Poll = models.Poll;
  */
 export async function openPoll(id) {
 	// result should be == [1], 1개의 row가 성공했다는 의미
-	const result = await Poll.update(
+	const result = await models.Poll.update(
 		{
 			state: POLL_STATE_RUNNING,
 			pollDate: new Date(),
@@ -39,7 +37,7 @@ export async function openPoll(id) {
  */
 export async function closePoll(id) {
 	// result should be == [1], 1개의 row가 성공했다는 의미
-	const result = await Poll.update(
+	const result = await models.Poll.update(
 		{
 			state: POLL_STATE_CLOSED,
 		},
@@ -57,7 +55,7 @@ export async function closePoll(id) {
  * @return {Promise<Object[]>}
  */
 export async function getPollsByEventId(EventId) {
-	const res = await Poll.findAll({
+	const res = await models.Poll.findAll({
 		where: {EventId},
 		order: [["id", "DESC"]],
 	});
@@ -89,7 +87,7 @@ export async function createPoll(
 	},
 	transaction = undefined,
 ) {
-	const result = await Poll.create(
+	const result = await models.Poll.create(
 		{
 			EventId,
 			pollName,

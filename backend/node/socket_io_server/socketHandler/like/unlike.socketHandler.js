@@ -1,5 +1,6 @@
 import {deleteLikeBy} from "../../../DB/queries/like.js";
 
+// todo test
 const handler = async (data, emit) => {
 	const {GuestId, QuestionId} = data;
 

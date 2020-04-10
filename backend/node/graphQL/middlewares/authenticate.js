@@ -8,6 +8,8 @@ import {
 import config from "../config/config.js";
 import {getGuestByGuestSid} from "../../DB/queries/guest.js";
 
+
+// todo test
 const authenticate = async (resolve, root, args, context, info) => {
 	const jwtToken = context.request.headers.authorization;
 	const secret = config.tokenArgs.secret;

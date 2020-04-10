@@ -3,6 +3,7 @@ import eventCache from "../../EventCache";
 import logger from "../../logger.js";
 import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
 
+// todo test
 const initOptionSocketHandler = async (data, emit) => {
 	try {
 		const currentState = await getEventOptionByEventId(data);
