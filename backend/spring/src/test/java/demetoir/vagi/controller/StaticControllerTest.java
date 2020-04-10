@@ -1,5 +1,6 @@
 package demetoir.vagi.controller;
 
+import demetoir.vagi.config.RedirectPathConfig;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,15 @@ class StaticControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
+  @Autowired private RedirectPathConfig redirectPathConfig;
+
   @Before
   public void before() {}
 
   @Test
-  void ableToRun() {
+  void ableToDI() {
     assertThat(staticController).isNotNull();
+    assertThat(redirectPathConfig).isNotNull();
   }
 
   @Test
@@ -33,22 +37,26 @@ class StaticControllerTest {
     this.mockMvc
         .perform(get("/main-app"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("http://localhost:5000"));
+        .andExpect(redirectedUrl(redirectPathConfig.getMainApp()));
   }
 
   @Test
   void hostAppServe() throws Exception {
+
+
     this.mockMvc
         .perform(get("/host-app"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("http://localhost:5001"));
+        .andExpect(redirectedUrl(this.redirectPathConfig.getHostApp()));
   }
 
   @Test
   void guestAppServe() throws Exception {
+    String redirectPath = this.redirectPathConfig.getGuestApp();
+
     this.mockMvc
         .perform(get("/guest-app"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl("http://localhost:5002"));
+        .andExpect(redirectedUrl(redirectPath));
   }
 }
