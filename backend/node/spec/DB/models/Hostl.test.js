@@ -4,7 +4,7 @@ import {findHostByOAuthId} from "../../../DB/queries/host.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 import {Host} from "../../../DB/modelsSingleton.js";
 
-describe("DB HostModel", () => {
+describe("DB Host", () => {
 	new SequelizeTestHelper().autoSetup();
 
 	it("sequelize setup", async () => {

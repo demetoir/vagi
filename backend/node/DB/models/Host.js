@@ -1,6 +1,6 @@
 import {Model} from "sequelize";
 
-export default class HostModel extends Model {
+export default class Host extends Model {
 	static init(sequelize, DataTypes) {
 		return super.init(
 			{
