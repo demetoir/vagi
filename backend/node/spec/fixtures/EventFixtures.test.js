@@ -36,6 +36,14 @@ describe(`event fixture`, () => {
 			assert.deepStrictEqual(event, real);
 			assert.equal(isActiveEvent(event), true);
 		});
+
+		it("must unique", async () => {
+			const host = await HostFixtures.host();
+			const event1 = await EventFixtures.activeEvent(host);
+			const event2 = await EventFixtures.activeEvent(host);
+
+			assert.notDeepStrictEqual(event1, event2);
+		});
 	});
 
 	describe("closed event", () => {
@@ -55,6 +63,14 @@ describe(`event fixture`, () => {
 
 			assert.deepStrictEqual(event, real);
 			assert.equal(isActiveEvent(event), false);
+		});
+
+		it("must unique", async () => {
+			const host = await HostFixtures.host();
+			const event1 = await EventFixtures.closedEvent(host);
+			const event2 = await EventFixtures.closedEvent(host);
+
+			assert.notDeepStrictEqual(event1, event2);
 		});
 	});
 });
