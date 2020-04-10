@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Component
 public class RedirectPathConfig {
+  // todo should inject different by mode
 
   @Value("${redirectPath.mainApp}")
   private String mainApp;
