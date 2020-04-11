@@ -8,28 +8,28 @@ import org.springframework.core.env.Environment;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class RedirectPathConfigTest {
-  @Autowired private RedirectPathConfig redirectPathConfig;
+class ReactAppRedirectURLConfigTest {
+  @Autowired private ReactAppRedirectURLConfig reactAppRedirectURLConfig;
 
   @Autowired Environment environment;
 
   @Test
   void di() {
-    assertThat(redirectPathConfig).isNotNull();
+    assertThat(reactAppRedirectURLConfig).isNotNull();
   }
 
   @Test
   void mainApp() {
-    assertThat(redirectPathConfig.getMainApp()).isNotNull();
+    assertThat(reactAppRedirectURLConfig.getMainAppURL()).isNotNull();
   }
 
   @Test
   void hostApp() {
-    assertThat(redirectPathConfig.getHostApp()).isNotNull();
+    assertThat(reactAppRedirectURLConfig.getHostAppURL()).isNotNull();
   }
 
   @Test
   void guestApp() {
-    assertThat(redirectPathConfig.getGuestApp()).isNotNull();
+    assertThat(reactAppRedirectURLConfig.getGuestAppURL()).isNotNull();
   }
 }
