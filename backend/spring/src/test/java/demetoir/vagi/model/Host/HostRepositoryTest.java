@@ -15,10 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 class HostRepositoryTest {
   @Autowired HostRepository hostRepository;
+  @Autowired JpaAuditingConfig jpaAuditingConfig;
 
   @Test
   void di() {
     assertThat(hostRepository).isNotNull();
+    assertThat(jpaAuditingConfig).isNotNull();
   }
 
   @Test

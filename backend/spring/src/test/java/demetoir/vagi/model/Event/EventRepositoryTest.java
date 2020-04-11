@@ -23,10 +23,13 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 class EventRepositoryTest {
   @Autowired EventRepository eventRepository;
   @Autowired HostRepository hostRepository;
+  @Autowired JpaAuditingConfig jpaAuditingConfig;
 
   @Test
   void di() {
     assertThat(eventRepository).isNotNull();
+    assertThat(hostRepository).isNotNull();
+    assertThat(jpaAuditingConfig).isNotNull();
   }
 
   // todo
