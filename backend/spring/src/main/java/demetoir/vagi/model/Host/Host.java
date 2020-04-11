@@ -2,19 +2,27 @@ package demetoir.vagi.model.Host;
 
 import demetoir.vagi.model.Event.Event;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
+// lombok
 @Getter
 @Setter
-@Entity
-@ToString
+@ToString(exclude = "events")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
+// auditing
+@EntityListeners(value = {AuditingEntityListener.class})
+// JPA
+@Entity
 @Table(name = "Hosts")
 public class Host {
 
@@ -38,12 +46,14 @@ public class Host {
   @Column(name = "emailFeedBack")
   private Boolean emailFeedBack;
 
-  @Column(name = "createdAt")
+  @CreatedDate
+  @Column(name = "createdAt", nullable = false)
   private Timestamp createdAt;
 
-  @Column(name = "updatedAt")
+  @LastModifiedDate
+  @Column(name = "updatedAt", nullable = false)
   private Timestamp updatedAt;
 
   @OneToMany(mappedBy = "host", fetch = FetchType.LAZY)
-  private Collection<Event> events;
+  private Set<Event> events = new HashSet<>();
 }

@@ -32,6 +32,7 @@ class HostDTOTest {
 
   @Test
   void toEntity() {
+    var id = 12;
     var image = "image";
     var oauthId = "oauth";
     var name = "name";
@@ -42,6 +43,7 @@ class HostDTOTest {
             .image(image)
             .oauthId(oauthId)
             .name(name)
+            .id(id)
             .email(email)
             .emailFeedBack(emailFeedBack)
             .build();
@@ -54,5 +56,30 @@ class HostDTOTest {
     assertThat(host.getName()).isEqualTo(name);
     assertThat(host.getEmail()).isEqualTo(email);
     assertThat(host.getEmailFeedBack()).isEqualTo(emailFeedBack);
+  }
+
+  @Test
+  void fromEntity() {
+    var id = 12;
+    var image = "image";
+    var oauthId = "oauth";
+    var name = "name";
+    var email = "email";
+    var emailFeedBack = false;
+    var oldHostDto =
+        HostDTO.builder()
+            .id(id)
+            .image(image)
+            .oauthId(oauthId)
+            .name(name)
+            .email(email)
+            .emailFeedBack(emailFeedBack)
+            .build();
+
+    var host = oldHostDto.toEntity();
+
+    var hostDto = HostDTO.fromEntity(host);
+
+    assertThat(hostDto).isEqualTo(oldHostDto);
   }
 }
