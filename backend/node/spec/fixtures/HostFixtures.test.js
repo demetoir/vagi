@@ -24,5 +24,12 @@ describe(`host fixture`, () => {
 
 			assert.deepStrictEqual(host, realHost);
 		});
+
+		it("make unique", async () => {
+			const host1 = await HostFixtures.host();
+			const host2 = await HostFixtures.host();
+
+			assert.notDeepStrictEqual(host1, host2);
+		});
 	});
 });

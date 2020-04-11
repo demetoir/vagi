@@ -8,35 +8,55 @@ import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 import models from "../../../DB/models";
 import hostpageResolvers from "../../../graphQL/model/hostpage/hostpage.resolver.js";
 import {AUTHORITY_TYPE_HOST} from "../../../constants/authorityTypes.js";
-import {findOrCreateEvent} from "../../../DB/queries/event.js";
-import {findOrCreateHostByOAuth} from "../../../DB/queries/host.js";
 import {createHashtag} from "../../../DB/queries/hashtag.js";
+import HostFixtures from "../../fixtures/HostFixtures.js";
+import EventFixtures from "../../fixtures/EventFixtures.js";
 
 describe("graphql yoga hostpage model", () => {
 	new SequelizeTestHelper().autoSetup();
 	const gqlTester = new EasyGraphQLTester(typeDefs, resolvers);
 
 	describe("init", () => {
+		const query = gql`
+			query get_init {
+				init {
+					host {
+						id
+						oauthId
+						name
+						email
+						emailFeedBack
+						image
+					}
+					events {
+						id
+						eventCode
+						eventName
+						moderationOption
+						replyOption
+						createdAt
+						updatedAt
+						startAt
+						endAt
+						HostId
+						HashTags {
+							id
+							name
+							createdAt
+							updatedAt
+							EventId
+						}
+					}
+				}
+			}
+		`;
+
 		it("query", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
-
-			const HostId = host.id;
-			const event1 = await findOrCreateEvent({
-				eventCode: "eventCode1",
-				eventName: "eventname1",
-				HostId,
-			});
-			const event2 = await findOrCreateEvent({
-				eventCode: "eventCode2",
-				eventName: "eventname2",
-				HostId,
-			});
+			const oauthId = "oauthId";
+			const host = await HostFixtures.host(oauthId);
+			const event1 = await EventFixtures.activeEvent(host);
+			const event2 = await EventFixtures.activeEvent(host);
 			const hashtag1 = await createHashtag({
 				name: "one",
 				EventId: event1.id,
@@ -45,43 +65,9 @@ describe("graphql yoga hostpage model", () => {
 				name: "two",
 				EventId: event2.id,
 			});
-
 			const GuestId = null;
 
 			// gql input
-			const query = gql`
-                query get_init {
-                    init {
-                        host {
-                            id
-                            oauthId
-                            name
-                            email
-                            emailFeedBack
-                            image
-                        }
-                        events {
-                            id
-                            eventCode
-                            eventName
-                            moderationOption
-                            replyOption
-                            createdAt
-                            updatedAt
-                            startAt
-                            endAt
-                            HostId
-                            HashTags {
-                                id
-                                name
-                                createdAt
-                                updatedAt
-                                EventId
-                            }
-                        }
-                    }
-                }
-			`;
 			const variables = {
 				GuestId,
 			};
@@ -165,40 +151,6 @@ describe("graphql yoga hostpage model", () => {
 		});
 
 		it("schema", async () => {
-			const query = gql`
-                query get_init {
-                    init {
-                        host {
-                            id
-                            oauthId
-                            name
-                            email
-                            emailFeedBack
-                            image
-                        }
-                        events {
-                            id
-                            eventCode
-                            eventName
-                            moderationOption
-                            replyOption
-                            createdAt
-                            updatedAt
-                            startAt
-                            endAt
-                            HostId
-                            HashTags {
-                                id
-                                name
-                                createdAt
-                                updatedAt
-                                EventId
-                            }
-                        }
-                    }
-                }
-			`;
-
 			const variables = {};
 
 			await gqlTester.test(true, query, variables);
@@ -206,24 +158,10 @@ describe("graphql yoga hostpage model", () => {
 
 		it("resolver", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
-
-			const HostId = host.id;
-			const event1 = await findOrCreateEvent({
-				eventCode: "eventCode1",
-				eventName: "eventname1",
-				HostId,
-			});
-			const event2 = await findOrCreateEvent({
-				eventCode: "eventCode2",
-				eventName: "eventname2",
-				HostId,
-			});
+			const oauthId = "oauthId";
+			const host = await HostFixtures.host(oauthId);
+			const event1 = await EventFixtures.activeEvent(host);
+			const event2 = await EventFixtures.activeEvent(host);
 			const hashtag1 = await createHashtag({
 				name: "one",
 				EventId: event1.id,
@@ -254,29 +192,21 @@ describe("graphql yoga hostpage model", () => {
 	});
 
 	describe("getEventOption", () => {
+		const query = gql`
+			query get_init($EventId: ID!) {
+				getEventOption(EventId: $EventId) {
+					moderationOption
+					replyOption
+				}
+			}
+		`;
+
 		it("query", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
-			const HostId = host.id;
-			const event1 = await findOrCreateEvent({
-				eventCode: "eventCode1",
-				eventName: "eventname1",
-				HostId,
-			});
+			const host = await HostFixtures.host();
+			const event1 = await EventFixtures.activeEvent(host);
 			// gql input
-			const query = gql`
-                query get_init($EventId: ID!) {
-                    getEventOption(EventId: $EventId) {
-                        moderationOption
-                        replyOption
-                    }
-                }
-			`;
+
 			const variables = {
 				EventId: event1.id,
 			};
@@ -304,15 +234,6 @@ describe("graphql yoga hostpage model", () => {
 		});
 
 		it("schema", async () => {
-			const query = gql`
-                query get_init($EventId: ID!) {
-                    getEventOption(EventId: $EventId) {
-                        moderationOption
-                        replyOption
-                    }
-                }
-			`;
-
 			const variables = {
 				EventId: 2,
 			};
@@ -322,18 +243,8 @@ describe("graphql yoga hostpage model", () => {
 
 		it("resolver", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
-			const HostId = host.id;
-			const event1 = await findOrCreateEvent({
-				eventCode: "eventCode1",
-				eventName: "eventname1",
-				HostId,
-			});
+			const host = await HostFixtures.host();
+			const event1 = await EventFixtures.activeEvent(host);
 
 			// when
 			const result = await hostpageResolvers.Query.getEventOption(null, {
@@ -351,37 +262,28 @@ describe("graphql yoga hostpage model", () => {
 	});
 
 	describe("createHashTags", () => {
+		const query = gql`
+			mutation Mutation($hashTags: [HashTagInput]!) {
+				createHashTags(hashTags: $hashTags) {
+					id
+					name
+					createdAt
+					updatedAt
+					EventId
+				}
+			}
+		`;
+
 		it("mutate", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
-			const HostId = host.id;
-			const event1 = await findOrCreateEvent({
-				eventCode: "eventCode1",
-				eventName: "eventname1",
-				HostId,
-			});
-
+			const host = await HostFixtures.host();
+			const event1 = await EventFixtures.activeEvent(host);
 			const EventId = event1.id;
 			const hashTagName = "tag1";
 			const hashTags = [{name: hashTagName, EventId}];
 
 			// gql input
-			const query = gql`
-                mutation Mutation($hashTags: [HashTagInput]!) {
-                    createHashTags(hashTags: $hashTags) {
-                        id
-                        name
-                        createdAt
-                        updatedAt
-                        EventId
-                    }
-                }
-			`;
+
 			const variables = {
 				hashTags,
 			};
@@ -405,18 +307,6 @@ describe("graphql yoga hostpage model", () => {
 		});
 
 		it("schema", async () => {
-			const query = gql`
-                mutation Mutation($hashTags: [HashTagInput]!) {
-                    createHashTags(hashTags: $hashTags) {
-                        id
-                        name
-                        createdAt
-                        updatedAt
-                        EventId
-                    }
-                }
-			`;
-
 			const variables = {
 				hashTags: [{name: "name", EventId: 2}],
 			};
@@ -426,18 +316,8 @@ describe("graphql yoga hostpage model", () => {
 
 		it("resolver", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
-			const HostId = host.id;
-			const event1 = await findOrCreateEvent({
-				eventCode: "eventCode1",
-				eventName: "eventname1",
-				HostId,
-			});
+			const host = await HostFixtures.host();
+			const event1 = await EventFixtures.activeEvent(host);
 			const context = {sub: AUTHORITY_TYPE_HOST, info: host};
 			const EventId = event1.id;
 			const hashTagName = "tag1";
@@ -466,14 +346,25 @@ describe("graphql yoga hostpage model", () => {
 	});
 
 	describe("findOrCreateEvent", () => {
+		// gql input
+		const query = gql`
+			mutation Query($info: EventInfo!) {
+				createEvent(info: $info) {
+					id
+					eventCode
+					eventName
+					moderationOption
+					replyOption
+					endAt
+					startAt
+					HostId
+				}
+			}
+		`;
+
 		it("mutate", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
+			const host = await HostFixtures.host();
 			const HostId = host.id;
 			const eventName = "eventName";
 			const startAt = new Date().toISOString();
@@ -486,21 +377,6 @@ describe("graphql yoga hostpage model", () => {
 				endAt,
 			};
 
-			// gql input
-			const query = gql`
-                mutation Query($info: EventInfo!) {
-                    createEvent(info: $info) {
-                        id
-                        eventCode
-                        eventName
-                        moderationOption
-                        replyOption
-                        endAt
-                        startAt
-                        HostId
-                    }
-                }
-			`;
 			const variables = {
 				info,
 			};
@@ -535,21 +411,6 @@ describe("graphql yoga hostpage model", () => {
 		});
 
 		it("scheme", async () => {
-			const query = gql`
-                mutation Query($info: EventInfo!) {
-                    createEvent(info: $info) {
-                        id
-                        eventCode
-                        eventName
-                        moderationOption
-                        replyOption
-                        endAt
-                        startAt
-                        HostId
-                    }
-                }
-			`;
-
 			const variables = {
 				info: {
 					HostId: 0,
@@ -564,12 +425,7 @@ describe("graphql yoga hostpage model", () => {
 
 		it("resolver", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
+			const host = await HostFixtures.host();
 			const HostId = host.id;
 			const eventName = "eventName";
 			const startAt = new Date().toISOString();
@@ -602,50 +458,43 @@ describe("graphql yoga hostpage model", () => {
 	});
 
 	describe("updateEvent", () => {
+		const query = gql`
+			mutation Mutation($event: EventUpdate!) {
+				updateEvent(event: $event) {
+					id
+					eventCode
+					eventName
+					moderationOption
+					replyOption
+					endAt
+					startAt
+					HostId
+				}
+			}
+		`;
+
 		it("mutate", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
+			const host = await HostFixtures.host();
 			const HostId = host.id;
-			const eventName = "eventName";
-			const eventCode = "eventCode";
+			const newEventName = "eventName";
 
-			const event = await findOrCreateEvent({
-				eventName,
-				eventCode,
-				HostId,
-			});
+			const event = await EventFixtures.activeEvent(host);
 			const EventId = event.id;
-
 			const startAt = new Date().toISOString();
 			const endAt = new Date().toISOString();
 
 			// gql input
-			const query = gql`
-                mutation Mutation($event: EventUpdate!) {
-                    updateEvent(event: $event) {
-                        id
-                        eventCode
-                        eventName
-                        moderationOption
-                        replyOption
-                        endAt
-                        startAt
-                        HostId
-                    }
-                }
-			`;
+
+			const newEvent = {
+				EventId,
+				eventName: newEventName,
+				startAt,
+				endAt,
+			};
+
 			const variables = {
-				event: {
-					EventId,
-					eventName,
-					startAt,
-					endAt,
-				},
+				event: newEvent,
 			};
 			const context = {sub: AUTHORITY_TYPE_HOST, ...host};
 			const root = null;
@@ -665,7 +514,7 @@ describe("graphql yoga hostpage model", () => {
 				data: {updateEvent: result},
 			} = gqlResult;
 
-			assert.equal(result.eventName, eventName);
+			assert.equal(result.eventName, newEventName);
 			assert.equal(result.HostId, HostId);
 			assert.equal(result.id, EventId);
 			assert.equal(
@@ -679,21 +528,6 @@ describe("graphql yoga hostpage model", () => {
 		});
 
 		it("schema", async () => {
-			const query = gql`
-                mutation Mutation($event: EventUpdate!) {
-                    updateEvent(event: $event) {
-                        id
-                        eventCode
-                        eventName
-                        moderationOption
-                        replyOption
-                        endAt
-                        startAt
-                        HostId
-                    }
-                }
-			`;
-
 			const variables = {
 				event: {
 					EventId: 0,
@@ -708,27 +542,16 @@ describe("graphql yoga hostpage model", () => {
 
 		it("resolve", async () => {
 			// given
-			const host = await findOrCreateHostByOAuth({
-				oauthId: "oauthId",
-				email: "email",
-				image: "image",
-				name: "host name",
-			});
+			// given
+			const host = await HostFixtures.host();
 			const HostId = host.id;
-			const eventName = "eventName";
-			const eventCode = "eventCode";
+			const newEventName = "eventName";
 
-			const event = await findOrCreateEvent({
-				eventName,
-				eventCode,
-				HostId,
-			});
+			const event = await EventFixtures.activeEvent(host);
 			const EventId = event.id;
-
 			const startAt = new Date().toISOString();
 			const endAt = new Date().toISOString();
-
-			const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+			const context = {sub: AUTHORITY_TYPE_HOST, ...host};
 
 			// when
 			const result = await hostpageResolvers.Mutation.updateEvent(
@@ -736,7 +559,7 @@ describe("graphql yoga hostpage model", () => {
 				{
 					event: {
 						EventId,
-						eventName,
+						eventName: newEventName,
 						startAt,
 						endAt,
 					},
@@ -745,7 +568,7 @@ describe("graphql yoga hostpage model", () => {
 			);
 
 			// than
-			assert.equal(result.eventName, eventName);
+			assert.equal(result.eventName, newEventName);
 			assert.equal(result.HostId, HostId);
 			assert.equal(result.id, EventId);
 			assert.equal(result.startAt.toISOString(), startAt);

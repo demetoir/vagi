@@ -1,11 +1,18 @@
-import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
+import {Host} from "../../DB/modelsSingleton.js";
+
+let count = 0;
+
+function getCount() {
+	count += 1;
+	return count;
+}
 
 export default class HostFixtures {
 	static async host(oauthId = null) {
-		const name = "name";
-		const image = "image";
-		const email = "email";
+		const name = `name${getCount()}`;
+		const image = `image${getCount()}`;
+		const email = `email${getCount()}`;
 
-		return findOrCreateHostByOAuth({oauthId, name, image, email});
+		return Host.findOrCreatByOAuth({oauthId, name, image, email});
 	}
 }
