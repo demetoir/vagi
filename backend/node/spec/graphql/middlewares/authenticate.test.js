@@ -14,7 +14,13 @@ describe("graphql middleware authenticate", () => {
 
 	let context = {};
 
-	it("pass ", () => {
+	it("pass on valid guest", () => {
+		const a = authenticate();
+
+		assert(true);
+	});
+
+	it("pass on valid host", () => {
 		const a = authenticate();
 
 		assert(true);
