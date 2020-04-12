@@ -1,7 +1,40 @@
 import AbstractModelQuery from "../AbstructModelQuery.js";
-import {plainFindAll, plainOne, plainFindOrCreate} from "../../utils.js";
+import {plainFindAll, plainFindOrCreate, plainOne} from "../../utils.js";
 
 export default class EventQuery extends AbstractModelQuery {
+	/**
+	 *
+	 * @param eventName
+	 * @param eventCode
+	 * @param HostId
+	 * @param moderationOption
+	 * @param replyOption
+	 * @param startAt
+	 * @param endAt
+	 * @return {Promise<object>}
+	 */
+	async create({
+		eventName,
+		eventCode,
+		HostId,
+		moderationOption = false,
+		replyOption = false,
+		startAt = new Date(),
+		endAt = new Date(),
+	}) {
+		const res = await this.models.Event.create({
+			eventCode,
+			eventName,
+			HostId,
+			moderationOption,
+			replyOption,
+			startAt,
+			endAt,
+		});
+
+		return plainOne(res);
+	}
+
 	/**
 	 *
 	 * @param id
@@ -21,7 +54,7 @@ export default class EventQuery extends AbstractModelQuery {
 	 *
 	 * @returns {Promise<object[]>}
 	 */
-	async getAllEvents() {
+	async findAll() {
 		const res = await this.models.Event.findAll();
 
 		return plainFindAll(res);
@@ -93,7 +126,7 @@ export default class EventQuery extends AbstractModelQuery {
 	 * @param hostId {number|null}
 	 * @returns {Promise<object[]>}
 	 */
-	async getEventsByHostId(hostId) {
+	async findAllByHostId(hostId) {
 		const res = this.models.Event.findAll({
 			where: {HostId: hostId},
 		});
@@ -106,7 +139,7 @@ export default class EventQuery extends AbstractModelQuery {
 	 * @param eventCode {string}
 	 * @returns {Promise<Object|null>}
 	 */
-	async getEventByEventCode(eventCode) {
+	async findOneByEventCode(eventCode) {
 		const res = await this.models.Event.findOne({
 			where: {
 				eventCode,
@@ -121,7 +154,7 @@ export default class EventQuery extends AbstractModelQuery {
 	 * @param id {number}
 	 * @returns {Promise<Model<any, any>|null|any>}
 	 */
-	async getEventById(id) {
+	async findById(id) {
 		const res = await this.models.Event.findOne({
 			where: {
 				id,
