@@ -1,6 +1,7 @@
 import uuidv1 from "uuid/v1";
 import models from "../models";
 import getRandomGuestName from "../dummy/RandomGuestName";
+import {plainFindAll, plainOne} from "../utils.js";
 
 /**
  *
@@ -8,13 +9,9 @@ import getRandomGuestName from "../dummy/RandomGuestName";
  * @returns {Promise<object|null>}
  */
 export async function getGuestByGuestSid(guestSid) {
-	let res = await models.Guest.findOne({where: {guestSid}});
+	const res = await models.Guest.findOne({where: {guestSid}});
 
-	if (res !== null) {
-		res = res.get({plain: true});
-	}
-
-	return res;
+	return plainOne(res);
 }
 
 /**
@@ -23,14 +20,14 @@ export async function getGuestByGuestSid(guestSid) {
  * @returns {Promise<object>}
  */
 export async function createGuest(eventId) {
-	const guest = await models.Guest.create({
+	const res = await models.Guest.create({
 		name: getRandomGuestName(),
 		EventId: eventId,
 		guestSid: uuidv1(),
 		isAnonymous: 1,
 	});
 
-	return guest.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -39,15 +36,11 @@ export async function createGuest(eventId) {
  * @returns {Promise<object|null>}
  */
 export async function getGuestById(id) {
-	let res = await models.Guest.findOne({
+	const res = await models.Guest.findOne({
 		where: {id},
 	});
 
-	if (res !== null) {
-		res = res.get({plain: true});
-	}
-
-	return res;
+	return plainOne(res);
 }
 
 /**
@@ -76,5 +69,5 @@ export async function updateGuestById({id, name, isAnonymous, company, email}) {
 export async function getGuestsByEventId(EventId) {
 	const res = models.Guest.findAll({where: {EventId}});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }

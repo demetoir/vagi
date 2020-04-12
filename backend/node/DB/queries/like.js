@@ -1,4 +1,5 @@
 import models from "../models";
+import {plainFindAll, plainOne} from "../utils.js";
 
 /**
  *
@@ -12,7 +13,7 @@ export async function createLike({GuestId, QuestionId}) {
 		QuestionId,
 	});
 
-	return res.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -35,5 +36,5 @@ export async function getLikesByGuestId(GuestId) {
 		where: {GuestId},
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }

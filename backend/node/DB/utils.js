@@ -1,4 +1,4 @@
-export function plainFindOne(res) {
+export function plainOne(res) {
 	if (res !== null) {
 		return res.get({plain: true});
 	}

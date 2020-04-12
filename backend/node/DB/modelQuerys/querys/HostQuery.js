@@ -1,4 +1,5 @@
 import AbstractModelQuery from "../AbstructModelQuery.js";
+import {plainOne} from "../../utils.js";
 
 export default class HostQuery extends AbstractModelQuery {
 	/**
@@ -9,11 +10,7 @@ export default class HostQuery extends AbstractModelQuery {
 	async findByOAuthId(oauthId) {
 		let res = await this.models.Host.findOne({where: {oauthId}});
 
-		if (res !== null) {
-			res = res.get({plain: true});
-		}
-
-		return res;
+		return plainOne(res);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 import Sequelize from "sequelize";
 import models from "../models";
+import {plainFindAll, plainOne} from "../utils.js";
 
 const Op = Sequelize.Op;
 
@@ -9,7 +10,7 @@ const Op = Sequelize.Op;
  * @return {Promise<object[]>}
  */
 export async function getCandidatesByPollIds(pollIds) {
-	const result = models.Candidate.findAll({
+	const res = models.Candidate.findAll({
 		where: {
 			PollId: {
 				[Op.or]: pollIds,
@@ -17,7 +18,7 @@ export async function getCandidatesByPollIds(pollIds) {
 		},
 	});
 
-	return result.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -28,9 +29,9 @@ export async function getCandidatesByPollIds(pollIds) {
  * @return {Promise<Object>} created Candidate object
  */
 export async function createCandidate({content, number, PollId}) {
-	const result = await models.Candidate.create({content, number, PollId});
+	const res = await models.Candidate.create({content, number, PollId});
 
-	return result.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -40,7 +41,7 @@ export async function createCandidate({content, number, PollId}) {
  * @return {Promise<Object[]>} bulk created Candidate objects
  */
 export async function createBulkCandidates(candidates, transaction) {
-	const result = await models.Candidate.bulkCreate(candidates, {transaction});
+	const res = await models.Candidate.bulkCreate(candidates, {transaction});
 
-	return result.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }

@@ -1,4 +1,5 @@
 import models from "../models";
+import {plainOne} from "../utils.js";
 
 /**
  *
@@ -6,13 +7,9 @@ import models from "../models";
  * @returns {Promise<Model<any, any>|any>}
  */
 export async function findHostByOAuthId(oauthId) {
-	let res = await models.Host.findOne({where: {oauthId}});
+	const res = await models.Host.findOne({where: {oauthId}});
 
-	if (res !== null) {
-		res = res.get({plain: true});
-	}
-
-	return res;
+	return plainOne(res);
 }
 
 /**
@@ -47,5 +44,5 @@ export async function createHost({
 		emailFeedBack,
 	});
 
-	return res.get({plain: true});
+	return plainOne(res);
 }

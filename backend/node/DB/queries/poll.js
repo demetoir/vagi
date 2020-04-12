@@ -7,6 +7,7 @@ import {
 	POLL_STATE_STAND_BY,
 } from "../../constants/pollState.js";
 import {POLL_TYPE_N_ITEMS} from "../../constants/pollType.js";
+import {plainFindAll, plainOne} from "../utils.js";
 
 const sequelize = models.sequelizeSingleton;
 
@@ -60,7 +61,7 @@ export async function getPollsByEventId(EventId) {
 		order: [["id", "DESC"]],
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -87,7 +88,7 @@ export async function createPoll(
 	},
 	transaction = undefined,
 ) {
-	const result = await models.Poll.create(
+	const res = await models.Poll.create(
 		{
 			EventId,
 			pollName,
@@ -100,7 +101,7 @@ export async function createPoll(
 		{transaction},
 	);
 
-	return result.get({plain: true});
+	return plainOne(res);
 }
 
 // todo: refactoring

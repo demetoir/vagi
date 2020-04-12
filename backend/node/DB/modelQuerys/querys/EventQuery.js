@@ -1,5 +1,5 @@
 import AbstractModelQuery from "../AbstructModelQuery.js";
-import {plainFindAll, plainFindOne, plainFindOrCreate} from "../../utils.js";
+import {plainFindAll, plainOne, plainFindOrCreate} from "../../utils.js";
 
 export default class EventQuery extends AbstractModelQuery {
 	/**
@@ -14,7 +14,7 @@ export default class EventQuery extends AbstractModelQuery {
 			},
 		});
 
-		return plainFindOne(res);
+		return plainOne(res);
 	}
 
 	/**
@@ -113,7 +113,7 @@ export default class EventQuery extends AbstractModelQuery {
 			},
 		});
 
-		return plainFindOne(res);
+		return plainOne(res);
 	}
 
 	/**
@@ -128,7 +128,7 @@ export default class EventQuery extends AbstractModelQuery {
 			},
 		});
 
-		return plainFindOne(res);
+		return plainOne(res);
 	}
 
 	/**
@@ -144,6 +144,6 @@ export default class EventQuery extends AbstractModelQuery {
 			attributes: ["moderationOption", "replyOption"],
 		});
 
-		return plainFindOne(res);
+		return plainOne(res);
 	}
 }
