@@ -8,19 +8,18 @@ const config = {
 	port: env.EXPRESS_TEST_PORT,
 	publicPath: env.EXPRESS_TEST_PUBLIC_PATH,
 	tokenArgs: {
-		secret: "process.env.AUTH_TOKEN_SECRET",
-		issuer: "process.env.AUTH_TOKEN_ISSUER",
-		audience: "process.env.AUTH_TOKEN_AUDIENCE",
+		secret: "auth_token_secret",
+		issuer: "auth_token_issuer",
+		audience: "auth_token_audience",
 	},
 	routePage: {
 		main: "http://test/main",
 		host: "http://test/host",
 		guest: "http://test/guest",
 	},
-	// todo better way
 	oAuthArgs: {
-		clientID: "process.env.OAUTH2_CLIENT_DEV_ID",
-		clientSecret: "process.env.OAUTH2_CLIENT_DEV_SECRET",
+		clientID: "oauth2_client_dev_id",
+		clientSecret: "oauth2_client_dev_secret",
 		callbackURL: "http://localhost:3001/auth/google/callback",
 	},
 };
