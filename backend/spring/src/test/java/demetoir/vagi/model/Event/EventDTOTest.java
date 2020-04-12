@@ -40,56 +40,7 @@ class EventDTOTest {
   }
 
   @Test
-  void toEntity() {
-    var eventName = "eventName";
-    var endAt = new Timestamp(new Date().getTime());
-    var startAt = new Timestamp(new Date().getTime());
-    var eventCode = "eventCode";
-
-    var eventDto =
-        EventDTO.builder()
-            .eventName(eventName)
-            .eventCode(eventCode)
-            .startAt(startAt)
-            .endAt(endAt)
-            .build();
-
-    var event = eventDto.toEntity();
-    assertThat(event).isNotNull();
-    assertThat(event.getEventName()).isEqualTo(eventName);
-    assertThat(event.getEventCode()).isEqualTo(eventCode);
-    assertThat(event.getStartAt()).isEqualTo(startAt);
-    assertThat(event.getEndAt()).isEqualTo(endAt);
-  }
-
-  @Test
-  void fromEntity() {
-    var eventName = "eventName";
-    var endAt = new Timestamp(new Date().getTime());
-    var startAt = new Timestamp(new Date().getTime());
-    var eventCode = "eventCode";
-
-    var oldEventDto =
-        EventDTO.builder()
-            .eventName(eventName)
-            .eventCode(eventCode)
-            .startAt(startAt)
-            .endAt(endAt)
-            .build();
-
-    var event = oldEventDto.toEntity();
-    assertThat(event).isNotNull();
-    assertThat(event.getEventName()).isEqualTo(eventName);
-    assertThat(event.getEventCode()).isEqualTo(eventCode);
-    assertThat(event.getStartAt()).isEqualTo(startAt);
-    assertThat(event.getEndAt()).isEqualTo(endAt);
-
-    var eventDto = EventDTO.fromEntity(event);
-    assertThat(eventDto).isEqualTo(oldEventDto);
-  }
-
-  @Test
-  void modelMapper() {
+  void ConvertToEntityAndFromEntity() {
     var eventName = "eventName";
     var endAt = new Timestamp(new Date().getTime());
     var startAt = new Timestamp(new Date().getTime());
@@ -105,10 +56,10 @@ class EventDTOTest {
 
     var event = modelMapper.map(oldEventDto, Event.class);
 
-    assertThat(event).isNotNull();
-    assertThat(event.getEventName()).isEqualTo(eventName);
-    assertThat(event.getEventCode()).isEqualTo(eventCode);
-    assertThat(event.getStartAt()).isEqualTo(startAt);
-    assertThat(event.getEndAt()).isEqualTo(endAt);
+    assertThat(event).isEqualToComparingFieldByField(oldEventDto);
+
+    var eventDto = modelMapper.map(event, EventDTO.class);
+
+    assertThat(eventDto).isEqualToComparingFieldByField(event);
   }
 }
