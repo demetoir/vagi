@@ -1,5 +1,6 @@
 package demetoir.vagi.model.Event;
 
+import demetoir.vagi.model.Guest.Guest;
 import demetoir.vagi.model.Host.Host;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,11 +9,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 // lombok
 @Getter
 @Setter
-@ToString(exclude = "host")
+@ToString(exclude = {"host", "guests"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -61,4 +64,8 @@ public class Event {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "HostId")
   private Host host;
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private Set<Guest> guests = new HashSet<>();
 }
