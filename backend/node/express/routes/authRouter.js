@@ -17,7 +17,7 @@ authRouter.get(
 	}),
 );
 
-// todo
+// todo test
 const googleAuthCallbackController = (req, res) => {
 	const {user} = req;
 
