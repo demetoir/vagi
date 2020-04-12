@@ -31,3 +31,21 @@ export async function findOrCreateHostByOAuth({oauthId, name, image, email}) {
 
 	return res[0].get({plain: true});
 }
+
+export async function createHost({
+	oauthId,
+	name,
+	image,
+	email,
+	emailFeedBack = false,
+}) {
+	const res = await models.Host.create({
+		oauthId,
+		name,
+		image,
+		email,
+		emailFeedBack,
+	});
+
+	return res.get({plain: true});
+}
