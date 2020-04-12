@@ -2,14 +2,12 @@ import {describe, it} from "mocha";
 import assert from "assert";
 import {findHostByOAuthId} from "../../../DB/queries/host.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
-import {Host} from "../../../DB/modelsSingleton.js";
 import {hostQuery} from "../../../DB/modelQuerys";
 
 describe("DB HostQuery", () => {
 	new SequelizeTestHelper().autoSetup();
 
 	it("sequelize setup", async () => {
-		assert.notEqual(Host, null);
 		assert.notEqual(hostQuery, null);
 	});
 
