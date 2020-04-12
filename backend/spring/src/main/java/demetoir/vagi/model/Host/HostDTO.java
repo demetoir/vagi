@@ -2,6 +2,7 @@ package demetoir.vagi.model.Host;
 
 import demetoir.vagi.model.Event.Event;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -32,33 +33,14 @@ public class HostDTO {
 
   private Timestamp updatedAt;
 
+  @Builder.Default
   private Set<Event> events = new HashSet<>();
 
   public Host toEntity() {
-    return Host.builder()
-        .image(this.image)
-        .name(this.name)
-        .oauthId(this.oauthId)
-        .email(this.email)
-        .emailFeedBack(this.emailFeedBack)
-        .id(this.id)
-        .createdAt(this.createdAt)
-        .updatedAt(this.updatedAt)
-        .events(this.events)
-        .build();
+    return new ModelMapper().map(this, Host.class);
   }
 
   static HostDTO fromEntity(Host host) {
-    return HostDTO.builder()
-        .image(host.getImage())
-        .name(host.getName())
-        .oauthId(host.getOauthId())
-        .email(host.getEmail())
-        .emailFeedBack(host.getEmailFeedBack())
-        .id(host.getId())
-        .createdAt(host.getCreatedAt())
-        .updatedAt(host.getUpdatedAt())
-        .events(host.getEvents())
-        .build();
+    return new ModelMapper().map(host, HostDTO.class);
   }
 }

@@ -1,6 +1,6 @@
 package demetoir.vagi.controller;
 
-import demetoir.vagi.config.RedirectPathConfig;
+import demetoir.vagi.config.ReactAppRedirectURLConfig;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ class StaticControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
-  @Autowired private RedirectPathConfig redirectPathConfig;
+  @Autowired private ReactAppRedirectURLConfig reactAppRedirectURLConfig;
 
   @Before
   public void before() {}
@@ -28,7 +28,7 @@ class StaticControllerTest {
   @Test
   void ableToDI() {
     assertThat(staticController).isNotNull();
-    assertThat(redirectPathConfig).isNotNull();
+    assertThat(reactAppRedirectURLConfig).isNotNull();
   }
 
   @Test
@@ -37,7 +37,7 @@ class StaticControllerTest {
     this.mockMvc
         .perform(get("/main-app"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl(redirectPathConfig.getMainApp()));
+        .andExpect(redirectedUrl(reactAppRedirectURLConfig.getMainAppURL()));
   }
 
   @Test
@@ -47,12 +47,12 @@ class StaticControllerTest {
     this.mockMvc
         .perform(get("/host-app"))
         .andExpect(status().is3xxRedirection())
-        .andExpect(redirectedUrl(this.redirectPathConfig.getHostApp()));
+        .andExpect(redirectedUrl(this.reactAppRedirectURLConfig.getHostAppURL()));
   }
 
   @Test
   void guestAppServe() throws Exception {
-    String redirectPath = this.redirectPathConfig.getGuestApp();
+    String redirectPath = this.reactAppRedirectURLConfig.getGuestAppURL();
 
     this.mockMvc
         .perform(get("/guest-app"))

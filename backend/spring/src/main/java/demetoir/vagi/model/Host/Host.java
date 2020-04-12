@@ -54,6 +54,7 @@ public class Host {
   @Column(name = "updatedAt", nullable = false)
   private Timestamp updatedAt;
 
+  @Builder.Default
   @OneToMany(mappedBy = "host", fetch = FetchType.LAZY)
   private Set<Event> events = new HashSet<>();
 }
