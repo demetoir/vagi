@@ -6,8 +6,7 @@ import {
 const emojisResolver = async (_, {EventId}) => {
 	const res = await getEmojiCountByEventIdGroupByQuestionId({EventId});
 
-	// todo
-	// convert type of createdAt from date to ISOString
+	// todo convert type of createdAt from date to ISOString
 	return res.map(x => ({...x, createdAt: x.createdAt.toISOString()}));
 };
 
