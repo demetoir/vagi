@@ -1,6 +1,7 @@
 package demetoir.vagi.model.Event;
 
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -8,6 +9,14 @@ import java.util.Date;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 class EventDTOTest {
+
+  private ModelMapper modelMapper = new ModelMapper();
+
+  @Test
+  void requireObject() {
+    assertThat(modelMapper).isNotNull();
+  }
+
   @Test
   void builder() {
     var eventName = "eventName";
@@ -77,5 +86,29 @@ class EventDTOTest {
 
     var eventDto = EventDTO.fromEntity(event);
     assertThat(eventDto).isEqualTo(oldEventDto);
+  }
+
+  @Test
+  void modelMapper() {
+    var eventName = "eventName";
+    var endAt = new Timestamp(new Date().getTime());
+    var startAt = new Timestamp(new Date().getTime());
+    var eventCode = "eventCode";
+
+    var oldEventDto =
+        EventDTO.builder()
+            .eventName(eventName)
+            .eventCode(eventCode)
+            .startAt(startAt)
+            .endAt(endAt)
+            .build();
+
+    var event = modelMapper.map(oldEventDto, Event.class);
+
+    assertThat(event).isNotNull();
+    assertThat(event.getEventName()).isEqualTo(eventName);
+    assertThat(event.getEventCode()).isEqualTo(eventCode);
+    assertThat(event.getStartAt()).isEqualTo(startAt);
+    assertThat(event.getEndAt()).isEqualTo(endAt);
   }
 }

@@ -2,6 +2,7 @@ package demetoir.vagi.model.Event;
 
 import demetoir.vagi.model.Host.Host;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import java.sql.Timestamp;
 
@@ -37,33 +38,10 @@ public class EventDTO {
   private Host host;
 
   public Event toEntity() {
-    return Event.builder()
-        .id(this.id)
-        .eventCode(this.eventCode)
-        .eventName(this.eventName)
-        .isLive(this.isLive)
-        .moderationOption(this.moderationOption)
-        .replyOption(this.replyOption)
-        .createdAt(this.createdAt)
-        .endAt(this.endAt)
-        .startAt(this.startAt)
-        .updatedAt(this.updatedAt)
-        .build();
+    return new ModelMapper().map(this, Event.class);
   }
 
   public static EventDTO fromEntity(Event event) {
-
-    return EventDTO.builder()
-        .id(event.getId())
-        .eventCode(event.getEventCode())
-        .eventName(event.getEventName())
-        .isLive(event.getIsLive())
-        .moderationOption(event.getModerationOption())
-        .replyOption(event.getReplyOption())
-        .createdAt(event.getCreatedAt())
-        .endAt(event.getEndAt())
-        .startAt(event.getStartAt())
-        .updatedAt(event.getUpdatedAt())
-        .build();
+    return new ModelMapper().map(event, EventDTO.class);
   }
 }
