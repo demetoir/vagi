@@ -2,6 +2,7 @@ package demetoir.vagi.model.Event;
 
 import demetoir.vagi.model.Guest.Guest;
 import demetoir.vagi.model.Host.Host;
+import demetoir.vagi.model.Question.Question;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,7 +16,7 @@ import java.util.Set;
 // lombok
 @Getter
 @Setter
-@ToString(exclude = {"host", "guests"})
+@ToString(exclude = {"host", "guests", "questions"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -68,4 +69,8 @@ public class Event {
   @Builder.Default
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
   private Set<Guest> guests = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private Set<Question> questions = new HashSet<>();
 }
