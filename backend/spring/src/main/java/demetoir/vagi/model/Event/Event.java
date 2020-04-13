@@ -1,6 +1,7 @@
 package demetoir.vagi.model.Event;
 
 import demetoir.vagi.model.Guest.Guest;
+import demetoir.vagi.model.Hashtag.Hashtag;
 import demetoir.vagi.model.Host.Host;
 import demetoir.vagi.model.Question.Question;
 import lombok.*;
@@ -16,7 +17,7 @@ import java.util.Set;
 // lombok
 @Getter
 @Setter
-@ToString(exclude = {"host", "guests", "questions"})
+@ToString(exclude = {"host", "guests", "questions", "hashtags"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -73,4 +74,8 @@ public class Event {
   @Builder.Default
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
   private Set<Question> questions = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private Set<Hashtag> hashtags = new HashSet<>();
 }

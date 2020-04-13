@@ -1,7 +1,9 @@
 package demetoir.vagi.model.Event;
 
 import demetoir.vagi.model.Guest.Guest;
+import demetoir.vagi.model.Hashtag.Hashtag;
 import demetoir.vagi.model.Host.Host;
+import demetoir.vagi.model.Question.Question;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -39,6 +41,9 @@ public class EventDTO {
 
   private Host host;
 
-  @Builder.Default
-  private Set<Guest> guests = new HashSet<>();
+  @Builder.Default private Set<Guest> guests = new HashSet<>();
+
+  @Builder.Default private Set<Question> questions = new HashSet<>();
+
+  @Builder.Default private Set<Hashtag> hashtags = new HashSet<>();
 }

@@ -1,9 +1,12 @@
 package demetoir.vagi.model.Guest;
 
 import demetoir.vagi.model.Event.Event;
+import demetoir.vagi.model.Question.Question;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 // lombok
 @Getter
@@ -24,4 +27,5 @@ public class GuestDTO {
   private Timestamp createdAt;
   private Timestamp updatedAt;
   private Event event;
+  @Builder.Default private Set<Question> questions = new HashSet<>();
 }
