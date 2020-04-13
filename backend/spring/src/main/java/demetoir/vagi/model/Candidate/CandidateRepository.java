@@ -1,7 +1,14 @@
 package demetoir.vagi.model.Candidate;
 
-import demetoir.vagi.model.Poll.Poll;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Collection;
+
 // todo need?
-public interface CandidateRepository extends JpaRepository<Poll, Integer> {}
+public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
+
+
+    // todo findByPollIds
+//    Collection<Candidate>
+
+}
