@@ -1,15 +1,9 @@
 import assert from "assert";
 import {describe, it} from "mocha";
-import {
-	createGuest,
-	getGuestsByEventId,
-	getGuestByGuestSid,
-	getGuestById,
-	updateGuestById,
-} from "../../../DB/queries/guest.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
+import {guestQuery} from "../../../DB/modelQuerys";
 
-describe("guest query api", () => {
+describe("GuestQuery", () => {
 	new SequelizeTestHelper().autoSetup();
 
 	it("create guest", async () => {
@@ -17,20 +11,16 @@ describe("guest query api", () => {
 		const EventId = null;
 
 		// when
-		const guest = await createGuest(EventId);
+		const guest = await guestQuery.create(EventId);
+
+		const inDb = await guestQuery.findById(guest.id);
 
 		// than
-		assert(guest.id > 0);
-		assert(guest.name !== null);
-		assert(guest.guestSid !== null);
-		assert(typeof guest.guestSid === "string");
-		assert(guest.email === null);
-		assert(guest.isAnonymous === true);
-		assert(guest.email === null);
+		assert.deepStrictEqual(guest, inDb);
 	});
 
 	it("return null when can not findByGuestSid", async () => {
-		const res = await getGuestByGuestSid("234234");
+		const res = await guestQuery.findByGuestSid("234234");
 
 		assert(res === null);
 	});
@@ -38,10 +28,10 @@ describe("guest query api", () => {
 	it("getGuestByGuestSid", async () => {
 		// given
 		const EventId = null;
-		const guest = await createGuest(EventId);
+		const guest = await guestQuery.create(EventId);
 
 		// when
-		const res = await getGuestByGuestSid(guest.guestSid);
+		const res = await guestQuery.findByGuestSid(guest.guestSid);
 
 		// than
 		assert.deepStrictEqual(guest, res);
@@ -50,10 +40,10 @@ describe("guest query api", () => {
 	it("get guest by Id", async () => {
 		// given
 		const EventId = null;
-		const guest = await createGuest(EventId);
+		const guest = await guestQuery.create(EventId);
 
 		// when
-		const res = await getGuestById(guest.id);
+		const res = await guestQuery.findById(guest.id);
 
 		// than
 		assert.deepStrictEqual(guest, res);
@@ -64,7 +54,7 @@ describe("guest query api", () => {
 		const id = 1236123;
 
 		// when
-		const res = await getGuestById(id);
+		const res = await guestQuery.findById(id);
 
 		// than
 		assert(res === null);
@@ -73,11 +63,11 @@ describe("guest query api", () => {
 	it("update guest", async () => {
 		// given
 		const EventId = null;
-		const guest = await createGuest(EventId);
+		const guest = await guestQuery.create(EventId);
 		const name = "newName";
 
 		// when
-		const res = await updateGuestById({id: guest.id, name});
+		const res = await guestQuery.updateById({id: guest.id, name});
 
 		// than
 		assert(res > 0);
@@ -86,10 +76,10 @@ describe("guest query api", () => {
 	it("get guest by EventId", async () => {
 		// given
 		const EventId = null;
-		const guest = await createGuest(EventId);
+		const guest = await guestQuery.create(EventId);
 
 		// when
-		const res = await getGuestsByEventId(EventId);
+		const res = await guestQuery.findByEventId(EventId);
 
 		assert.deepStrictEqual(res, [guest]);
 	});
