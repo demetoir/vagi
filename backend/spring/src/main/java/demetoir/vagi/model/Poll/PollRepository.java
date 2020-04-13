@@ -5,12 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-// todo
 public interface PollRepository extends JpaRepository<Poll, Integer> {
 
-  // todo open poll
+  // todo open poll 이거는 entity에서 해결
 
-  // todo close poll
+  // todo close poll 이거는 entity에서 해결
 
   // todo create
 

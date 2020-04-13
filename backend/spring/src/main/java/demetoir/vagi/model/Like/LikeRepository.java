@@ -11,6 +11,6 @@ public interface LikeRepository extends JpaRepository<Like, Integer> {
   // todo test
   void deleteByGuestAndQuestion(Guest guest, Question question);
 
-  // todo
+  // todo test
   List<Like> findAllByGuest(Guest guest);
 }

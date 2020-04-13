@@ -6,8 +6,6 @@ import lombok.*;
 
 import java.sql.Timestamp;
 
-// todo
-
 @Getter
 @Setter
 @ToString

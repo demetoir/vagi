@@ -8,16 +8,16 @@ import java.util.Optional;
 
 public interface HashtagRepository extends JpaRepository<Hashtag, Integer> {
 
-  // todo
+  // todo test
   @Override
   Optional<Hashtag> findById(Integer integer);
 
-  // todo
+  // todo test
   @Override
   void deleteById(Integer integer);
 
-  // todo
+  // todo test
   List<Hashtag> findAllByEvent(Event event);
 
-  // todo getHashtagByEventIds(EventIdList)
+  // todo getHashtagByEventIds(EventIdList) impl and test
 }

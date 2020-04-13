@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
-  // todo
+  // todo test
   void deleteByGuestAndCandidate(Guest guest, Candidate candidate);
 
-  // todo swapVoteByGuestId( GuestId, newCandidateId, oldCandidateId, )
+  // todo swapVoteByGuestId( GuestId, newCandidateId, oldCandidateId, ) impl test
 
-  // todo getCandidatesByGuestId(candidateList, guestId)
+  // todo getCandidatesByGuestId(candidateList, guestId) impl test
 
-  // todo getVotersByCandidateIds(candidateIds)
+  // todo getVotersByCandidateIds(candidateIds) impl test
 }
