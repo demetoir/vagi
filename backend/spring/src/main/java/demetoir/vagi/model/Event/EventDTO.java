@@ -1,10 +1,12 @@
 package demetoir.vagi.model.Event;
 
+import demetoir.vagi.model.Guest.Guest;
 import demetoir.vagi.model.Host.Host;
 import lombok.*;
-import org.modelmapper.ModelMapper;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,11 +39,6 @@ public class EventDTO {
 
   private Host host;
 
-  public Event toEntity() {
-    return new ModelMapper().map(this, Event.class);
-  }
-
-  public static EventDTO fromEntity(Event event) {
-    return new ModelMapper().map(event, EventDTO.class);
-  }
+  @Builder.Default
+  private Set<Guest> guests = new HashSet<>();
 }

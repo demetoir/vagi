@@ -1,12 +1,20 @@
 package demetoir.vagi.model.Host;
 
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 class HostDTOTest {
+  private ModelMapper modelMapper = new ModelMapper();
+
   @Test
-  void builder() {
+  void requireObject() {
+    assertThat(modelMapper).isNotNull();
+  }
+
+  @Test
+  void ableToBuilder() {
     var image = "image";
     var oauthId = "oauth";
     var name = "name";
@@ -31,35 +39,7 @@ class HostDTOTest {
   }
 
   @Test
-  void toEntity() {
-    var id = 12;
-    var image = "image";
-    var oauthId = "oauth";
-    var name = "name";
-    var email = "email";
-    var emailFeedBack = false;
-    var hostDto =
-        HostDTO.builder()
-            .image(image)
-            .oauthId(oauthId)
-            .name(name)
-            .id(id)
-            .email(email)
-            .emailFeedBack(emailFeedBack)
-            .build();
-
-    var host = hostDto.toEntity();
-
-    assertThat(host).isNotNull();
-    assertThat(host.getImage()).isEqualTo(image);
-    assertThat(host.getOauthId()).isEqualTo(oauthId);
-    assertThat(host.getName()).isEqualTo(name);
-    assertThat(host.getEmail()).isEqualTo(email);
-    assertThat(host.getEmailFeedBack()).isEqualTo(emailFeedBack);
-  }
-
-  @Test
-  void fromEntity() {
+  void convertToEntityAndFromEntity() {
     var id = 12;
     var image = "image";
     var oauthId = "oauth";
@@ -68,18 +48,20 @@ class HostDTOTest {
     var emailFeedBack = false;
     var oldHostDto =
         HostDTO.builder()
-            .id(id)
             .image(image)
             .oauthId(oauthId)
             .name(name)
+            .id(id)
             .email(email)
             .emailFeedBack(emailFeedBack)
             .build();
 
-    var host = oldHostDto.toEntity();
+    var host = modelMapper.map(oldHostDto, Host.class);
 
-    var hostDto = HostDTO.fromEntity(host);
+    assertThat(host).isEqualToComparingFieldByField(oldHostDto);
 
-    assertThat(hostDto).isEqualTo(oldHostDto);
+    var hostDto = modelMapper.map(host, HostDTO.class);
+
+    assertThat(hostDto).isEqualToComparingFieldByField(host);
   }
 }
