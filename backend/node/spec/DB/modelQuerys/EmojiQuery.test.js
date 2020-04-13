@@ -3,8 +3,6 @@ import {describe, it} from "mocha";
 import {emojiQuery} from "../../../DB/modelQuerys";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
-// noinspection JSUnresolvedVariable
-
 describe("emoji query api", () => {
 	new SequelizeTestHelper().autoSetup();
 
@@ -77,7 +75,6 @@ describe("emoji query api", () => {
 
 		// than
 		assert(affectedRows === 1);
-		// todo more assert
 
 		const res = await emojiQuery.findBy({name, QuestionId, GuestId});
 
@@ -107,7 +104,6 @@ describe("emoji query api", () => {
 
 		// than
 		assert(real.length > 0);
-		// todo more assert
 	});
 
 	it("get count of emoji By question and name", async () => {
@@ -128,7 +124,6 @@ describe("emoji query api", () => {
 		const real = await emojiQuery.getCountBy({name, QuestionId});
 
 		// than
-		// todo more assert
 		assert(real > 0);
 	});
 
@@ -152,7 +147,6 @@ describe("emoji query api", () => {
 		});
 
 		// than
-		// todo more assert
 		assert.equal(real.length, 1);
 	});
 
@@ -175,7 +169,5 @@ describe("emoji query api", () => {
 
 		// than
 		assert(real.length > 0);
-
-		// todo more assert
 	});
 });
