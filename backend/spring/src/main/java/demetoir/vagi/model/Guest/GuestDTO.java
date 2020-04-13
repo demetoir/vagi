@@ -4,6 +4,7 @@ import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Event.Event;
 import demetoir.vagi.model.Like.Like;
 import demetoir.vagi.model.Question.Question;
+import demetoir.vagi.model.Vote.Vote;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -17,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = "event")
+@ToString(exclude = {"event", "questions", "emojis", "likes", "votes"})
 public class GuestDTO {
 
   private Integer id;
@@ -34,4 +35,6 @@ public class GuestDTO {
   @Builder.Default private Set<Emoji> emojis = new HashSet<>();
 
   @Builder.Default private Set<Like> likes = new HashSet<>();
+
+  @Builder.Default private Set<Vote> votes = new HashSet<>();
 }
