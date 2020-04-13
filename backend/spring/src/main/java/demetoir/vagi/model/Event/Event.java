@@ -1,7 +1,11 @@
 package demetoir.vagi.model.Event;
 
+import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Guest.Guest;
+import demetoir.vagi.model.Hashtag.Hashtag;
 import demetoir.vagi.model.Host.Host;
+import demetoir.vagi.model.Poll.Poll;
+import demetoir.vagi.model.Question.Question;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -15,7 +19,7 @@ import java.util.Set;
 // lombok
 @Getter
 @Setter
-@ToString(exclude = {"host", "guests"})
+@ToString(exclude = {"host", "guests", "questions", "hashtags", "polls"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -68,4 +72,20 @@ public class Event {
   @Builder.Default
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
   private Set<Guest> guests = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private Set<Question> questions = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private Set<Hashtag> hashtags = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private Set<Emoji> emojis = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private Set<Poll> polls = new HashSet<>();
 }

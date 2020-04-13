@@ -1,6 +1,10 @@
 package demetoir.vagi.model.Guest;
 
+import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Event.Event;
+import demetoir.vagi.model.Like.Like;
+import demetoir.vagi.model.Question.Question;
+import demetoir.vagi.model.Vote.Vote;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,11 +12,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 // lombok
 @Getter
 @Setter
-@ToString(exclude = "event")
+@ToString(exclude = {"event", "questions"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,6 +31,7 @@ import java.sql.Timestamp;
 public class Guest {
 
   @Id
+  @Column(name = "id", columnDefinition = "int")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
@@ -54,4 +61,20 @@ public class Guest {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "EventId")
   private Event event;
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
+  private Set<Question> questions = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
+  private Set<Emoji> emojis = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
+  private Set<Like> likes = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
+  private Set<Vote> votes = new HashSet<>();
 }
