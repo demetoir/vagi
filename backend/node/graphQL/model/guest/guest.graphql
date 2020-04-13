@@ -7,6 +7,7 @@ type Guest {
     EventId: ID
 }
 
+# todo better name guestGlobalData
 type EventAndGuest {
     event: Event
     guest: Guest
