@@ -20,7 +20,4 @@ public class HashtagDto {
   private Timestamp createdAt;
   private Timestamp updatedAt;
   private Event event;
-
-
-
 }

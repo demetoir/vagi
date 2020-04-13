@@ -2,6 +2,7 @@ package demetoir.vagi.model.Guest;
 
 import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Event.Event;
+import demetoir.vagi.model.Like.Like;
 import demetoir.vagi.model.Question.Question;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -67,4 +68,8 @@ public class Guest {
   @Builder.Default
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
   private Set<Emoji> emojis = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
+  private Set<Like> likes = new HashSet<>();
 }

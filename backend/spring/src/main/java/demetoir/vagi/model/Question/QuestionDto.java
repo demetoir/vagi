@@ -3,6 +3,7 @@ package demetoir.vagi.model.Question;
 import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Event.Event;
 import demetoir.vagi.model.Guest.Guest;
+import demetoir.vagi.model.Like.Like;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -41,4 +42,5 @@ public class QuestionDto {
   private Question replyParent;
 
   @Builder.Default private Set<Emoji> emojis = new HashSet<>();
+  @Builder.Default private Set<Like> likes = new HashSet<>();
 }
