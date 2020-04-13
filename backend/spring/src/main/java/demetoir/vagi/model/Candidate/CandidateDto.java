@@ -4,13 +4,10 @@ import demetoir.vagi.model.Poll.Poll;
 import demetoir.vagi.model.Vote.Vote;
 import lombok.*;
 
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-// todo
 @Getter
 @Setter
 @ToString(exclude = {"poll", "votes"})
@@ -32,6 +29,5 @@ public class CandidateDto {
 
   private Poll poll;
 
-  @Builder.Default
-  private Set<Vote> votes = new HashSet<>();
+  @Builder.Default private Set<Vote> votes = new HashSet<>();
 }

@@ -1,7 +1,3 @@
 package demetoir.vagi.model.Like;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class LikeRepositoryTest {
-
-}
+class LikeRepositoryTest {}

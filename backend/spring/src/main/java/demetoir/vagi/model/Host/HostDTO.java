@@ -33,8 +33,7 @@ public class HostDTO {
 
   private Timestamp updatedAt;
 
-  @Builder.Default
-  private Set<Event> events = new HashSet<>();
+  @Builder.Default private Set<Event> events = new HashSet<>();
 
   public Host toEntity() {
     return new ModelMapper().map(this, Host.class);

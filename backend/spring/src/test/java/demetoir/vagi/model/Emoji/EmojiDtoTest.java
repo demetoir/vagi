@@ -7,43 +7,34 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 class EmojiDtoTest {
 
-    private ModelMapper modelMapper = new ModelMapper();
+  private ModelMapper modelMapper = new ModelMapper();
 
-    @Test
-    void requireObject() {
-        assertThat(modelMapper).isNotNull();
-    }
+  @Test
+  void requireObject() {
+    assertThat(modelMapper).isNotNull();
+  }
 
+  @Test
+  void builder() {
 
-    @Test
-    void builder() {
+    String name = "name";
+    var dto = EmojiDto.builder().name(name).build();
 
-        String name = "name";
-        var dto =
-                EmojiDto.builder().name(name)
+    assertThat(dto).isNotNull();
+    assertThat(dto.getName()).isEqualTo(name);
+  }
 
-                        .build();
+  @Test
+  void ConvertToEntityAndFromEntity() {
+    String name = "name";
+    var oldDto = EmojiDto.builder().name(name).build();
 
-        assertThat(dto).isNotNull();
-        assertThat(dto.getName()).isEqualTo(name);
-    }
+    var entity = modelMapper.map(oldDto, Emoji.class);
 
-    @Test
-    void ConvertToEntityAndFromEntity() {
-        String name = "name";
-        var oldDto =
-                EmojiDto.builder().name(name)
+    assertThat(entity).isEqualToComparingFieldByField(oldDto);
 
-                        .build();
+    var dto = modelMapper.map(entity, EmojiDto.class);
 
-
-        var entity = modelMapper.map(oldDto, Emoji.class);
-
-        assertThat(entity).isEqualToComparingFieldByField(oldDto);
-
-        var dto = modelMapper.map(entity, EmojiDto.class);
-
-        assertThat(dto).isEqualToComparingFieldByField(entity);
-    }
+    assertThat(dto).isEqualToComparingFieldByField(entity);
+  }
 }
-
