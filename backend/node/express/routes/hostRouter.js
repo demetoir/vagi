@@ -10,7 +10,7 @@ const cookieKey = CookieKeys.HOST_APP;
 const hostRouter = express.Router();
 
 hostRouter.use(JWTCookieParser(cookieKey, logger));
-hostRouter.get("/logout", hostController.logout);
-hostRouter.get("/", hostAuth(), hostController.redirectToHostApp);
+hostRouter.get("/logout", hostController.logout());
+hostRouter.get("/", hostAuth(), hostController.redirectToHostApp());
 
 module.exports = hostRouter;
