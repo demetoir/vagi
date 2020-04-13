@@ -1,5 +1,6 @@
 package demetoir.vagi.model.Question;
 
+import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Event.Event;
 import demetoir.vagi.model.Guest.Guest;
 import lombok.*;
@@ -9,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 // lombok
 @Getter
@@ -60,4 +63,8 @@ public class Question {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "QuestionId")
   private Question replyParent;
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
+  private Set<Emoji> emojis = new HashSet<>();
 }

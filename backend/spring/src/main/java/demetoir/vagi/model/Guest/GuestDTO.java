@@ -1,5 +1,6 @@
 package demetoir.vagi.model.Guest;
 
+import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Event.Event;
 import demetoir.vagi.model.Question.Question;
 import lombok.*;
@@ -28,4 +29,6 @@ public class GuestDTO {
   private Timestamp updatedAt;
   private Event event;
   @Builder.Default private Set<Question> questions = new HashSet<>();
+
+  @Builder.Default private Set<Emoji> emojis = new HashSet<>();
 }

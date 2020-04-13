@@ -1,10 +1,13 @@
 package demetoir.vagi.model.Question;
 
+import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Event.Event;
 import demetoir.vagi.model.Guest.Guest;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 // todo
 
@@ -36,4 +39,6 @@ public class QuestionDto {
   private Guest guest;
 
   private Question replyParent;
+
+  @Builder.Default private Set<Emoji> emojis = new HashSet<>();
 }

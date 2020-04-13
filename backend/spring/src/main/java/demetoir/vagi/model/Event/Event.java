@@ -1,5 +1,6 @@
 package demetoir.vagi.model.Event;
 
+import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Guest.Guest;
 import demetoir.vagi.model.Hashtag.Hashtag;
 import demetoir.vagi.model.Host.Host;
@@ -78,4 +79,8 @@ public class Event {
   @Builder.Default
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
   private Set<Hashtag> hashtags = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private Set<Emoji> emojis = new HashSet<>();
 }

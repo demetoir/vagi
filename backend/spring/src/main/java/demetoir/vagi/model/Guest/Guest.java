@@ -1,5 +1,6 @@
 package demetoir.vagi.model.Guest;
 
+import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Event.Event;
 import demetoir.vagi.model.Question.Question;
 import lombok.*;
@@ -62,4 +63,8 @@ public class Guest {
   @Builder.Default
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
   private Set<Question> questions = new HashSet<>();
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "guest")
+  private Set<Emoji> emojis = new HashSet<>();
 }
