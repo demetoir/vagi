@@ -14,6 +14,6 @@ public interface PollRepository extends JpaRepository<Poll, Integer> {
 
   // todo create
 
-    // todo test
+  // todo test
   List<Poll> findAllByEvent(Event event);
 }

@@ -13,7 +13,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
   List<Question> findAllByEvent(Event event);
 
   // todo test find replys by eventId
-//  List<Question> findAllByEvent(Event event);
+  //  List<Question> findAllByEvent(Event event);
 
   // todo test
   List<Question> findAllByGuest(Guest guest);

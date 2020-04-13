@@ -43,7 +43,6 @@ class StaticControllerTest {
   @Test
   void hostAppServe() throws Exception {
 
-
     this.mockMvc
         .perform(get("/host-app"))
         .andExpect(status().is3xxRedirection())

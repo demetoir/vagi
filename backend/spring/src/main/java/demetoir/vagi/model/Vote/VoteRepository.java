@@ -11,8 +11,7 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
   // todo swapVoteByGuestId( GuestId, newCandidateId, oldCandidateId, )
 
+  // todo getCandidatesByGuestId(candidateList, guestId)
 
-    // todo getCandidatesByGuestId(candidateList, guestId)
-
-    // todo getVotersByCandidateIds(candidateIds)
+  // todo getVotersByCandidateIds(candidateIds)
 }
