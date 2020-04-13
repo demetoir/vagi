@@ -9,6 +9,7 @@ const updateVoters = async poll => {
 	for (const candidate of poll.nItems) {
 		candidate.voters = await getVotersByCandidateIds([candidate.id]);
 	}
+
 	const candidateIds = getCandidateIds(poll.nItems);
 
 	poll.totalVoters = await getVotersByCandidateIds(candidateIds);

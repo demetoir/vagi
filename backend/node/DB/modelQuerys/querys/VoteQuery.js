@@ -102,22 +102,23 @@ export default class VoteQuery extends AbstractModelQuery {
 
 	/**
 	 *
-	 * @param candidateList {number[]}
-	 * @param guestId {number|null}
+	 * @param candidateIds {number[]}
+	 * @param GuestId {number|null}
 	 * @return {Promise<object[]>}
 	 */
-	async getCandidatesByGuestId(candidateList, guestId) {
-		const res = await this.models.Vote.findAll({
-			where: {
-				[Op.and]: [
-					{GuestId: guestId},
-					{
-						CandidateId: {
-							[Op.or]: candidateList,
-						},
+	async getCandidatesByGuestId(candidateIds, GuestId) {
+		const whereGuestIdAndCandidateIds = {
+			[Op.and]: [
+				{GuestId}, {
+					CandidateId: {
+						[Op.or]: candidateIds,
 					},
-				],
-			},
+				},
+			],
+		};
+
+		const res = await this.models.Vote.findAll({
+			where: whereGuestIdAndCandidateIds,
 			attributes: ["CandidateId"],
 		});
 
