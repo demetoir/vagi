@@ -24,7 +24,7 @@ class HostRepositoryTest {
   }
 
   @Test
-  void findByOauthId() {
+  void findOneByOauthId_return_entity() {
     String hostName = "hostName";
     String oauthId = "oauthId";
     String email = "email";
@@ -36,11 +36,21 @@ class HostRepositoryTest {
 
     var existHost = hostRepository.save(newHost);
 
-    var host = hostRepository.findByOauthId(oauthId);
+    var hostOptional = hostRepository.findOneByOauthId(oauthId);
 
-    assertThat(host).isNotNull();
-    assertThat(host.getOauthId()).isEqualTo(oauthId);
+    assertThat(hostOptional.isPresent()).isTrue();
+
+    var host = hostOptional.get();
     assertThat(host).isEqualTo(existHost);
+  }
+
+  @Test
+  void findOneByOauthId_return_null_on_not_exist() {
+    String oauthId = "oauthId";
+
+    var hostOptional = hostRepository.findOneByOauthId(oauthId);
+
+    assertThat(hostOptional.isPresent()).isFalse();
   }
 
   @Test
