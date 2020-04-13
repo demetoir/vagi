@@ -1,5 +1,6 @@
 import sequelize from "sequelize";
 import models from "../models";
+import {plainFindAll, plainOne} from "../utils.js";
 
 /**
  *
@@ -17,7 +18,7 @@ export async function createEmoji({GuestId, QuestionId, name, EventId}) {
 		EventId,
 	});
 
-	return res.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -52,7 +53,7 @@ export async function deleteEmojiBy({name, GuestId, QuestionId}) {
 export async function getDidIPicked({name, QuestionId, GuestId}) {
 	const res = await models.Emoji.findAll({where: {name, QuestionId, GuestId}});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -79,7 +80,7 @@ export async function getEmojiCountByEventIdGroupByQuestionId({EventId}) {
 
 	// raw: true 하는 방식은 timestamp가 정수형 String(ex "12312412412414") 타입으로 반환된다.
 	// 따라서 await 한뒤 plain: true 방식으로 해야하 Date object type 으로 반환한ㄷ.
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -94,5 +95,5 @@ export async function getEmojiPick({GuestId, EventId}) {
 		attributes: ["name", "QuestionId"],
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }

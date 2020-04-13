@@ -1,4 +1,5 @@
 import models from "../models";
+import {plainFindAll, plainOne} from "../utils.js";
 
 /**
  *
@@ -7,7 +8,7 @@ import models from "../models";
 export async function getAllEvents() {
 	const res = await models.Event.findAll();
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -81,7 +82,7 @@ export async function getEventsByHostId(hostId) {
 		where: {HostId: hostId},
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -90,17 +91,13 @@ export async function getEventsByHostId(hostId) {
  * @returns {Promise<Object|null>}
  */
 export async function getEventByEventCode(eventCode) {
-	let res = await models.Event.findOne({
+	const res = await models.Event.findOne({
 		where: {
 			eventCode,
 		},
 	});
 
-	if (res !== null) {
-		res = res.get({plain: true});
-	}
-
-	return res;
+	return plainOne(res);
 }
 
 /**
@@ -109,17 +106,13 @@ export async function getEventByEventCode(eventCode) {
  * @returns {Promise<Model<any, any>|null|any>}
  */
 export async function getEventById(id) {
-	let res = await models.Event.findOne({
+	const res = await models.Event.findOne({
 		where: {
 			id,
 		},
 	});
 
-	if (res !== null) {
-		res = res.get({plain: true});
-	}
-
-	return res;
+	return plainOne(res);
 }
 
 /**
@@ -128,16 +121,12 @@ export async function getEventById(id) {
  * @returns {Promise<object|null>}
  */
 export async function getEventOptionByEventId(id) {
-	let res = await models.Event.findOne({
+	const res = await models.Event.findOne({
 		where: {
 			id,
 		},
 		attributes: ["moderationOption", "replyOption"],
 	});
 
-	if (res !== null) {
-		res = res.get({plain: true});
-	}
-
-	return res;
+	return plainOne(res);
 }

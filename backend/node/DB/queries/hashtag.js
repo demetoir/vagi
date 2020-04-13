@@ -1,4 +1,5 @@
 import models from "../models";
+import {plainFindAll, plainOne} from "../utils.js";
 
 /**
  *
@@ -12,7 +13,7 @@ export async function createHashtag({name, EventId}) {
 		{default: {updateAt: new Date(), createAt: new Date()}},
 	);
 
-	return res.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -23,7 +24,7 @@ export async function createHashtag({name, EventId}) {
 export async function createHashtags(hashTags) {
 	const res = await models.Hashtag.bulkCreate(hashTags, {returning: true});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -53,7 +54,7 @@ export async function deleteHashTagById(id) {
 export async function getHashtagByEventId(EventId) {
 	const res = await models.Hashtag.findAll({where: {EventId}});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -64,5 +65,5 @@ export async function getHashtagByEventId(EventId) {
 export async function getHashtagByEventIds(EventIdList) {
 	const res = await models.Hashtag.findAll({where: {EventId: EventIdList}});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }

@@ -1,5 +1,5 @@
 import moment from "moment";
-import {findOrCreateEvent} from "../../DB/queries/event.js";
+import {eventQuery} from "../../DB/modelQuerys";
 
 let count = 0;
 
@@ -14,7 +14,7 @@ export default class EventFixtures {
 		const before = moment().add("h", -1);
 		const after = moment().add("h", 1);
 
-		return findOrCreateEvent({
+		return eventQuery.create({
 			eventCode: `eventCode${getCount()}`,
 			eventName: `eventName${getCount()}`,
 			HostId,
@@ -28,7 +28,7 @@ export default class EventFixtures {
 		const before = moment().add("h", -2);
 		const after = moment().add("h", -1);
 
-		return findOrCreateEvent({
+		return eventQuery.create({
 			eventCode: `eventCode${getCount()}`,
 			eventName: `eventName${getCount()}`,
 			HostId,

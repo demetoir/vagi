@@ -2,6 +2,7 @@ import Sequelize from "sequelize";
 import models from "../models";
 import logger from "../logger.js";
 import {QUESTION_STATE_ACTIVE} from "../../constants/questionState.js";
+import {plainFindAll, plainOne} from "../utils.js";
 
 const sequelize = models.sequelizeSingleton;
 const Op = Sequelize.Op;
@@ -30,7 +31,7 @@ export async function createQuestion({
 		state,
 	});
 
-	return res.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -43,7 +44,7 @@ export async function getQuestionsByEventId(EventId) {
 		where: {EventId},
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -56,7 +57,7 @@ export async function getQuestionReplyByEventId(EventId) {
 		where: {EventId, QuestionId: {[Op.ne]: null}},
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -69,7 +70,7 @@ export async function getQuestionByGuestId(GuestId) {
 		where: {GuestId},
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -141,13 +142,9 @@ export async function updateQuestionIsStared({from, to}) {
  * @returns {Promise<object|null>}
  */
 export async function getQuestionById(id) {
-	let res = await models.Question.findOne({where: {id}});
+	const res = await models.Question.findOne({where: {id}});
 
-	if (res) {
-		res = res.get({plain: true});
-	}
-
-	return res;
+	return plainOne(res);
 }
 
 // todo implement test code
