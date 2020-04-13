@@ -1,5 +1,6 @@
 package demetoir.vagi.model.Poll;
 
+import demetoir.vagi.model.Candidate.Candidate;
 import demetoir.vagi.model.Event.Event;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,6 +9,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 // todo
 // lombok
@@ -58,4 +61,8 @@ public class Poll {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "EventId", columnDefinition = "int")
   private Event event;
+
+  @Builder.Default
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "poll")
+  private Set<Candidate> candidates = new HashSet<>();
 }

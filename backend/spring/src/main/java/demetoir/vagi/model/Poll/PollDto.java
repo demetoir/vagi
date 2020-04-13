@@ -1,9 +1,12 @@
 package demetoir.vagi.model.Poll;
 
+import demetoir.vagi.model.Candidate.Candidate;
 import demetoir.vagi.model.Event.Event;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 // todo
 @Getter
@@ -34,4 +37,6 @@ public class PollDto {
   private Timestamp updatedAt;
 
   private Event event;
+
+  @Builder.Default private Set<Candidate> candidates = new HashSet<>();
 }
