@@ -4,6 +4,7 @@ import demetoir.vagi.model.Emoji.Emoji;
 import demetoir.vagi.model.Guest.Guest;
 import demetoir.vagi.model.Hashtag.Hashtag;
 import demetoir.vagi.model.Host.Host;
+import demetoir.vagi.model.Poll.Poll;
 import demetoir.vagi.model.Question.Question;
 import lombok.*;
 
@@ -49,4 +50,6 @@ public class EventDTO {
   @Builder.Default private Set<Hashtag> hashtags = new HashSet<>();
 
   @Builder.Default private Set<Emoji> emojis = new HashSet<>();
+
+  @Builder.Default private Set<Poll> polls = new HashSet<>();
 }
