@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 public class Guest {
 
   @Id
+  @Column(name = "id", columnDefinition = "int")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
