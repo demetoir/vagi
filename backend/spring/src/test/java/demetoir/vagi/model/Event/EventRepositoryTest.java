@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -32,7 +33,6 @@ class EventRepositoryTest {
     assertThat(jpaAuditingConfig).isNotNull();
   }
 
-  // todo
   @Test
   void create() {
     String hostName = "hostName";
@@ -70,26 +70,55 @@ class EventRepositoryTest {
     assertThat(newEvent.getStartAt()).isEqualTo(startAt);
     assertThat(newEvent.getEventCode()).isEqualTo(eventCode);
     assertThat(newEvent.getHost()).isEqualTo(existHost);
-
-    log.info(newEvent.toString());
   }
 
   @Test
-  void findByEventCode() {}
+  void findOneByEventCode() {
 
-  // todo
-  @Test
-  void delete() {}
+    String hostName = "hostName";
+    String oauthId = "oauthId";
+    String email = "email";
 
-  // todo
-  @Test
-  void find() {}
+    var host = new Host();
+    host.setName(hostName);
+    host.setOauthId(oauthId);
+    host.setEmail(email);
 
-  // todo
-  @Test
-  void update() {}
+    var existHost = hostRepository.save(host);
 
-  // todo
+    var eventName = "eventName";
+    var endAt = new Timestamp(new Date().getTime());
+    var startAt = new Timestamp(new Date().getTime());
+    var eventCode = "eventCode";
+
+    var existEvent =
+        Event.builder()
+            .eventName(eventName)
+            .eventCode(eventCode)
+            .startAt(startAt)
+            .endAt(endAt)
+            .build();
+
+    existHost.getEvents().add(existEvent);
+    existEvent.setHost(existHost);
+
+    eventRepository.save(existEvent);
+
+    Optional<Event> eventOptional = eventRepository.findOneByEventCode(eventCode);
+
+    assertThat(eventOptional.isPresent()).isTrue();
+
+    var event = eventOptional.get();
+
+    assertThat(event).isEqualTo(existEvent);
+  }
+
   @Test
-  void associateWithHost() {}
+  void findOneByEventCode_return_null_on_not_exist() {
+    var eventCode = "eventCode";
+
+    Optional<Event> eventOptional = eventRepository.findOneByEventCode(eventCode);
+
+    assertThat(eventOptional.isPresent()).isFalse();
+  }
 }
