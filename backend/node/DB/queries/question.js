@@ -108,7 +108,6 @@ export async function updateQuestionById({id, content, state, isStared}) {
  * @returns {Promise<void>}
  */
 export async function updateQuestionIsStared({from, to}) {
-	// todo simplify transaction
 	const transaction = await sequelize.transaction();
 
 	try {
@@ -147,7 +146,6 @@ export async function getQuestionById(id) {
 	return plainOne(res);
 }
 
-// todo implement test code
 export async function updateQuestionsByStateAndEventId({from, to, EventId}) {
 	return models.Question.update({state: to}, {where: {state: from, EventId}});
 }

@@ -54,7 +54,6 @@ describe("emoji query api", () => {
 		const expected = 0;
 
 		assert(real > expected);
-		// todo more assert
 
 		const res = await Emoji.findOne({where: {id}});
 
@@ -75,7 +74,6 @@ describe("emoji query api", () => {
 
 		// than
 		assert(real === 1);
-		// todo more assert
 
 		const res = await Emoji.findOne({where: {name, QuestionId, GuestId}});
 
@@ -96,7 +94,6 @@ describe("emoji query api", () => {
 
 		// than
 		assert(real.length > 0);
-		// todo more assert
 
 		await Emoji.destroy({where: {name, GuestId, QuestionId}});
 	});
@@ -113,7 +110,6 @@ describe("emoji query api", () => {
 		const real = await getEmojiCountBy({name, QuestionId});
 
 		// than
-		// todo more assert
 		assert(real > 0);
 
 		await Emoji.destroy({where: {name, QuestionId, GuestId}});
@@ -132,7 +128,6 @@ describe("emoji query api", () => {
 		const real = await getEmojiCountByEventIdGroupByQuestionId({EventId});
 
 		// than
-		// todo more assert
 		assert(real.length > 0);
 
 		Emoji.destroy({where: {QuestionId, name, GuestId, EventId}});
@@ -153,6 +148,5 @@ describe("emoji query api", () => {
 		// than
 		assert(real.length > 0);
 
-		// todo more assert
 	});
 });

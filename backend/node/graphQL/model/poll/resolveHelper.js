@@ -11,6 +11,8 @@ export const simplifyList = list => list.map(n => n.get({plain: true}));
  */
 export const getCandidateList = items => items.map(n => n.id);
 
+
+// todo do something
 /**
  *
  * @param {int} pollId
@@ -56,6 +58,8 @@ export async function getItems(pollId, candidates) {
 	return nItems;
 }
 
+
+// todo do something
 /**
  *
  * @param {object[]} polls
@@ -68,6 +72,7 @@ export async function getCandidatesByPolls(polls) {
 	return getCandidatesByPollIds(pollIds);
 }
 
+// todo do something
 /**
  *
  * @param {object[]} polls

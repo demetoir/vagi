@@ -22,6 +22,7 @@ const makeCandidateRows = (id, pollType, candidates) => {
 			content:
 				pollType === POLL_TYPE_N_ITEMS ? value : (i + 1).toString(),
 		});
+
 		i++;
 	}
 
@@ -95,7 +96,6 @@ export default class PollQuery extends AbstractModelQuery {
 	 * @return {Promise<number>} affected row number
 	 */
 	async closePoll(id) {
-		// result should be == [1], 1개의 row가 성공했다는 의미
 		const result = await this.models.Poll.update(
 			{
 				state: POLL_STATE_CLOSED,
