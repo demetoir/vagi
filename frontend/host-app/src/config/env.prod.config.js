@@ -1,10 +1,13 @@
 const domain = process.env.REACT_APP_PROD_DOMAIN;
+const socketPort = process.env.REACT_APP_PROD_SOCKET_PORT;
+const graphqlPort = process.env.REACT_APP_PROD_GRAPHQL_PORT;
+const graphqlPath = process.env.REACT_APP_PROD_GRAPHQL_PATH;
 
 const config = {
-	url: `http://${domain}/guest`,
-	websocketHost: `http://${domain}`,
-	websocketPort: 4000,
-	apolloURI: `http://${domain}:8000/graphql`,
+	socketIOHost: `http://${domain}`,
+	socketIOPort: socketPort,
+	apolloURI: `http://${domain}:${graphqlPort}/${graphqlPath}`,
+	logoutRedirectURL: `http://${domain}/guest/logout`,
 	inValidGuestRedirectURL: `http://${domain}`,
 };
 
