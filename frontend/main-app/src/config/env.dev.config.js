@@ -1,5 +1,5 @@
 const domain = process.env.REACT_APP_DEV_DOMAIN;
-const port = process.env.REACT_APP_DEV_DOMAIN_EXPRESS_PORT;
+const port = process.env.REACT_APP_DEV_EXPRESS_PORT;
 
 const config = {
 	authLoginURL: `http://${domain}:${port}/auth/google/login`,
