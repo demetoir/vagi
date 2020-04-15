@@ -1,9 +1,9 @@
-const baseURL = "http://www.vaagle.com";
+const domain = process.env.REACT_APP_PROD_DOMAIN;
 
 const config = {
-	authLoginURL: `${baseURL}/auth/google/login`,
-	guestAppURL: `${baseURL}/guest`,
-	hostAppURL: `${baseURL}/host`,
+	authLoginURL: `http://${domain}/auth/google/login`,
+	guestAppURL: `http://${domain}/guest`,
+	hostAppURL: `http://${domain}/host`,
 };
 
 export default config;
