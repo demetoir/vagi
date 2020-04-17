@@ -5,7 +5,7 @@ dotenv.config();
 const env = process.env;
 
 const config = {
-	hostDomain: env.DEV_HOST_DOMAIN,
+	hostDomain: env.DEV_HOST,
 	port: env.EXPRESS_DEV_PORT,
 	publicPath: env.EXPRESS_DEV_PUBLIC_PATH,
 	tokenArgs: {
@@ -16,7 +16,7 @@ const config = {
 	oAuthArgs: {
 		clientID: process.env.OAUTH2_CLIENT_DEV_ID,
 		clientSecret: process.env.OAUTH2_CLIENT_DEV_SECRET,
-		callbackURL: `http://${env.DEV_HOST_DOMAIN}${process.env.OAUTH2_DEV_CALLBACK}`,
+		callbackURL: `http://${env.DEV_HOST}${process.env.OAUTH2_DEV_CALLBACK}`,
 	},
 	routePage: {
 		main: process.env.DEV_MAIN_PAGE,

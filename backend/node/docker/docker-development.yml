@@ -101,7 +101,7 @@ services:
         ports:
             - ${NGINX_DEV_EXPOSE_PORT}:80
         environment:
-            - SERVER_HOST=${NGINX_DEV_PORT}
+            - SERVER_HOST=${DEV_HOST}
         volumes:
             - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
         networks:
