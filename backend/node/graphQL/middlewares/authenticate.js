@@ -9,7 +9,7 @@ import config from "../config/config.js";
 import {getGuestByGuestSid} from "../../DB/queries/guest.js";
 
 const authenticate = async (resolver, root, args, context, info) => {
-	const jwtToken = context.request.headers.authorization;
+	const jwtToken = context.request.headers.authorization.slice(7);
 	const secret = config.tokenArgs.secret;
 	const jwtPayload = jwt.verify(jwtToken, secret);
 	const {aud: audience} = jwtPayload;
