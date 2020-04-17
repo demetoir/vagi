@@ -8,20 +8,14 @@ import config from "./config";
 import createApolloClient from "./graphql/createApolloClient.js";
 import AppLoadingWrapper from "./App/AppLoadingWrapper.js";
 
-const NAME_SPACE = "event";
-
-initSocketIoClientWrapper(
-	config.websocketHost,
-	config.websocketPort,
-	NAME_SPACE,
-);
+initSocketIoClientWrapper(config.socketIOHost, config.namespace);
 
 const HOST_COOKIE_KEY = "vaagle-host";
 const client = createApolloClient(config.apolloURI, HOST_COOKIE_KEY);
 
 ReactDOM.render(
 	<ApolloProvider client={client}>
-		<AppLoadingWrapper/>
+		<AppLoadingWrapper />
 	</ApolloProvider>,
 	document.getElementById("root"),
 );

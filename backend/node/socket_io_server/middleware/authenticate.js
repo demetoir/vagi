@@ -7,7 +7,7 @@ const {tokenArgs} = loadConfig();
 
 async function authenticate(socket, next) {
 	try {
-		const token = socket.handshake.query.token;
+		const token = socket.handshake.headers.authorization.slice(7);
 		const payload = jwt.verify(token, tokenArgs.secret);
 
 		await verifyJWTPayload(payload);
