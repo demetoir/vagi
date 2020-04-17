@@ -1,4 +1,4 @@
-version: "2.0"
+version: "3.7"
 
 services:
     mysql:
@@ -15,7 +15,8 @@ services:
             - MYSQL_USER=${MYSQL_DEV_USER}
             - MYSQL_PASSWORD=${MYSQL_DEV_PASSWORD}
         networks:
-            - backend
+            - nginx.docker
+
     redis:
         container_name: ${REDIS_DEV_CONTAINER_NAME}
         image: redis
@@ -24,8 +25,95 @@ services:
         volumes:
             - ${DOCKER_VOLUMNS_PATH}/${REDIS_DEV_CONTAINER_NAME}:/data
         networks:
-            - backend
+            - nginx.docker
+
+    express:
+        container_name: ${EXPRESS_DEV_CONTAINER_NAME}
+        build:
+            context: ../
+            dockerfile: ./docker/dockerfiles/node.dev.Dockerfile
+        entrypoint: yarn start:express
+        ports:
+            - 3001:3001
+        volumes:
+            - ../:/usr/src/app/
+        environment:
+            - NODE_env=development
+            - IS_DOCKER_CONTAINER=true
+        networks:
+            - nginx.docker
+        links:
+            - mysql
+            - redis
+        depends_on:
+            - mysql
+            - redis
+
+    graphql:
+        container_name: ${GRAPHQL_YOGA_SERVER_DEV_CONTAINER_NAME}
+        build:
+            context: ../
+            dockerfile: ./docker/dockerfiles/node.dev.Dockerfile
+        entrypoint: yarn start:yoga
+        ports:
+            - ${GRAPHQL_YOGA_SERVER_DEV_PORT}:${GRAPHQL_YOGA_SERVER_DEV_PORT}
+        volumes:
+            - ../:/usr/src/app/
+        environment:
+            - NODE_env=development
+            - IS_DOCKER_CONTAINER=true
+        networks:
+            - nginx.docker
+        links:
+            - mysql
+            - redis
+        depends_on:
+            - mysql
+            - redis
+
+    socket:
+        container_name: ${SOCKET_IO_SERVER_DEV_CONTAINER_NAME}
+        build:
+            context: ../
+            dockerfile: ./docker/dockerfiles/node.dev.Dockerfile
+        entrypoint: yarn start:socket
+        ports:
+            - ${SOCKET_IO_SERVER_DEV_PORT}:${SOCKET_IO_SERVER_DEV_PORT}
+        volumes:
+            - ../:/usr/src/app/
+        environment:
+            - NODE_env=development
+            - IS_DOCKER_CONTAINER=true
+        networks:
+            - nginx.docker
+        links:
+            - mysql
+            - redis
+        depends_on:
+            - mysql
+            - redis
+
+    nginx:
+        container_name: ${NGINX_DEV_CONTAINER_NAME}
+        image: nginx
+        tty: true
+        stdin_open: true
+        ports:
+            - ${NGINX_DEV_EXPOSE_PORT}:80
+        environment:
+            - NGINX_PORT=${NGINX_DEV_PORT}
+            - NGINX_HOST=${DEV_HOST}
+        volumes:
+            - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+        networks:
+            - nginx.docker
+        links:
+            - express
+            - graphql
+            - socket
+            - mysql
+            - redis
 
 networks:
-    backend:
+    nginx.docker:
         driver: "bridge"

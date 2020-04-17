@@ -6,6 +6,8 @@
 		"/express/public/",
 		"/node_modules/",
 		"/spec/",
+		"/express/",
+		"/graphQL/",
 		".babelrc",
 		".env",
 		".env.example",

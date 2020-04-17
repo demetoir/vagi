@@ -1,18 +1,11 @@
 const domain = process.env.REACT_APP_DEV_DOMAIN;
 
-const expressPort = process.env.REACT_APP_DEV_EXPRESS_PORT;
-
-const graphqlPort = process.env.REACT_APP_DEV_GRAPHQL_PORT;
-const graphqlPath = process.env.REACT_APP_DEV_GRAPHQL_ENDPOINT;
-
-const socketPort = process.env.REACT_APP_DEV_SOCKET_PORT;
-
 const config = {
 	socketIOHost: `http://${domain}`,
-	socketIOPort: socketPort,
-	apolloURI: `http://${domain}:${graphqlPort}${graphqlPath}`,
-	logoutRedirectURL: `http://${domain}:${expressPort}/guest/logout`,
-	inValidGuestRedirectURL: `http://${domain}:5000`,
+	namespace: "socket/namespace/event",
+	apolloURI: `http://${domain}/graphql`,
+	logoutRedirectURL: `http://${domain}/guest/logout`,
+	inValidGuestRedirectURL: `http://${domain}`,
 };
 
 export default config;

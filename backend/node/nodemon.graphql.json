@@ -6,6 +6,8 @@
 		"/express/public/",
 		"/node_modules/",
 		"/spec/",
+		"/express/",
+		"/socket_io_server/",
 		".babelrc",
 		".env",
 		".env.example",

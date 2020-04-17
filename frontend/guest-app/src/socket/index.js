@@ -2,50 +2,62 @@ import io from "socket.io-client";
 import React, {createContext} from "react";
 import Cookie from "js-cookie";
 
-function combineURL(host, port, nameSpace) {
-	return nameSpace ? `${host}:${port}/${nameSpace}` : `${host}:${port}`;
-}
-
 function addBoilerplateSocketListener({socket, URL, room}) {
 	socket.on("connect", async () => {
 		// eslint-disable-next-line no-console
-		console.log(
+		console.debug(
 			`socket.io client connect to ${URL} as ${process.env.NODE_ENV} mode`,
 		);
 	});
 
 	socket.on("joinRoom", () => {
 		// eslint-disable-next-line no-console
-		console.log(`join room success at ${room}`);
+		console.debug(`join room success at ${room}`);
 	});
 
 	socket.on("leaveRoom", () => {
 		// eslint-disable-next-line no-console
-		console.log(`leave room success at ${room}`);
+		console.debug(`leave room success at ${room}`);
 	});
 
 	socket.on("disconnect", reason => {
 		// eslint-disable-next-line no-console
-		console.log(`io client disconnected by ${reason}`);
+		console.debug(`io client disconnected by ${reason}`);
 	});
 
 	socket.on("reconnect", attemptNumber => {
 		// eslint-disable-next-line no-console
-		console.log(`io reconnect attempt ${attemptNumber}`);
+		console.debug(`io reconnect attempt ${attemptNumber}`);
 	});
 
 	socket.on("error", error => {
 		// eslint-disable-next-line no-console
-		console.log(`io error raise ${error}`);
+		console.debug(`io error raise ${error}`);
 	});
 }
 
-export function createSocketIOClient({host, port, namespace, room}) {
+function combineURL(host, nameSpace) {
+	return nameSpace ? `${host}/${nameSpace}` : `${host}`;
+}
+
+export function createSocketIOClient({host, namespace, room}) {
 	const cookieName = "vaagle-guest";
 	const token = Cookie.get(cookieName);
 
-	const URL = combineURL(host, port, namespace);
-	const socket = io(URL, {query: {token}});
+	const URL = combineURL(host, namespace);
+
+	const options = {
+		credentials: false,
+		transportOptions: {
+			polling: {
+				extraHeaders: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		},
+	};
+
+	const socket = io(URL, options);
 
 	if (process.env.NODE_ENV === "development") {
 		addBoilerplateSocketListener({socket, URL, room});
