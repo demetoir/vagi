@@ -16,7 +16,6 @@ const EventFormStyle = styled.div`
 	align-items: center;
 `;
 
-
 function EventForm() {
 	const [errorMessage, setMessage] = useState(initialErrorMessage);
 	const [code, setCode] = useState(initialCode);
@@ -26,18 +25,18 @@ function EventForm() {
 	};
 	const onEnterEvent = () => {
 		setMessage(enterEventMessage);
-		const path = window.btoa(code);
 
-		window.location.href = `${config.guestAppURL}/${path}`;
-		setCode(initialCode);
+		const encodedEventCode = window.btoa(code);
+
+		window.location.href = `${config.guestAppURL}/${encodedEventCode}`;
 	};
 
 	return (
 		<form autoComplete="off">
 			<EventFormStyle>
-				<EventCodeInput onChange={onChange} value={code}/>
-				<EventEnterButton onClick={onEnterEvent}/>
-				<EventCodeInputErrorMessage message={errorMessage}/>
+				<EventCodeInput onChange={onChange} value={code} />
+				<EventEnterButton onClick={onEnterEvent} />
+				<EventCodeInputErrorMessage message={errorMessage} />
 			</EventFormStyle>
 		</form>
 	);
