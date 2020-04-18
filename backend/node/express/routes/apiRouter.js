@@ -6,5 +6,6 @@ const apiRouter = express.Router();
 const apiController = new ApiController(logger);
 
 apiRouter.get("/api/event", apiController.getEvent());
+apiRouter.post("/api/guest/token", apiController.postGuestToken());
 
 module.exports = apiRouter;

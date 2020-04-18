@@ -1,5 +1,8 @@
 import btoa from "btoa";
 import validateEventCode from "../validator/validateEventCode.js";
+import guestJWTCookie from "../JWTCookie/guestJWTCookie.js";
+
+import {guestQuery} from "../../DB/modelQuerys";
 
 // todo test and refactoring
 function decodeEventCode(encodedEventCode) {
@@ -49,6 +52,42 @@ export default class ApiController {
 			}
 
 			return res.status(200).send(event);
+		};
+	}
+
+	postGuestToken() {
+		/**
+		 *
+		 * @param req {express.Request}
+		 * @param res {express.Response}
+		 * @return {Promise<void>}
+		 */
+		return async (req, res) => {
+			const guestSid = req.cookies.guestSid || null;
+
+			if (guestSid === null) {
+				this.logger.info(`expect guestSid in cookie, but not exist`);
+
+				return res.status(400).data({
+					error: `expect guestSid in cookie, but not exist`,
+				});
+			}
+
+			const guest = await guestQuery.findByGuestSid(guestSid);
+
+			if (guest === null) {
+				this.logger.info(`notExist guest of guestSid: ${guestSid}`);
+
+				return res
+					.status(404)
+					.data({error: `notExist guest of guestSid: ${guestSid}`});
+			}
+
+			const payload = {...guest};
+			const accessToken = guestJWTCookie.sign(payload);
+
+			this.logger.info(`guestSid:${guestSid} issue new token`);
+			return res.send({token: accessToken, guest});
 		};
 	}
 }

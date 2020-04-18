@@ -1,50 +1,14 @@
 import io from "socket.io-client";
 import React, {createContext} from "react";
-import Cookie from "js-cookie";
 
-function addBoilerplateSocketListener({socket, URL, room}) {
-	socket.on("connect", async () => {
-		// eslint-disable-next-line no-console
-		console.debug(
-			`socket.io client connect to ${URL} as ${process.env.NODE_ENV} mode`,
-		);
-	});
+import debuggingHandler from "./debuggingSocketHandler.js";
+import {
+	SOCKET_IO_EVENT_CONNECT,
+	SOCKET_IO_EVENT_JOIN_ROOM,
+} from "../constants/socket.io-event.js";
 
-	socket.on("joinRoom", () => {
-		// eslint-disable-next-line no-console
-		console.debug(`join room success at ${room}`);
-	});
-
-	socket.on("leaveRoom", () => {
-		// eslint-disable-next-line no-console
-		console.debug(`leave room success at ${room}`);
-	});
-
-	socket.on("disconnect", reason => {
-		// eslint-disable-next-line no-console
-		console.debug(`io client disconnected by ${reason}`);
-	});
-
-	socket.on("reconnect", attemptNumber => {
-		// eslint-disable-next-line no-console
-		console.debug(`io reconnect attempt ${attemptNumber}`);
-	});
-
-	socket.on("error", error => {
-		// eslint-disable-next-line no-console
-		console.debug(`io error raise ${error}`);
-	});
-}
-
-function combineURL(host, nameSpace) {
-	return nameSpace ? `${host}/${nameSpace}` : `${host}`;
-}
-
-export function createSocketIOClient({host, namespace, room}) {
-	const cookieName = "vaagle-guest";
-	const token = Cookie.get(cookieName);
-
-	const URL = combineURL(host, namespace);
+export function createSocketIOClient({host, namespace, room, token}) {
+	const URL = namespace ? `${host}/${namespace}` : `${host}`;
 
 	const options = {
 		credentials: false,
@@ -60,8 +24,12 @@ export function createSocketIOClient({host, namespace, room}) {
 	const socket = io(URL, options);
 
 	if (process.env.NODE_ENV === "development") {
-		addBoilerplateSocketListener({socket, URL, room});
+		debuggingHandler({socket, URL, room});
 	}
+
+	socket.on(SOCKET_IO_EVENT_CONNECT, () => {
+		socket.emit(SOCKET_IO_EVENT_JOIN_ROOM, {room});
+	});
 
 	return socket;
 }
