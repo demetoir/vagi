@@ -8,7 +8,7 @@ const StyledTextField = withStyles({
 	},
 })(TextField);
 
-export default function EventCodeInput({onChange, code}) {
+export default function EventCodeInput({onChange, code, onEnterKeyPress}) {
 	return (
 		<StyledTextField
 			required
@@ -20,6 +20,11 @@ export default function EventCodeInput({onChange, code}) {
 			placeholder="이벤트 코드를 입력하세요"
 			onChange={onChange}
 			value={code}
+			onKeyPress={e => {
+				if (e.key === "Enter" && onEnterKeyPress) {
+					onEnterKeyPress();
+				}
+			}}
 		/>
 	);
 }
