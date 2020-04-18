@@ -37,10 +37,16 @@ function EventForm() {
 				url: `${URLS.getEvent}?encodedEventCode=${encodedEventCode}`,
 			});
 
+			console.debug(res);
 			setMessage("redirect to app");
 			window.location.href = `${URLS.guestSignUp}/${encodedEventCode}`;
 		} catch (e) {
 			console.debug(e);
+
+			if (e.response && e.response.data) {
+				console.log(e.response.data);
+			}
+
 			setMessage("some thing wrong");
 		}
 	};
