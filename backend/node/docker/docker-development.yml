@@ -16,6 +16,7 @@ services:
             - MYSQL_PASSWORD=${MYSQL_DEV_PASSWORD}
         networks:
             - nginx.docker
+        restart: always
 
     redis:
         container_name: ${REDIS_DEV_CONTAINER_NAME}
@@ -26,6 +27,7 @@ services:
             - ${DOCKER_VOLUMNS_PATH}/${REDIS_DEV_CONTAINER_NAME}:/data
         networks:
             - nginx.docker
+        restart: always
 
     express:
         container_name: ${EXPRESS_DEV_CONTAINER_NAME}
