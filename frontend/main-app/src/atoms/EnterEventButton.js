@@ -15,7 +15,6 @@ export default function EventEnterButton({onClick}) {
 			variant="contained"
 			color="primary"
 			size="large"
-			type="submit"
 			onClick={onClick}
 		>
 			참가하기

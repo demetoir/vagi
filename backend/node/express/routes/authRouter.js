@@ -6,7 +6,7 @@ import AuthController from "../controller/AuthController.js";
 const authRouter = express.Router();
 
 authRouter.get(
-	"/google/login",
+	"/auth/google/login",
 	passport.authenticate("google", {
 		session: false,
 		scope: ["email", "profile"],
@@ -17,7 +17,7 @@ authRouter.get(
 const authController = new AuthController(logger);
 
 authRouter.get(
-	"/google/callback",
+	"/auth/google/callback",
 	passport.authenticate("google", {
 		session: false,
 	}),

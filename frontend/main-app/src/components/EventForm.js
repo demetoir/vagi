@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import React, {useState} from "react";
+import axios from "axios";
 import config from "../config";
 import EventCodeInput from "../atoms/EventCodeInput.js";
 import EventEnterButton from "../atoms/EnterEventButton.js";
@@ -16,7 +17,6 @@ const EventFormStyle = styled.div`
 	align-items: center;
 `;
 
-
 function EventForm() {
 	const [errorMessage, setMessage] = useState(initialErrorMessage);
 	const [code, setCode] = useState(initialCode);
@@ -24,22 +24,36 @@ function EventForm() {
 		setCode(e.target.value);
 		setMessage(initialErrorMessage);
 	};
-	const onEnterEvent = () => {
+	const onEnterEvent = async () => {
 		setMessage(enterEventMessage);
-		const path = window.btoa(code);
 
-		window.location.href = `${config.guestAppURL}/${path}`;
-		setCode(initialCode);
+		const encodedEventCode = window.btoa(code);
+
+		// todo refactoring
+		try {
+			await axios({
+				method: "get",
+				url: `${config.guestEventCode}?encodedEventCode=${encodedEventCode}`,
+			});
+
+			setMessage("redirect to app");
+			window.location.href = `${config.guestSignUpURL}/${encodedEventCode}`;
+		} catch (e) {
+			console.debug(e);
+			setMessage(e.response.data.error);
+		}
 	};
 
 	return (
-		<form autoComplete="off">
-			<EventFormStyle>
-				<EventCodeInput onChange={onChange} value={code}/>
-				<EventEnterButton onClick={onEnterEvent}/>
-				<EventCodeInputErrorMessage message={errorMessage}/>
-			</EventFormStyle>
-		</form>
+		<EventFormStyle>
+			<EventCodeInput
+				onChange={onChange}
+				onEnterKeyPress={onEnterEvent}
+				value={code}
+			/>
+			<EventEnterButton onClick={onEnterEvent} />
+			<EventCodeInputErrorMessage message={errorMessage} />
+		</EventFormStyle>
 	);
 }
 

@@ -6,8 +6,12 @@ import Cookies from "js-cookie";
 
 export default function createApolloClient(uri, cookieKey) {
 	const httpLink = createHttpLink({uri});
+
 	const authLink = setContext((_, context) => {
-		const headers = {...context.headers, authorization: Cookies.get(cookieKey)};
+		const headers = {
+			...context.headers,
+			authorization: `bearer ${Cookies.get(cookieKey)}`,
+		};
 
 		return {headers};
 	});
