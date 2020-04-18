@@ -1,9 +1,8 @@
 import io from "socket.io-client";
 import Cookie from "js-cookie";
 
-function getSocket(URL) {
-	const cookieName = "vaagle-host";
-	const token = Cookie.get(cookieName);
+function createSocket(URL, token) {
+
 
 	const options = {
 		credentials: false,
@@ -28,17 +27,16 @@ function getSocket(URL) {
 }
 
 
-function combineURL(host, nameSpace) {
-	return nameSpace ? `${host}/${nameSpace}` : `${host}`;
-}
-
 export function initSocketIoClientWrapper(
 	host,
 	nameSpace = undefined,
+	token
 ) {
-	const url = combineURL(host, nameSpace);
+	const url = nameSpace ? `${host}/${nameSpace}` : `${host}`;
 
-	socketClient = getSocket(url);
+
+
+	socketClient = createSocket(url, token);
 
 	emitSocketEvent = (eventName, func) => () => {
 		socketClient.emit(eventName, func());
