@@ -5,16 +5,13 @@ import morgan from "morgan";
 import authRouter from "./routes/authRouter.js";
 import guestRouter from "./routes/guestRouter.js";
 import hostRouter from "./routes/hostRouter.js";
+import staticRouter from "./routes/staticRouter.js";
 import apiRouter from "./routes/apiRouter.js";
 import customPassport from "./authentication/CustomPassport.js";
 
 function App(config) {
 	const app = express();
-	const {publicPath, routePage} = config;
-
-	app.use("/host-app", express.static(`${publicPath}/host-app`));
-	app.use("/guest-app", express.static(`${publicPath}/guest-app`));
-	app.use("/main-app", express.static(`${publicPath}/main-app`));
+	const {routePage} = config;
 
 	app.use(cors());
 	app.use(express.json());
@@ -27,6 +24,7 @@ function App(config) {
 	app.use("/", guestRouter);
 	app.use("/", hostRouter);
 	app.use("/", apiRouter);
+	app.use("/", staticRouter);
 
 	app.get("/", (req, res) => {
 		res.redirect(routePage.main);
