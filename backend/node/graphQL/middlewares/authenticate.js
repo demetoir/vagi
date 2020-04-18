@@ -1,14 +1,12 @@
 import jwt from "jsonwebtoken";
 import {findHostByOAuthId} from "../../DB/queries/host.js";
 import logger from "../logger.js";
-import {
-	AUTHORITY_TYPE_GUEST,
-	AUTHORITY_TYPE_HOST,
-} from "../../constants/authorityTypes.js";
+import {AUTHORITY_TYPE_GUEST, AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
 import config from "../config/config.js";
 import {getGuestByGuestSid} from "../../DB/queries/guest.js";
 
 const authenticate = async (resolver, root, args, context, info) => {
+	// todo bearer parser
 	const jwtToken = context.request.headers.authorization.slice(7);
 	const secret = config.tokenArgs.secret;
 	const jwtPayload = jwt.verify(jwtToken, secret);
