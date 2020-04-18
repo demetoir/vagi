@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import React, {useState} from "react";
 import axios from "axios";
-import config from "../config";
+import React, {useState} from "react";
+import URLS from "../URLS.js";
 import EventCodeInput from "../atoms/EventCodeInput.js";
 import EventEnterButton from "../atoms/EnterEventButton.js";
 import EventCodeInputErrorMessage from "../atoms/EventCodeInputErrorMessage.js";
@@ -31,16 +31,17 @@ function EventForm() {
 
 		// todo refactoring
 		try {
-			await axios({
+			const res = await axios({
 				method: "get",
-				url: `${config.guestEventCode}?encodedEventCode=${encodedEventCode}`,
+				url: `${URLS.getEvent}?encodedEventCode=${encodedEventCode}`,
 			});
 
+			console.debug(res);
 			setMessage("redirect to app");
-			window.location.href = `${config.guestSignUpURL}/${encodedEventCode}`;
+			window.location.href = `${URLS.guestSignUp}/${encodedEventCode}`;
 		} catch (e) {
 			console.debug(e);
-			setMessage(e.response.data.error);
+			setMessage("some thing wrong");
 		}
 	};
 

@@ -1,7 +1,7 @@
 import {withStyles} from "@material-ui/core/styles";
 import {Button} from "@material-ui/core";
 import React from "react";
-import config from "../config";
+import URLS from "../URLS.js";
 
 const GoogleOauthLoginButtonStyle = withStyles({
 	root: {
@@ -14,7 +14,7 @@ const GoogleOauthLoginButtonStyle = withStyles({
 
 export default function GoogleOAuthLoginButton() {
 	return (
-		<GoogleOauthLoginButtonStyle href={config.authLoginURL}>
+		<GoogleOauthLoginButtonStyle href={URLS.authLogin}>
 			<div/>
 		</GoogleOauthLoginButtonStyle>
 	);
