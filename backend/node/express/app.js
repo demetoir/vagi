@@ -23,9 +23,9 @@ function App(config) {
 	app.use(morgan("dev"));
 	app.use(cookieParser());
 
-	app.use("/auth", authRouter);
-	app.use("/guest", guestRouter);
-	app.use("/host", hostRouter);
+	app.use("/", authRouter);
+	app.use("/", guestRouter);
+	app.use("/", hostRouter);
 	app.use("/", apiRouter);
 
 	app.get("/", (req, res) => {
