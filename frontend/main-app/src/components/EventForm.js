@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import URLS from "../URLS.js";
 import EventCodeInput from "../atoms/EventCodeInput.js";
 import EventEnterButton from "../atoms/EnterEventButton.js";
@@ -8,7 +8,6 @@ import EventCodeInputErrorMessage from "../atoms/EventCodeInputErrorMessage.js";
 
 const enterEventMessage = "이벤트 번호가 전달되었습니다.";
 const initialErrorMessage = "";
-const initialCode = "";
 
 const EventFormStyle = styled.div`
 	display: flex;
@@ -19,15 +18,17 @@ const EventFormStyle = styled.div`
 
 function EventForm() {
 	const [errorMessage, setMessage] = useState(initialErrorMessage);
-	const [code, setCode] = useState(initialCode);
-	const onChange = e => {
-		setCode(e.target.value);
+	const inputRef = useRef(null);
+
+	const onChange = () => {
 		setMessage(initialErrorMessage);
 	};
-	const onEnterEvent = async () => {
-		setMessage(enterEventMessage);
 
-		const encodedEventCode = window.btoa(code);
+	const onEnterEvent = async () => {
+		const eventCode = inputRef.current.value;
+		const encodedEventCode = window.btoa(eventCode);
+
+		setMessage(enterEventMessage);
 
 		// todo refactoring
 		try {
@@ -36,7 +37,6 @@ function EventForm() {
 				url: `${URLS.getEvent}?encodedEventCode=${encodedEventCode}`,
 			});
 
-			console.debug(res);
 			setMessage("redirect to app");
 			window.location.href = `${URLS.guestSignUp}/${encodedEventCode}`;
 		} catch (e) {
@@ -50,7 +50,7 @@ function EventForm() {
 			<EventCodeInput
 				onChange={onChange}
 				onEnterKeyPress={onEnterEvent}
-				value={code}
+				inputRef={inputRef}
 			/>
 			<EventEnterButton onClick={onEnterEvent} />
 			<EventCodeInputErrorMessage message={errorMessage} />
