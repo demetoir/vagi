@@ -26,6 +26,7 @@ import {createSocketIOClient, SocketClientProvider} from "./socket";
 	} catch (e) {
 		console.debug(e);
 		console.debug(e.response.data);
+		// todo add error page
 		return;
 	}
 
