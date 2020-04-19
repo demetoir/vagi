@@ -104,21 +104,14 @@ describe("GuestController", () => {
 			assert(redirectSpy.calledOnceWithExactly(routePage.main));
 		});
 
-		it("throw Error fallback on decode event code", async () => {
+		it("redirect on fail to decode event code", async () => {
 			const signUp = guestController.signUp();
 			const invalidEncodedEventCode = "#$^%@#$%@#$%";
 			const req = {params: {encodedEventCode: invalidEncodedEventCode}};
 
-			try {
-				await signUp(req, response);
+			await signUp(req, response);
 
-				assert(false, "should throw error");
-			} catch (e) {
-				assert.deepStrictEqual(
-					e,
-					new Error("can not decode eventCode"),
-				);
-			}
+			assert(redirectSpy.calledOnceWithExactly(routePage.main));
 		});
 
 		// todo need db mock witch throw Error
