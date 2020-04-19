@@ -41,7 +41,16 @@ dependencies {
 
 
     // spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // oauth2.0 dependency ref https://hue9010.github.io/spring/OAuth2/
+    implementation 'org.springframework.cloud:spring-cloud-starter-security:2.1.2.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.1.2.RELEASE'
+
+    // JWT oauth
+    compile 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
 
     // lombok
@@ -68,6 +77,10 @@ dependencies {
 
     // devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+
+    implementation 'com.google.code.gson:gson'
+
 }
 
 test {
