@@ -61,7 +61,7 @@ describe("AuthController", () => {
 			assert.equal(result, undefined);
 
 			assert(redirectSpy.calledOnceWithExactly(routePage.host));
-			assert(cookieSpy.calledOnce);
+			assert(cookieSpy.calledTwice);
 		});
 
 		describe("redirect main on error", () => {
