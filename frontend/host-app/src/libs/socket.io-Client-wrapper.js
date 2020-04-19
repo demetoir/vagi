@@ -1,9 +1,6 @@
 import io from "socket.io-client";
-import Cookie from "js-cookie";
 
 function createSocket(URL, token) {
-
-
 	const options = {
 		credentials: false,
 		transportOptions: {
@@ -30,11 +27,9 @@ function createSocket(URL, token) {
 export function initSocketIoClientWrapper(
 	host,
 	nameSpace = undefined,
-	token
+	token,
 ) {
 	const url = nameSpace ? `${host}/${nameSpace}` : `${host}`;
-
-
 
 	socketClient = createSocket(url, token);
 
