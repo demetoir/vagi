@@ -1,10 +1,9 @@
 import Sequelize from "sequelize";
 import models from "../models";
 import logger from "../logger.js";
+import {plainFindAll, plainOne} from "../utils.js";
 
-const sequelize = models.sequelize;
-// noinspection JSUnresolvedVariable
-const Vote = models.Vote;
+const sequelize = models.sequelizeSingleton;
 const Op = Sequelize.Op;
 
 /**
@@ -14,9 +13,9 @@ const Op = Sequelize.Op;
  * @return {Promise<object>}
  */
 export async function addVote({GuestId, CandidateId}) {
-	const result = await Vote.create({GuestId, CandidateId});
+	const res = await models.Vote.create({GuestId, CandidateId});
 
-	return result.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -26,7 +25,7 @@ export async function addVote({GuestId, CandidateId}) {
  * @return {Promise<number>} affected rows number
  */
 export async function deleteVoteBy({GuestId, CandidateId}) {
-	return Vote.destroy({where: {GuestId, CandidateId}});
+	return models.Vote.destroy({where: {GuestId, CandidateId}});
 }
 
 /**
@@ -48,7 +47,7 @@ export async function swapVoteByGuestId(
 		transaction = await sequelize.transaction();
 
 		// step 1
-		const vote = await Vote.findOne({
+		const vote = await models.Vote.findOne({
 			where: {
 				GuestId,
 				CandidateId: oldCandidateId,
@@ -87,7 +86,7 @@ export async function swapVoteByGuestId(
  * @return {Promise<object[]>}
  */
 export async function getCandidatesByGuestId(candidateList, guestId) {
-	const result = await Vote.findAll({
+	const res = await models.Vote.findAll({
 		where: {
 			[Op.and]: [
 				{GuestId: guestId}, {
@@ -100,7 +99,7 @@ export async function getCandidatesByGuestId(candidateList, guestId) {
 		attributes: ["CandidateId"],
 	});
 
-	return result.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -109,7 +108,7 @@ export async function getCandidatesByGuestId(candidateList, guestId) {
  * @return {Promise<number>}
  */
 export async function getVotersByCandidateIds(candidateIds) {
-	return Vote.count({
+	return models.Vote.count({
 		where: {
 			CandidateId: {
 				[Op.or]: candidateIds,

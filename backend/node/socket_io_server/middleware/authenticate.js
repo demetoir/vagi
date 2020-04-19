@@ -1,57 +1,39 @@
 import jwt from "jsonwebtoken";
 import loadConfig from "../config/configLoader";
 import logger from "../logger";
-import {findHostByOAuthId} from "../../DB/queries/host.js";
-import {getGuestByGuestSid} from "../../DB/queries/guest";
-import {
-	AUTHORITY_TYPE_GUEST,
-	AUTHORITY_TYPE_HOST,
-} from "../../constants/authorityTypes.js";
+import verifyJWTPayload from "../validator/verifyJWTPayload.js";
+import BearerTokenParser from "../../libs/BearerTokenParser.js";
 
 const {tokenArgs} = loadConfig();
 
-const isInValidAud = aud =>
-	aud !== AUTHORITY_TYPE_GUEST && aud !== AUTHORITY_TYPE_HOST;
-
-const isInValidIss = iss => iss !== tokenArgs.issuer;
-
-// todo refactoring
-async function verifyPayload(payload) {
-	const {aud, iss} = payload;
-
-	if (isInValidIss(iss)) {
-		throw new Error("Authentication Error: invalid iss");
-	}
-
-	if (isInValidAud(aud)) {
-		throw new Error("Authentication Error: invalid aud");
-	}
-
-	let user = null;
-
-	if (aud === "guest") {
-		user = getGuestByGuestSid(payload.guestSid);
-	} else if (aud === "host") {
-		user = findHostByOAuthId(payload.oauthId);
-	}
-
-	if (!user) {
-		throw new Error("Authentication Error: invalid userInfo");
-	}
-}
-
 async function authenticate(socket, next) {
+	const token = BearerTokenParser.parse(socket.handshake);
+
+	if (token === null) {
+		const errorMsg = `authenticate error: jwt is not found in bearer token`;
+
+		logger.error(errorMsg);
+
+		return next(new Error(errorMsg));
+	}
+
+	let payload;
+
 	try {
-		const token = socket.handshake.query.token;
-		const payload = jwt.verify(token, tokenArgs.secret);
-
-		await verifyPayload(payload);
-
-		return next();
+		payload = jwt.verify(token, tokenArgs.secret);
 	} catch (e) {
 		logger.debug(e);
-		return next(new Error("Authentication Error"));
+		return next(new Error("authenticate error: jwt malformed"));
 	}
+
+	try {
+		await verifyJWTPayload(payload);
+	} catch (e) {
+		logger.debug(e);
+		return next(e);
+	}
+
+	return next();
 }
 
 export default authenticate;

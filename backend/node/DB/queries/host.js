@@ -1,7 +1,5 @@
 import models from "../models";
-
-// noinspection JSUnresolvedVariable
-const Host = models.Host;
+import {plainOne} from "../utils.js";
 
 /**
  *
@@ -9,24 +7,9 @@ const Host = models.Host;
  * @returns {Promise<Model<any, any>|any>}
  */
 export async function findHostByOAuthId(oauthId) {
-	let res = await Host.findOne({where: {oauthId}});
+	const res = await models.Host.findOne({where: {oauthId}});
 
-	if (res !== null) {
-		res = res.get({plain: true});
-	}
-
-	return res;
-}
-
-/**
- *
- * @param oauthId {String}
- * @returns {Promise<boolean>}
- */
-export async function isExistHostOAuthId(oauthId) {
-	const host = await findHostByOAuthId(oauthId);
-
-	return !!host;
+	return plainOne(res);
 }
 
 /**
@@ -38,10 +21,28 @@ export async function isExistHostOAuthId(oauthId) {
  * @returns {Promise<object>}
  */
 export async function findOrCreateHostByOAuth({oauthId, name, image, email}) {
-	const res = await Host.findOrCreate({
+	const res = await models.Host.findOrCreate({
 		where: {oauthId},
 		defaults: {name, image, email, emailFeedBack: false},
 	});
 
 	return res[0].get({plain: true});
+}
+
+export async function createHost({
+	oauthId,
+	name,
+	image,
+	email,
+	emailFeedBack = false,
+}) {
+	const res = await models.Host.create({
+		oauthId,
+		name,
+		image,
+		email,
+		emailFeedBack,
+	});
+
+	return plainOne(res);
 }

@@ -1,0 +1,26 @@
+{
+	"ignore": [
+		"/build/",
+		"/docker/",
+		"/script/",
+		"/express/public/",
+		"/node_modules/",
+		"/spec/",
+		"/express/",
+		"/graphQL/",
+		".babelrc",
+		".env",
+		".env.example",
+		".eslintignore",
+		".eslintrc.js",
+		".mocharc.js",
+		".mocharc.js",
+		".pretiericnore",
+		".pretierrc",
+		".sequelizerc",
+		"package.json",
+		"yarn.lock",
+		".gitignore"
+	],
+	"delay": 2000
+}

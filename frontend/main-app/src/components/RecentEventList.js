@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import Cookie from "js-cookie";
-import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 import {GUEST_COOKIE_KEY, HOST_COOKIE_KEY} from "../constants/CookieKeys.js";
-import config from "../config";
 import RecentListButton from "../atoms/RecentListButton.js";
-
+import GuestMenuItem from "../atoms/GuestMenuItem.js";
+import EmptyMenuItem from "../atoms/EmptyMenuItem.js";
+import URLS from "../URLS.js";
 
 export default function RecentEventList() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -16,38 +17,29 @@ export default function RecentEventList() {
 		setAnchorEl(null);
 	};
 
-	const hostCookie = Cookie.get(HOST_COOKIE_KEY);
-	const guestCookie = Cookie.get(GUEST_COOKIE_KEY);
-	const empty = !hostCookie && !guestCookie;
+	const hasHostCookie = Cookie.get(HOST_COOKIE_KEY);
+	const hasGuestCookie = Cookie.get(GUEST_COOKIE_KEY);
+	const isEmpty = !hasHostCookie && !hasGuestCookie;
 
-	const hostURL = `${config.hostAppURL}/`;
-	const guestURL = `${config.guestAppURL}/`;
+	const hostURL = URLS.hostApp;
 
 	return (
 		<>
 			<RecentListButton onClick={handleClick}/>
 			<Menu
+				keepMounted
 				id="simple-menu"
 				anchorEl={anchorEl}
-				keepMounted
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-				{hostCookie && (
-					<MenuItem onClick={handleClose}>
+				{hasHostCookie && (
+					<MenuItem onClick={handleClose} ref={null}>
 						<a href={hostURL}>Go To Host</a>
 					</MenuItem>
 				)}
-				{guestCookie && (
-					<MenuItem onClick={handleClose}>
-						<a href={guestURL}>Go To Guest</a>
-					</MenuItem>
-				)}
-				{empty && (
-					<MenuItem onClick={handleClose}>
-						최근 기록이 없습니다
-					</MenuItem>
-				)}
+				{hasGuestCookie && <GuestMenuItem onClick={handleClose}/>}
+				{isEmpty && <EmptyMenuItem onClick={handleClose}/>}
 			</Menu>
 		</>
 	);

@@ -29,7 +29,7 @@ describe("guest query api", () => {
 		assert(guest.email === null);
 	});
 
-	it("return null when can not getGuestByGuestSid", async () => {
+	it("return null when can not findByGuestSid", async () => {
 		const res = await getGuestByGuestSid("234234");
 
 		assert(res === null);

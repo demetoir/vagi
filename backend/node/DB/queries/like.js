@@ -1,7 +1,5 @@
 import models from "../models";
-
-// noinspection JSUnresolvedVariable
-const Like = models.Like;
+import {plainFindAll, plainOne} from "../utils.js";
 
 /**
  *
@@ -10,12 +8,12 @@ const Like = models.Like;
  * @returns {Promise<object>}
  */
 export async function createLike({GuestId, QuestionId}) {
-	const res = await Like.create({
+	const res = await models.Like.create({
 		GuestId,
 		QuestionId,
 	});
 
-	return res.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -25,7 +23,7 @@ export async function createLike({GuestId, QuestionId}) {
  * @returns {Promise<number>}
  */
 export async function deleteLikeBy({GuestId, QuestionId}) {
-	return Like.destroy({where: {GuestId, QuestionId}});
+	return models.Like.destroy({where: {GuestId, QuestionId}});
 }
 
 /**
@@ -34,9 +32,9 @@ export async function deleteLikeBy({GuestId, QuestionId}) {
  * @returns {Promise<Object[]>}
  */
 export async function getLikesByGuestId(GuestId) {
-	const res = await Like.findAll({
+	const res = await models.Like.findAll({
 		where: {GuestId},
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }

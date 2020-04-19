@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import React, {useState} from "react";
-import config from "../config";
+import axios from "axios";
+import React, {useRef, useState} from "react";
+import URLS from "../URLS.js";
 import EventCodeInput from "../atoms/EventCodeInput.js";
 import EventEnterButton from "../atoms/EnterEventButton.js";
 import EventCodeInputErrorMessage from "../atoms/EventCodeInputErrorMessage.js";
 
 const enterEventMessage = "이벤트 번호가 전달되었습니다.";
 const initialErrorMessage = "";
-const initialCode = "";
 
 const EventFormStyle = styled.div`
 	display: flex;
@@ -16,30 +16,51 @@ const EventFormStyle = styled.div`
 	align-items: center;
 `;
 
-
 function EventForm() {
 	const [errorMessage, setMessage] = useState(initialErrorMessage);
-	const [code, setCode] = useState(initialCode);
-	const onChange = e => {
-		setCode(e.target.value);
+	const inputRef = useRef(null);
+
+	const onChange = () => {
 		setMessage(initialErrorMessage);
 	};
-	const onEnterEvent = () => {
-		setMessage(enterEventMessage);
-		const path = window.btoa(code);
 
-		window.location.href = `${config.guestAppURL}/${path}`;
-		setCode(initialCode);
+	const onEnterEvent = async () => {
+		const eventCode = inputRef.current.value;
+		const encodedEventCode = window.btoa(eventCode);
+
+		setMessage(enterEventMessage);
+
+		// todo refactoring
+		try {
+			const res = await axios({
+				method: "get",
+				url: `${URLS.getEvent}?encodedEventCode=${encodedEventCode}`,
+			});
+
+			console.debug(res);
+			setMessage("redirect to app");
+			window.location.href = `${URLS.guestSignUp}/${encodedEventCode}`;
+		} catch (e) {
+			console.debug(e);
+
+			if (e.response && e.response.data) {
+				console.log(e.response.data);
+			}
+
+			setMessage("some thing wrong");
+		}
 	};
 
 	return (
-		<form autoComplete="off">
-			<EventFormStyle>
-				<EventCodeInput onChange={onChange} value={code}/>
-				<EventEnterButton onClick={onEnterEvent}/>
-				<EventCodeInputErrorMessage message={errorMessage}/>
-			</EventFormStyle>
-		</form>
+		<EventFormStyle>
+			<EventCodeInput
+				onChange={onChange}
+				onEnterKeyPress={onEnterEvent}
+				inputRef={inputRef}
+			/>
+			<EventEnterButton onClick={onEnterEvent} />
+			<EventCodeInputErrorMessage message={errorMessage} />
+		</EventFormStyle>
 	);
 }
 

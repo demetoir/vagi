@@ -28,16 +28,16 @@ if (config.use_env_variable) {
 // import es6 base sequelize model
 // ref https://codewithhugo.com/using-es6-classes-for-sequelize-4-models/
 // pass your sequelize config here
-import Host from "./host.js";
-import Emoji from "./emoji.js";
-import Event from "./event.js";
-import Guest from "./guest.js";
-import Hashtag from "./hashtag.js";
-import Like from "./like.js";
-import Poll from "./poll.js";
-import Question from "./question.js";
-import Vote from "./vote.js";
-import Candidate from "./candidate.js";
+import Host from "./modelDefines/Host.js";
+import Emoji from "./modelDefines/emoji.js";
+import Event from "./modelDefines/event.js";
+import Guest from "./modelDefines/guest.js";
+import Hashtag from "./modelDefines/hashtag.js";
+import Like from "./modelDefines/like.js";
+import Poll from "./modelDefines/poll.js";
+import Question from "./modelDefines/question.js";
+import Vote from "./modelDefines/vote.js";
+import Candidate from "./modelDefines/candidate.js";
 
 // init all sequelize model
 const models = {
@@ -60,10 +60,21 @@ Object.values(models)
 	.forEach(model => model.associate(models));
 
 const db = {
-	...models,
+	// ...modelQuerys,
 	sequelize,
 	sequelizeSingleton: sequelize,
+	modelsSingleton: models,
 	modelList: Object.values(models),
+	Host: models.Host,
+	Event: models.Event,
+	Emoji: models.Emoji,
+	Guest: models.Guest,
+	Hashtag: models.Hashtag,
+	Like: models.Like,
+	Poll: models.Poll,
+	Question: models.Question,
+	Vote: models.Vote,
+	Candidate: models.Candidate,
 };
 
 module.exports = db;

@@ -1,7 +1,5 @@
 import models from "../models";
-
-// noinspection JSUnresolvedVariable
-const Hashtag = models.Hashtag;
+import {plainFindAll, plainOne} from "../utils.js";
 
 /**
  *
@@ -10,12 +8,12 @@ const Hashtag = models.Hashtag;
  * @returns {Promise<object>}
  */
 export async function createHashtag({name, EventId}) {
-	const res = await Hashtag.create(
+	const res = await models.Hashtag.create(
 		{name, EventId},
 		{default: {updateAt: new Date(), createAt: new Date()}},
 	);
 
-	return res.get({plain: true});
+	return plainOne(res);
 }
 
 /**
@@ -24,9 +22,9 @@ export async function createHashtag({name, EventId}) {
  * @return {Promise<Model[]>}
  */
 export async function createHashtags(hashTags) {
-	const res = await Hashtag.bulkCreate(hashTags, {returning: true});
+	const res = await models.Hashtag.bulkCreate(hashTags, {returning: true});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -36,7 +34,7 @@ export async function createHashtags(hashTags) {
  * @returns {Promise<number>}
  */
 export async function updateHashtagById({name, id}) {
-	return Hashtag.update({name}, {where: {id}});
+	return models.Hashtag.update({name}, {where: {id}});
 }
 
 /**
@@ -45,7 +43,7 @@ export async function updateHashtagById({name, id}) {
  * @returns {Promise<number>}
  */
 export async function deleteHashTagById(id) {
-	return Hashtag.destroy({where: {id}});
+	return models.Hashtag.destroy({where: {id}});
 }
 
 /**
@@ -54,9 +52,9 @@ export async function deleteHashTagById(id) {
  * @returns {Promise<object[]>}
  */
 export async function getHashtagByEventId(EventId) {
-	const res = await Hashtag.findAll({where: {EventId}});
+	const res = await models.Hashtag.findAll({where: {EventId}});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -65,7 +63,7 @@ export async function getHashtagByEventId(EventId) {
  * @returns {Promise<object[]>}
  */
 export async function getHashtagByEventIds(EventIdList) {
-	const res = await Hashtag.findAll({where: {EventId: EventIdList}});
+	const res = await models.Hashtag.findAll({where: {EventId: EventIdList}});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }

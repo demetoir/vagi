@@ -2,6 +2,7 @@ import {closePoll} from "../../../DB/queries/poll";
 import logger from "../../logger.js";
 import {status} from "../../../constants/socket.ioResponseState.js";
 
+// todo test
 const closePollSocketHandler = async (data, emit) => {
 	try {
 		const {pollId} = data;

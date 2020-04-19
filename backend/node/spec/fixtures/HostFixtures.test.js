@@ -11,7 +11,7 @@ describe(`host fixture`, () => {
 		it("with out args", async () => {
 			const host = await HostFixtures.host();
 
-			const realHost = await findHostByOAuthId(null);
+			const realHost = await findHostByOAuthId(host.oauthId);
 
 			assert.deepStrictEqual(host, realHost);
 		});
@@ -23,6 +23,19 @@ describe(`host fixture`, () => {
 			const realHost = await findHostByOAuthId(oAuthId);
 
 			assert.deepStrictEqual(host, realHost);
+		});
+
+		it("make unique", async () => {
+			// const hostFixture = new HostFixtures();
+			const host1 = await HostFixtures.host();
+			const host2 = await HostFixtures.host();
+
+			console.log(host1);
+			console.log(host2);
+			const host3 = await HostFixtures.host();
+			console.log(host3);
+
+			assert.notDeepStrictEqual(host1, host2);
 		});
 	});
 });

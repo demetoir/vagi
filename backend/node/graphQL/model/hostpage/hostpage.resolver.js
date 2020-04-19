@@ -1,7 +1,5 @@
-import faker from "faker";
 import {
 	findOrCreateEvent,
-	getAllEvents,
 	getEventById,
 	getEventOptionByEventId,
 	getEventsByHostId,
@@ -11,6 +9,12 @@ import {
 	createHashtags,
 	getHashtagByEventIds,
 } from "../../../DB/queries/hashtag.js";
+import RandomEventCodeGenerator from "../../../libs/RandomEventCodeGenerator.js";
+
+const randomEventCodeGenerator = new RandomEventCodeGenerator();
+
+const getEventOptionResolver = async (_, {EventId}) =>
+	getEventOptionByEventId(EventId);
 
 // todo do something
 function mappingHashTagsToEvents(hashTags, events, eventMap) {
@@ -25,29 +29,7 @@ function mappingHashTagsToEvents(hashTags, events, eventMap) {
 }
 
 // todo do something
-async function generateEventCode() {
-	let generatedEventCode = faker.random.alphaNumeric(4);
-	const events = await getAllEvents();
-	const alreadyExistEventCode = events.map(event => event.eventCode);
-
-	while (true) {
-		const isExist = alreadyExistEventCode.some(
-			someCode => generateEventCode === someCode,
-		);
-
-		if (!isExist) {
-			break;
-		}
-		generatedEventCode = faker.random.alphaNumeric(4);
-	}
-	return generatedEventCode;
-}
-
-const getEventOptionResolver = async (_, {EventId}) =>
-	getEventOptionByEventId(EventId);
-
-// todo do something
-const initQueryResolver = async (_, {param}, authority) => {
+const hostGlobalDataQueryResolver = async (_, {param}, authority) => {
 	// verifySubjectHostJwt(authority.sub);
 
 	const host = authority;
@@ -67,13 +49,13 @@ const initQueryResolver = async (_, {param}, authority) => {
 };
 
 const createHashTagsResolver = async (_, {hashTags}, authority) =>
-// verifySubjectHostJwt(authority.sub);
+	// verifySubjectHostJwt(authority.sub);
 
 	createHashtags(hashTags);
 const createEventResolver = async (_, {info}, authority) => {
 	// verifySubjectHostJwt(authority.sub);
 
-	const eventCode = await generateEventCode();
+	const eventCode = await randomEventCodeGenerator.generate();
 	const event = await findOrCreateEvent({
 		eventName: info.eventName,
 		eventCode,
@@ -100,7 +82,7 @@ const updateEventResolver = async (_, {event}, authority) => {
 
 export default {
 	Query: {
-		init: initQueryResolver,
+		init: hostGlobalDataQueryResolver,
 		getEventOption: getEventOptionResolver,
 	},
 

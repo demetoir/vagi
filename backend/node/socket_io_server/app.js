@@ -16,24 +16,36 @@ import {
 
 dotenv.config();
 
-const {port} = configLoader();
+const {port, namespace} = configLoader();
 const app = express();
-const httpServer = http.createServer(app).listen(port, () => {
-	logger.info(
-		`start socket.io server at ${port} with ${process.env.NODE_ENV} mode`,
-	);
+
+const httpServer = http.createServer(app);
+
+// noinspection JSUnusedGlobalSymbols
+const socketServer = io(httpServer, {
+	// for Preflight request of socket.io polling xhr request
+	// it should response http status code
+	handlePreflightRequest: (req, res) => {
+		// add origin check
+		const headers = {
+			"Access-Control-Allow-Headers": "Content-Type, Authorization",
+			"Access-Control-Allow-Origin": req.headers.origin,
+			"Access-Control-Allow-Credentials": true,
+		};
+
+		res.writeHead(200, headers);
+		res.end();
+	},
 });
-const socketServer = io(httpServer);
 
 socketServer.use(authenticate);
 
-const NAME_SPACE = "event";
-const namedServer = socketServer.of(NAME_SPACE);
+const namedServer = socketServer.of(namespace);
 
 namedServer.on(SOCKET_IO_EVENT_CONNECTION, async socket => {
 	const id = socket.id;
 
-	logger.info(`id ${id} connected at /${NAME_SPACE}`);
+	logger.info(`id ${id} connected at /${namespace}`);
 
 	RoomSocketHelper({
 		socket,
@@ -50,6 +62,12 @@ namedServer.on(SOCKET_IO_EVENT_CONNECTION, async socket => {
 	socket.on(SOCKET_IO_EVENT_DISCONNECT, reason => {
 		logger.info(`socket id ${id} disconnected reason:${reason}`);
 	});
+});
+
+httpServer.listen(port, () => {
+	logger.info(
+		`start socket.io server at ${port} with ${process.env.NODE_ENV} mode`,
+	);
 });
 
 export default app;

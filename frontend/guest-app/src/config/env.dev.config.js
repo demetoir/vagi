@@ -1,9 +1,11 @@
+const domain = process.env.REACT_APP_DEV_DOMAIN;
+
 const config = {
-	socketIOHost: "http://127.0.0.1",
-	socketIOPort: 4001,
-	apolloURI: "http://localhost:8000/graphql",
-	logoutRedirectURL: "http://localhost:3001/guest/logout",
-	inValidGuestRedirectURL: "http://localhost:5000",
+	socketIOHost: `http://${domain}`,
+	namespace: "socket/namespace/event",
+	apolloURI: `http://${domain}/graphql`,
+	logoutRedirectURL: `http://${domain}/guest/logout`,
+	inValidGuestRedirectURL: `http://${domain}`,
 };
 
 export default config;

@@ -1,55 +1,35 @@
 import io from "socket.io-client";
 import React, {createContext} from "react";
-import Cookie from "js-cookie";
 
-function combineURL(host, port, nameSpace) {
-	return nameSpace ? `${host}:${port}/${nameSpace}` : `${host}:${port}`;
-}
+import debuggingHandler from "./debuggingSocketHandler.js";
+import {
+	SOCKET_IO_EVENT_CONNECT,
+	SOCKET_IO_EVENT_JOIN_ROOM,
+} from "../constants/socket.io-event.js";
 
-function addBoilerplateSocketListener({socket, URL, room}) {
-	socket.on("connect", async () => {
-		// eslint-disable-next-line no-console
-		console.log(
-			`socket.io client connect to ${URL} as ${process.env.NODE_ENV} mode`,
-		);
-	});
+export function createSocketIOClient({host, namespace, room, token}) {
+	const URL = namespace ? `${host}/${namespace}` : `${host}`;
 
-	socket.on("joinRoom", () => {
-		// eslint-disable-next-line no-console
-		console.log(`join room success at ${room}`);
-	});
+	const options = {
+		credentials: false,
+		transportOptions: {
+			polling: {
+				extraHeaders: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		},
+	};
 
-	socket.on("leaveRoom", () => {
-		// eslint-disable-next-line no-console
-		console.log(`leave room success at ${room}`);
-	});
-
-	socket.on("disconnect", reason => {
-		// eslint-disable-next-line no-console
-		console.log(`io client disconnected by ${reason}`);
-	});
-
-	socket.on("reconnect", attemptNumber => {
-		// eslint-disable-next-line no-console
-		console.log(`io reconnect attempt ${attemptNumber}`);
-	});
-
-	socket.on("error", error => {
-		// eslint-disable-next-line no-console
-		console.log(`io error raise ${error}`);
-	});
-}
-
-export function createSocketIOClient({host, port, namespace, room}) {
-	const cookieName = "vaagle-guest";
-	const token = Cookie.get(cookieName);
-
-	const URL = combineURL(host, port, namespace);
-	const socket = io(URL, {query: {token}});
+	const socket = io(URL, options);
 
 	if (process.env.NODE_ENV === "development") {
-		addBoilerplateSocketListener({socket, URL, room});
+		debuggingHandler({socket, URL, room});
 	}
+
+	socket.on(SOCKET_IO_EVENT_CONNECT, () => {
+		socket.emit(SOCKET_IO_EVENT_JOIN_ROOM, {room});
+	});
 
 	return socket;
 }

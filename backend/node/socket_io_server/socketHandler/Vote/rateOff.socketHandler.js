@@ -6,6 +6,7 @@ import {
 	SOCKET_IO_RESPONSE_STATE_OK,
 } from "../../../constants/socket.ioResponseState.js";
 
+// todo test
 const rateOffSocketHandler = async (data, emit) => {
 	try {
 		const {GuestId, CandidateId, poll, index} = data;

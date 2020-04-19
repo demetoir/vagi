@@ -7,10 +7,9 @@ import {
 	POLL_STATE_STAND_BY,
 } from "../../constants/pollState.js";
 import {POLL_TYPE_N_ITEMS} from "../../constants/pollType.js";
+import {plainFindAll, plainOne} from "../utils.js";
 
-const sequelize = models.sequelize;
-// noinspection JSUnresolvedVariable
-const Poll = models.Poll;
+const sequelize = models.sequelizeSingleton;
 
 /**
  *
@@ -19,7 +18,7 @@ const Poll = models.Poll;
  */
 export async function openPoll(id) {
 	// result should be == [1], 1개의 row가 성공했다는 의미
-	const result = await Poll.update(
+	const result = await models.Poll.update(
 		{
 			state: POLL_STATE_RUNNING,
 			pollDate: new Date(),
@@ -39,7 +38,7 @@ export async function openPoll(id) {
  */
 export async function closePoll(id) {
 	// result should be == [1], 1개의 row가 성공했다는 의미
-	const result = await Poll.update(
+	const result = await models.Poll.update(
 		{
 			state: POLL_STATE_CLOSED,
 		},
@@ -57,12 +56,12 @@ export async function closePoll(id) {
  * @return {Promise<Object[]>}
  */
 export async function getPollsByEventId(EventId) {
-	const res = await Poll.findAll({
+	const res = await models.Poll.findAll({
 		where: {EventId},
 		order: [["id", "DESC"]],
 	});
 
-	return res.map(x => x.get({plain: true}));
+	return plainFindAll(res);
 }
 
 /**
@@ -89,7 +88,7 @@ export async function createPoll(
 	},
 	transaction = undefined,
 ) {
-	const result = await Poll.create(
+	const res = await models.Poll.create(
 		{
 			EventId,
 			pollName,
@@ -102,11 +101,10 @@ export async function createPoll(
 		{transaction},
 	);
 
-	return result.get({plain: true});
+	return plainOne(res);
 }
 
-// todo: refactoring
-// todo add test
+
 const makeCandidateRows = (id, pollType, candidates) => {
 	let i = 0;
 	const nItems = [];
@@ -124,8 +122,7 @@ const makeCandidateRows = (id, pollType, candidates) => {
 	return nItems;
 };
 
-// todo: refactoring
-// todo add test
+
 // look for inject transaction object
 // https://sequelize.org/master/manual/transactions.html#automatically-pass-transactions-to-all-queries
 export async function createPollAndCandidates(

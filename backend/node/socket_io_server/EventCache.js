@@ -1,5 +1,5 @@
 import {getEventById} from "../DB/queries/event.js";
-import RedisJSONCache from "../redis/redisJSONCache.js";
+import RedisJSONCache from "../redis/RedisJSONCache.js";
 import redisClient from "../redis/redisClient.js";
 
 const onMiss = async eventId => getEventById(eventId);

@@ -11,7 +11,8 @@ function AppLoadingWrapper() {
 	if (loading) {
 		return <AppSkeleton />;
 	} else if (error) {
-		window.location.href = config.inValidHostRedirectURL;
+		// todo add error page ..
+		// window.location.href = config.inValidGuestRedirectURL;
 		return <div />;
 	}
 

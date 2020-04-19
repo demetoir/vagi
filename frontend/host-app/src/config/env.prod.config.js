@@ -1,9 +1,12 @@
+const domain = process.env.REACT_APP_PROD_DOMAIN;
+
 const config = {
-	url: "http://www.vaagle.com/guest",
-	websocketHost: "http://www.vaagle.com",
-	websocketPort: 4000,
-	apolloURI: "http://www.vaagle.com:8000/graphql",
-	inValidGuestRedirectURL: "http://www.vaagle.com",
+	socketIOHost: `http://${domain}`,
+	namespace: "socket/namespace/event",
+	apolloURI: `http://${domain}/graphql`,
+	logoutRedirectURL: `http://${domain}/guest/logout`,
+	inValidGuestRedirectURL: `http://${domain}`,
+	eventLinkURL: `http://${domain}/guest`,
 };
 
 export default config;

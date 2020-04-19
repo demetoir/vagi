@@ -1,6 +1,6 @@
 import {withStyles} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
-import React from "react";
+import React, {useState} from "react";
 
 const StyledTextField = withStyles({
 	root: {
@@ -8,7 +8,11 @@ const StyledTextField = withStyles({
 	},
 })(TextField);
 
-export default function EventCodeInput({onChange, code}) {
+const initialEventCode = "";
+
+export default function EventCodeInput({onChange, onEnterKeyPress, inputRef}) {
+	const [value, setValue] = useState(initialEventCode);
+
 	return (
 		<StyledTextField
 			required
@@ -18,8 +22,18 @@ export default function EventCodeInput({onChange, code}) {
 			margin="normal"
 			variant="outlined"
 			placeholder="이벤트 코드를 입력하세요"
-			onChange={onChange}
-			value={code}
+			inputRef={inputRef}
+			value={value}
+			onChange={e => {
+				setValue(e.target.value);
+
+				onChange(e);
+			}}
+			onKeyPress={e => {
+				if (e.key === "Enter" && onEnterKeyPress) {
+					onEnterKeyPress();
+				}
+			}}
 		/>
 	);
 }

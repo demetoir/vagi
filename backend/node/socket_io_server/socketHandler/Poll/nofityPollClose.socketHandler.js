@@ -4,6 +4,7 @@ import {
 	SOCKET_IO_RESPONSE_STATE_OK,
 } from "../../../constants/socket.ioResponseState.js";
 
+// todo test
 const notifyPollCloseSocketHandler = async (data, emit) => {
 	try {
 		const {pollId} = data;

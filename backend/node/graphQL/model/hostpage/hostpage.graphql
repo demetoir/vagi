@@ -20,6 +20,7 @@ type Event {
 	HashTags: [HashTag]
 }
 
+# todo redundant, migrate to Event
 type EventOption {
 	moderationOption: Boolean!
 	replyOption: Boolean!
@@ -34,11 +35,13 @@ type Host {
 	image: String!
 }
 
+# todo rename to hostGlobalData
 type InitData {
 	events: [Event]!
 	host: Host!
 }
 
+# todo rename to createEventInput
 input EventInfo {
 	HostId: ID!
 	eventName: String!
@@ -46,15 +49,17 @@ input EventInfo {
 	endAt: String!
 }
 
-input HashTagInput {
-	name: String!
-	EventId: ID!
-}
-
+# todo rename to updateEventInput
 input EventUpdate {
 	eventName: String!
 	startAt: String!
 	endAt: String!
+	EventId: ID!
+}
+
+# todo rename to createHashtagInput
+input HashTagInput {
+	name: String!
 	EventId: ID!
 }
 

@@ -1,6 +1,7 @@
 import {updateQuestionById} from "../../../DB/queries/question.js";
 import {updateGuestById} from "../../../DB/queries/guest.js";
 
+// todo test
 const moveQuestionSocketHandler = async (data, emit) => {
 	const updateQuestionByIdPromise = updateQuestionById(data);
 	const updateGuestBYIdPromise = updateGuestById({

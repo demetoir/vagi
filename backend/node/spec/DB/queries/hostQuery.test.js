@@ -3,7 +3,6 @@ import assert from "assert";
 import {
 	findHostByOAuthId,
 	findOrCreateHostByOAuth,
-	isExistHostOAuthId,
 } from "../../../DB/queries/host.js";
 import SequelizeTestHelper from "../../testHelper/SequelizeTestHelper.js";
 
@@ -58,26 +57,5 @@ describe("host query api", () => {
 
 		// than
 		assert(host === null);
-	});
-
-	it("be able to check is exist host oauth id", async () => {
-		// given
-		const oauthId = "1234";
-		const image = "image";
-		const name = "name";
-		const email = "email";
-
-		await findOrCreateHostByOAuth({
-			oauthId,
-			image,
-			email,
-			name,
-		});
-
-		// when
-		const isExist = await isExistHostOAuthId(oauthId);
-
-		assert(typeof isExist === "boolean");
-		assert(isExist === true);
 	});
 });
