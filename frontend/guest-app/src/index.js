@@ -14,9 +14,11 @@ import {createSocketIOClient, SocketClientProvider} from "./socket";
 	let token;
 
 	try {
+		// todo refactoring me
 		const res = await axios({
 			method: "post",
 			url: "/api/guest/token",
+			headers: {"X-Request-from": "guest"},
 		});
 
 		console.debug(res);
