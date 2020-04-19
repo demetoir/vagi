@@ -20,7 +20,9 @@ export default class AuthController {
 			}
 
 			if (!user.oauthId) {
-				this.logger.error(`user expect property 'oauthId', but not exist`);
+				this.logger.error(
+					`user expect property 'oauthId', but not exist`,
+				);
 				return res.redirect(routePage.main);
 			}
 
@@ -30,6 +32,11 @@ export default class AuthController {
 
 			this.logger.debug(`google auth sign up ${user.oauthId}`);
 
+			res.cookie("hostRefreshToken", accessToken, {
+				...options,
+				httpOnly: true,
+			});
+			// todo fix redundant cookie main 에서 최근 접속 여부만 가능하도록 수정
 			res.cookie(CookieKeys.HOST_APP, accessToken, options);
 			return res.redirect(routePage.host);
 		};

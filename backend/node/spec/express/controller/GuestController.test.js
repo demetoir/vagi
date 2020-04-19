@@ -95,20 +95,13 @@ describe("GuestController", () => {
 			assert.equal(typeof signUp, "function");
 		});
 
-		it("throw Error on params not found encodedEventCode", async () => {
+		it("redirect on params not found encodedEventCode", async () => {
 			const signUp = guestController.signUp();
 			const req = {params: {}};
 
-			try {
-				await signUp(req, response);
+			await signUp(req, response);
 
-				assert(false, "should throw error");
-			} catch (e) {
-				assert.deepStrictEqual(
-					e,
-					new Error("encodedEventCode not found in request.params"),
-				);
-			}
+			assert(redirectSpy.calledOnceWithExactly(routePage.main));
 		});
 
 		it("throw Error fallback on decode event code", async () => {

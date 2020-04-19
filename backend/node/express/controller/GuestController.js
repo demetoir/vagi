@@ -4,7 +4,6 @@ import CookieKeys from "../CookieKeys.js";
 import config from "../config";
 import JWTCookieOptions from "../JWTCookie/JWTCookieOptions.js";
 import validateEventCode from "../validator/validateEventCode.js";
-import guestJWTCookie from "../JWTCookie/guestJWTCookie.js";
 
 const {routePage} = config;
 
@@ -69,26 +68,28 @@ export default class GuestController {
 			const encodedEventCode = req.params.encodedEventCode || null;
 
 			if (encodedEventCode === null) {
-				throw new Error("encodedEventCode not found in request.params");
+				this.logger.info(
+					`encodedEventCode not found in request.params`,
+				);
+				// todo redirect to main error page
+				return res.redirect(routePage.main);
 			}
 
 			const eventCode = decodeEventCode(encodedEventCode);
 			const [isValid, event] = await validateEventCode(eventCode);
 
 			if (!isValid) {
-				this.logger.info("sign up fail");
+				this.logger.info(`invalid event code: ${eventCode}`);
+				// todo redirect to main error page
 				return res.redirect(routePage.main);
 			}
 
 			// todo need try catch
 			const eventId = event.id;
 			const guest = await createGuest(eventId);
-
-			const payload = {guestSid: guest.guestSid};
-			const accessToken = guestJWTCookie.sign(payload);
 			const cookieOption = JWTCookieOptions.build();
 
-			res.cookie(CookieKeys.GUEST_APP, accessToken, cookieOption);
+			res.cookie("guestSid", guest.guestSid, cookieOption);
 
 			this.logger.info("sign up success");
 			return res.redirect(routePage.guest);

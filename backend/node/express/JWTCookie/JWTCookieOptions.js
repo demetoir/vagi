@@ -7,6 +7,8 @@ export default class JWTCookieOptions {
 	static build() {
 		return {
 			expires: getTokenExpired(COOKIE_EXPIRE_TIME),
+			// todo later
+			// httpOnly: true,
 		};
 	}
 }

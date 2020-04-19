@@ -2,19 +2,16 @@ import {ApolloClient} from "apollo-client";
 import {createHttpLink} from "apollo-link-http";
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {setContext} from "apollo-link-context";
-import Cookies from "js-cookie";
 
-export default function createApolloClient(uri, cookieKey) {
+export default function createApolloClient(uri, token) {
 	const httpLink = createHttpLink({uri});
 
-	const authLink = setContext((_, context) => {
-		const headers = {
+	const authLink = setContext((_, context) => ({
+		headers: {
 			...context.headers,
-			authorization: `bearer ${Cookies.get(cookieKey)}`,
-		};
-
-		return {headers};
-	});
+			authorization: `Bearer ${token}`,
+		},
+	}));
 
 	return new ApolloClient({
 		link: authLink.concat(httpLink),
