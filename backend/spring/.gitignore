@@ -32,3 +32,5 @@ out/
 .vscode/
 
 docker/volumes
+
+scripts/.env
