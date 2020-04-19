@@ -9,7 +9,7 @@ export default function createApolloClient(uri, token) {
 	const authLink = setContext((_, context) => ({
 		headers: {
 			...context.headers,
-			authorization: `bearer ${token}`,
+			authorization: `Bearer ${token}`,
 		},
 	}));
 
