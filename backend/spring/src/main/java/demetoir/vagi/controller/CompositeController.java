@@ -1,6 +1,6 @@
 package demetoir.vagi.controller;
 
-import demetoir.vagi.config.ReactAppRedirectURLConfig;
+//import demetoir.vagi.config.ReactAppRedirectURLConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CompositeController {
 
-  final ReactAppRedirectURLConfig reactAppRedirectURLConfig;
+//  final ReactAppRedirectURLConfig reactAppRedirectURLConfig;
 
   //  @GetMapping("/auth/google/login")
   //  public String googleLogin() {
