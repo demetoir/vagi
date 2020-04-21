@@ -13,6 +13,7 @@ const isInValidAud = aud =>
 
 const isInValidIss = iss => iss !== tokenArgs.issuer;
 
+// todo refactoring here
 export default async function verifyJWTPayload(payload) {
 	const {aud, iss} = payload;
 
