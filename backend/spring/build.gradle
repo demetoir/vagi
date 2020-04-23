@@ -41,7 +41,16 @@ dependencies {
 
 
     // spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // oauth2.0 dependency ref https://hue9010.github.io/spring/OAuth2/
+    implementation 'org.springframework.cloud:spring-cloud-starter-security:2.1.2.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.1.2.RELEASE'
+
+    // JWT oauth
+    compile 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
 
     // lombok
@@ -56,7 +65,8 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation('junit:junit:4.13')
-    testCompile "org.mockito:mockito-core:1.+"
+    testImplementation 'org.mockito:mockito-inline:3.3.3'
+    testCompile "org.mockito:mockito-core:3.3.3"
     testCompile("org.assertj:assertj-core:3.11.1")
 
 
@@ -68,6 +78,10 @@ dependencies {
 
     // devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+
+    implementation 'com.google.code.gson:gson'
+
 }
 
 test {
