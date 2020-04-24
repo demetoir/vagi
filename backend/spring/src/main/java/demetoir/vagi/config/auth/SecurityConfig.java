@@ -38,8 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/host-app",
             "/main-app")
         .permitAll()
-        //            .antMatchers("/api/v1/**")
-        //            .hasRole(Role.USER.name())
         .anyRequest()
         .authenticated()
         .and()
@@ -50,8 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .userInfoEndpoint()
         .userService(customOauth2UserService)
         .and()
-        // redirectionEndpoint를 properties에 정의했으면 여기도 해야한다
-        // 안그러면 userInfoEndpoint에 등록한 userService 가 실행되지 않는다....
+        //  redirectionEndpoint를 properties에 정의했으면 여기도 해야한다
+        //  안그러면 userInfoEndpoint에 등록한 userService 가 실행되지 않는다....
         .redirectionEndpoint()
         .baseUri("/auth/google/callback");
   }
