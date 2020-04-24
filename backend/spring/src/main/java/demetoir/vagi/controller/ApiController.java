@@ -1,17 +1,21 @@
 package demetoir.vagi.controller;
 
-//import demetoir.vagi.config.ReactAppRedirectURLConfig;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import lombok.extern.java.Log;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin
-@RestController
+@Log
 @RequiredArgsConstructor
-public class CompositeController {
+// @CrossOrigin
+@RestController
+@RequestMapping("/api/v1")
+public class ApiController {
 
-//  final ReactAppRedirectURLConfig reactAppRedirectURLConfig;
+  //  final ReactAppRedirectURLConfig reactAppRedirectURLConfig;
 
   //  @GetMapping("/auth/google/login")
   //  public String googleLogin() {
@@ -23,7 +27,7 @@ public class CompositeController {
   //    return "redirect:http://localhost/host";
   //  }
 
-  @GetMapping("/host/")
+  @GetMapping("/host")
   public String hostJWTLogin() {
     return "";
   }
