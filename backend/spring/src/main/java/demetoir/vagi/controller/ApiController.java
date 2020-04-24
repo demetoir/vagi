@@ -66,4 +66,13 @@ public class ApiController {
   public String oauthGoogleCallback() {
     return "googleCallback";
   }
+
+  @GetMapping("/host/token")
+  public String hostToken(@AuthenticationPrincipal OAuth2User user) {
+    log.info(user.toString());
+
+    // todo generate host token
+
+    return "host_token";
+  }
 }
