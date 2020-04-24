@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/image/**",
             "/js/**",
             "h2-console/**",
-            "/auth/google/callback",
             "/guest-app",
             "/host-app",
             "/main-app")
