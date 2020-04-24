@@ -44,14 +44,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    // oauth2.0 dependency ref https://hue9010.github.io/spring/OAuth2/
-    implementation 'org.springframework.cloud:spring-cloud-starter-security:2.1.2.RELEASE'
-    implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.1.2.RELEASE'
-
-    // JWT oauth
     compile 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
+    // JWT
+    // https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
+    compile group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.15'
 
     // lombok
     annotationProcessor 'org.projectlombok:lombok'
