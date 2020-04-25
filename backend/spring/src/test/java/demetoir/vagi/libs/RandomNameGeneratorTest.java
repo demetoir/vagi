@@ -1,4 +1,4 @@
-package demetoir.vagi.etc;
+package demetoir.vagi.libs;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package demetoir.vagi.etc;
+package demetoir.vagi.libs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;

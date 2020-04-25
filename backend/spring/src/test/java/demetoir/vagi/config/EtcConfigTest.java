@@ -1,6 +1,6 @@
 package demetoir.vagi.config;
 
-import demetoir.vagi.etc.RandomNameGenerator;
+import demetoir.vagi.libs.RandomNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
