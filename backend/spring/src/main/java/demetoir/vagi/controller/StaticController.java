@@ -5,6 +5,9 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @Log
 @Controller
 public class StaticController {
@@ -15,20 +18,23 @@ public class StaticController {
   }
 
   @RequestMapping("/main-app")
-  public String mainAppServe() {
+  public void mainAppServe(HttpServletResponse response) throws IOException {
     log.info("redirect to main-app");
-    return "redirect:" + reactAppRedirectURLConfig.getMainAppURL();
+
+    response.sendRedirect(reactAppRedirectURLConfig.getMainAppURL());
   }
 
   @RequestMapping("/host-app")
-  public String hostAppServe() {
+  public void hostAppServe(HttpServletResponse response) throws IOException {
     log.info("redirect to host-app");
-    return "redirect:" + reactAppRedirectURLConfig.getHostAppURL();
+
+    response.sendRedirect(reactAppRedirectURLConfig.getHostAppURL());
   }
 
   @RequestMapping("/guest-app")
-  public String guestAppServe() {
+  public void guestAppServe(HttpServletResponse response) throws IOException {
     log.info("redirect to guest-app");
-    return "redirect:" + reactAppRedirectURLConfig.getGuestAppURL();
+
+    response.sendRedirect(reactAppRedirectURLConfig.getGuestAppURL());
   }
 }
