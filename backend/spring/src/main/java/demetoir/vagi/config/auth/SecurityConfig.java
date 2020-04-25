@@ -18,6 +18,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new DefaultOAuth2UserService();
   }
 
+  @Bean
+  public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+
+    return new CustomAuthenticationSuccessHandler("/host-app");
+  }
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf()
@@ -50,6 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //  redirectionEndpoint를 properties에 정의했으면 여기도 해야한다
         //  안그러면 userInfoEndpoint에 등록한 userService 가 실행되지 않는다....
         .redirectionEndpoint()
-        .baseUri("/auth/google/callback");
+        .baseUri("/auth/google/callback")
+        .and()
+        // todo test by e2e
+        .successHandler(customAuthenticationSuccessHandler());
   }
 }

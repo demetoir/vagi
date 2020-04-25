@@ -26,7 +26,6 @@ public class OAuthAttributes {
   public static OAuthAttributes ofGoogle(String nameAttributeKey, Map<String, Object> attributes) {
 
     var oauthId = (String) attributes.get(nameAttributeKey);
-
     var name = (String) attributes.get(NAME.getKey());
     var image = (String) attributes.get(IMAGE.getKey());
     var email = (String) attributes.get(EMAIL.getKey());
