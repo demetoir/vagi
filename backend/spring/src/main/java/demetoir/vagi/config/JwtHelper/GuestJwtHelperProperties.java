@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "jwt-helper-config")
+@ConfigurationProperties(prefix = "guest-jwt-helper-config")
 @Getter
 @Setter
-public class JwtHelperProperties {
+public class GuestJwtHelperProperties {
   private String secret;
   private String aud;
   private String iss;
