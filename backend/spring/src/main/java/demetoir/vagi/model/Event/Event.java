@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -88,4 +89,12 @@ public class Event {
   @Builder.Default
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
   private Set<Poll> polls = new HashSet<>();
+
+  public boolean isParticipateAble() {
+    var now = new Date();
+    var startAt = new Date(this.startAt.getTime());
+    var endAt = new Date(this.endAt.getTime());
+
+    return now.after(startAt) && now.before(endAt);
+  }
 }
