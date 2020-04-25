@@ -30,6 +30,7 @@ public class GuestDTO {
   private Timestamp createdAt;
   private Timestamp updatedAt;
   private Event event;
+
   @Builder.Default private Set<Question> questions = new HashSet<>();
 
   @Builder.Default private Set<Emoji> emojis = new HashSet<>();
