@@ -47,8 +47,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
     // JWT
-    // https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
-    compile group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.15'
+    implementation 'com.auth0:java-jwt:3.10.3'
 
     // lombok
     annotationProcessor 'org.projectlombok:lombok'

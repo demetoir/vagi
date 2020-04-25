@@ -9,4 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 public class JwtHelperProperties {
   private String secret;
+  private String aud;
+  private String iss;
+  private String sub;
+  private Long expiredAt;
 }

@@ -1,66 +1,71 @@
 package demetoir.vagi.config.JwtHelper;
 
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.JWTClaimsSet;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.java.Log;
 
-import java.text.ParseException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.Map;
 
 // ref:
 // https://github.com/gesellix/Nimbus-JOSE-JWT/blob/master/src/test/java/example/JWSExample.java
+@Log
 public class JwtHelper {
-  private final MACSigner signer;
-  private final JWSHeader header;
-  private final MACVerifier verifier;
-  private final byte[] byteSecretKey;
+
+  public static final long EXPIRES_AT = 30L;
+
   private final String secretKey;
+  private final JwtRegisteredClaimTemplate template;
+  private final Algorithm algorithm;
+  private final JWTVerifier verifier;
 
-  public JwtHelper(String secretKey) {
+  public JwtHelper(String secretKey, JwtRegisteredClaimTemplate template) {
     this.secretKey = secretKey;
-    this.byteSecretKey = this.secretKey.getBytes();
-    this.header = new JWSHeader(JWSAlgorithm.HS256);
+    this.template = template;
+    this.algorithm = Algorithm.HMAC256(this.secretKey);
+    this.verifier =
+        JWT.require(this.algorithm)
+            .withIssuer(template.getIss())
+            .withSubject(template.getSub())
+            .withAudience(template.getAud())
+            .acceptExpiresAt(EXPIRES_AT)
+            .build();
+  }
 
+  public String sign(Map<String, Object> privateClaims) {
     try {
-      this.signer = new MACSigner(byteSecretKey);
-      this.verifier = new MACVerifier(byteSecretKey);
-    } catch (JOSEException e) {
-      throw new JwtHelperException("can not construct JWTHelper", e);
+      var after = Instant.now().plus(1, ChronoUnit.HOURS);
+      Date exp = Date.from(after);
+
+      var jwt =
+          JWT.create()
+              .withIssuer(template.getIss())
+              .withSubject(template.getSub())
+              .withAudience(template.getAud())
+              .withExpiresAt(exp);
+
+      for (var key : privateClaims.keySet()) {
+        jwt = jwt.withClaim(key, privateClaims.get(key).toString());
+      }
+
+      return jwt.sign(this.algorithm);
+    } catch (JWTCreationException exception) {
+      throw new JwtHelperException("can not sign jwt", exception);
     }
   }
 
-  public JWSObject verify(String token) {
-    JWSObject parsedJWT;
+  public DecodedJWT verify(String token) {
     try {
-      parsedJWT = JWSObject.parse(token);
-    } catch (ParseException e) {
-      throw new JwtHelperException("can not parse JWT", e);
+      return verifier.verify(token);
+    } catch (JWTVerificationException exception) {
+      throw new JwtHelperException("can not verify jwt", exception);
     }
-
-    boolean isVerified;
-    try {
-      isVerified = parsedJWT.verify(verifier);
-    } catch (JOSEException e) {
-      throw new JwtHelperException("can not verify JWT", e);
-    }
-
-    if (!isVerified) {
-      throw new JwtHelperException("jwt is not valid");
-    }
-
-    return parsedJWT;
-  }
-
-  public String sign(JWTClaimsSet claims) {
-    Payload payload = new Payload(claims.toJSONObject());
-    JWSObject jweObject = new JWSObject(header, payload);
-
-    try {
-      jweObject.sign(signer);
-    } catch (JOSEException e) {
-      throw new JwtHelperException("can not sign JWT", e);
-    }
-
-    return jweObject.serialize();
   }
 }

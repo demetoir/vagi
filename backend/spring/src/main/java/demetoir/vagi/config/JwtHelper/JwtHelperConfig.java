@@ -14,6 +14,15 @@ public class JwtHelperConfig {
 
   @Bean
   public JwtHelper hostJwtHelper() {
-    return new JwtHelper(jwtHelperProperties.getSecret());
+    JwtRegisteredClaimTemplate claimTemplate =
+            JwtRegisteredClaimTemplate.builder()
+                    .aud(jwtHelperProperties.getAud())
+                    .sub(jwtHelperProperties.getSub())
+                    .iss(jwtHelperProperties.getIss())
+                    .expiresAt(jwtHelperProperties.getExpiredAt() * 1000)
+                    .build();
+
+
+    return new JwtHelper(jwtHelperProperties.getSecret(), claimTemplate);
   }
 }
