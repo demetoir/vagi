@@ -1,20 +1,28 @@
 package demetoir.vagi.controller;
 
+import demetoir.vagi.config.JwtHelper.JwtHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @Log
 @RequiredArgsConstructor
 // @CrossOrigin
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class ApiController {
 
+  @Autowired
+  @Qualifier("hostJwtHelper")
+  private JwtHelper hostJwtHelper;
   //  final ReactAppRedirectURLConfig reactAppRedirectURLConfig;
 
   //  @GetMapping("/auth/google/login")
@@ -67,12 +75,25 @@ public class ApiController {
     return "googleCallback";
   }
 
-  @GetMapping("/host/token")
-  public String hostToken(@AuthenticationPrincipal OAuth2User user) {
-    log.info(user.toString());
+  @PostMapping("/host/token")
+  @ResponseBody
+  public Map<String, Object> postHostToken(
+      @AuthenticationPrincipal OAuth2User user, HttpServletResponse response) {
 
-    // todo generate host token
+    // todo clean this
+    var oauthId = user.getName();
 
-    return "host_token";
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("oauthId", oauthId);
+    var token = hostJwtHelper.sign(claims);
+
+    response.addHeader("Authorization", token);
+
+    Map<String, Object> res = new HashMap<>();
+    res.put("token", token);
+    res.put("oauthId", oauthId);
+    user.getAttribute("sub");
+
+    return res;
   }
 }
