@@ -19,8 +19,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+  public CustomAuthenticationEntryPoint customAuthenticationEntryPoint() {
+    return new CustomAuthenticationEntryPoint();
+  }
 
+  @Bean
+  public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
     return new CustomAuthenticationSuccessHandler("/host-app");
   }
 
@@ -59,6 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .baseUri("/auth/google/callback")
         .and()
         // todo test by e2e
-        .successHandler(customAuthenticationSuccessHandler());
+        .successHandler(customAuthenticationSuccessHandler())
+        .and()
+        .exceptionHandling()
+        .authenticationEntryPoint(customAuthenticationEntryPoint());
   }
 }
