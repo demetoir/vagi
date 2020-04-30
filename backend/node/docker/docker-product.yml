@@ -1,63 +1,6 @@
-version: "2.0"
+version: "3.7"
 
 services:
-    express:
-        container_name: ${EXPRESS_PROD_CONTAINER_NAME}
-        image: ${NODE_IMAGE_NAME}
-        command: yarn pm2-runtime start ./build/express/app.js --watch
-        environment:
-            - NODE_ENV=production
-            # container 내부에서 DB container 를 접근하기위해 필요한 환경변수
-            - IS_DOCKER_CONTAINER=true
-        volumes:
-            - ../build:/usr/src/app/build
-        tty: true
-        ports:
-            - 80:${EXPRESS_PROD_PORT}
-        networks:
-            - backend
-        links:
-            - mysql
-            - redis
-
-    socket_io:
-        container_name: ${SOCKET_IO_SERVER_PROD_CONTAINER_NAME}
-        image: ${NODE_IMAGE_NAME}
-        command: yarn pm2-runtime start ./build/socket_io_server/app.js --watch
-        environment:
-            - NODE_ENV=production
-            # container 내부에서 DB container 를 접근하기위해 필요한 환경변수
-            - IS_DOCKER_CONTAINER=true
-        volumes:
-            - ../build:/usr/src/app/build
-        tty: true
-        ports:
-            - ${SOCKET_IO_SERVER_PROD_PORT}:${SOCKET_IO_SERVER_PROD_PORT}
-        networks:
-            - backend
-        links:
-            - mysql
-            - redis
-
-    graphQL_yoga:
-        container_name: ${GRAPHQL_YOGA_SERVER_PROD_CONTAINER_NAME}
-        image: ${NODE_IMAGE_NAME}
-        command: yarn pm2-runtime start ./build/graphQL/app.js --watch
-        environment:
-            - NODE_ENV=production
-            # container 내부에서 DB container 를 접근하기위해 필요한 환경변수
-            - IS_DOCKER_CONTAINER=true
-        volumes:
-            - ../build:/usr/src/app/build
-        tty: true
-        ports:
-            - ${GRAPHQL_YOGA_SERVER_PROD_PORT}:${GRAPHQL_YOGA_SERVER_PROD_PORT}
-        networks:
-            - backend
-        links:
-            - mysql
-            - redis
-
     mysql:
         container_name: ${MYSQL_PROD_CONTAINER_NAME}
         image: mysql
@@ -72,7 +15,8 @@ services:
             - MYSQL_USER=${MYSQL_PROD_USER}
             - MYSQL_PASSWORD=${MYSQL_PROD_PASSWORD}
         networks:
-            - backend
+            - nginx.docker
+        restart: always
 
     redis:
         container_name: ${REDIS_PROD_CONTAINER_NAME}
@@ -82,8 +26,95 @@ services:
         volumes:
             - ${DOCKER_VOLUMNS_PATH}/${REDIS_PROD_CONTAINER_NAME}:/data
         networks:
-            - backend
+            - nginx.docker
+        restart: always
+
+    express:
+        container_name: ${EXPRESS_PROD_CONTAINER_NAME}
+        build:
+            context: ../
+            dockerfile: ./docker/dockerfiles/node.prod.Dockerfile
+        entrypoint: yarn pm2-runtime start ./build/express/index.js --watch
+        ports:
+            - ${EXPRESS_PROD_PORT}:${EXPRESS_PROD_PORT}
+        volumes:
+            - ../:/usr/src/app/
+        environment:
+            - NODE_ENV=production
+            - IS_DOCKER_CONTAINER=true
+        networks:
+            - nginx.docker
+        links:
+            - mysql
+            - redis
+        depends_on:
+            - mysql
+            - redis
+
+    graphql:
+        container_name: ${GRAPHQL_YOGA_SERVER_PROD_CONTAINER_NAME}
+        build:
+            context: ../
+            dockerfile: ./docker/dockerfiles/node.prod.Dockerfile
+        entrypoint: yarn pm2-runtime start ./build/graphQL/app.js --watch
+        ports:
+            - ${GRAPHQL_YOGA_SERVER_PROD_PORT}:${GRAPHQL_YOGA_SERVER_PROD_PORT}
+        volumes:
+            - ../:/usr/src/app/
+        environment:
+            - NODE_ENV=production
+            - IS_DOCKER_CONTAINER=true
+        networks:
+            - nginx.docker
+        links:
+            - mysql
+            - redis
+        depends_on:
+            - mysql
+            - redis
+
+    socket:
+        container_name: ${SOCKET_IO_SERVER_PROD_CONTAINER_NAME}
+        build:
+            context: ../
+            dockerfile: ./docker/dockerfiles/node.prod.Dockerfile
+        entrypoint: yarn pm2-runtime start ./build/socket_io_server/app.js --watch
+        ports:
+            - ${SOCKET_IO_SERVER_PROD_PORT}:${SOCKET_IO_SERVER_PROD_PORT}
+        volumes:
+            - ../:/usr/src/app/
+        environment:
+            - NODE_ENV=production
+            - IS_DOCKER_CONTAINER=true
+        networks:
+            - nginx.docker
+        links:
+            - mysql
+            - redis
+        depends_on:
+            - mysql
+            - redis
+
+    nginx:
+        container_name: ${NGINX_PROD_CONTAINER_NAME}
+        image: nginx
+        tty: true
+        stdin_open: true
+        ports:
+            - ${NGINX_PROD_EXPOSE_PORT}:80
+        environment:
+            - SERVER_HOST=${PROD_HOST}
+        volumes:
+            - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+        networks:
+            - nginx.docker
+        links:
+            - express
+            - graphql
+            - socket
+            - mysql
+            - redis
 
 networks:
-    backend:
+    nginx.docker:
         driver: "bridge"
