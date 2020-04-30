@@ -34,7 +34,7 @@ services:
         build:
             context: ../
             dockerfile: ./docker/dockerfiles/node.prod.Dockerfile
-        entrypoint: yarn pm2-runtime start ./build/express/index.js --watch
+        entrypoint: yarn pm2-runtime start ./build/express/index.js
         ports:
             - ${EXPRESS_PROD_PORT}:${EXPRESS_PROD_PORT}
         volumes:
@@ -56,7 +56,7 @@ services:
         build:
             context: ../
             dockerfile: ./docker/dockerfiles/node.prod.Dockerfile
-        entrypoint: yarn pm2-runtime start ./build/graphQL/app.js --watch
+        entrypoint: yarn pm2-runtime start ./build/graphQL/app.js
         ports:
             - ${GRAPHQL_YOGA_SERVER_PROD_PORT}:${GRAPHQL_YOGA_SERVER_PROD_PORT}
         volumes:
@@ -78,7 +78,7 @@ services:
         build:
             context: ../
             dockerfile: ./docker/dockerfiles/node.prod.Dockerfile
-        entrypoint: yarn pm2-runtime start ./build/socket_io_server/app.js --watch
+        entrypoint: yarn pm2-runtime start ./build/socket_io_server/app.js
         ports:
             - ${SOCKET_IO_SERVER_PROD_PORT}:${SOCKET_IO_SERVER_PROD_PORT}
         volumes:
