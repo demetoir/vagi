@@ -18,7 +18,6 @@ function decodeEventCode(encodedEventCode) {
 	return result;
 }
 
-
 export default class ApiController {
 	/**
 	 *
@@ -40,18 +39,35 @@ export default class ApiController {
 			const encodedEventCode = req.query.encodedEventCode || null;
 
 			if (encodedEventCode === null) {
-				throw new Error("encodedEventCode not found in request.params");
+				const errorMsg = "encodedEventCode not found in request.params";
+
+				this.logger.info(errorMsg);
+
+				return res.status(400).send({
+					error: errorMsg,
+				});
 			}
 
-			const eventCode = decodeEventCode(encodedEventCode);
+			let eventCode;
+
+			try {
+				eventCode = decodeEventCode(encodedEventCode);
+			} catch (e) {
+				const errorMsg = "can not decode eventCode";
+
+				this.logger.info(errorMsg);
+
+				return res.status(400).send({error: errorMsg});
+			}
+
 			const [isValid, event] = await validateEventCode(eventCode);
 
 			if (!isValid) {
-				this.logger.info("sign up fail invalid eventCode");
+				const errorMsg = "sign up fail invalid eventCode";
 
-				return res
-					.status(400)
-					.send({error: "sign up fail invalid eventCode"});
+				this.logger.info(errorMsg);
+
+				return res.status(400).send({error: errorMsg});
 			}
 
 			return res.status(200).send(event);

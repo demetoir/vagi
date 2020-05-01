@@ -71,11 +71,23 @@ export default class GuestController {
 				this.logger.info(
 					`encodedEventCode not found in request.params`,
 				);
+
 				// todo redirect to main error page
 				return res.redirect(routePage.main);
 			}
 
-			const eventCode = decodeEventCode(encodedEventCode);
+			let eventCode;
+
+			try {
+				eventCode = decodeEventCode(encodedEventCode);
+			} catch (e) {
+				const errorMsg = "can not decode eventCode";
+
+				this.logger.info(errorMsg);
+
+				return res.redirect(routePage.main);
+			}
+
 			const [isValid, event] = await validateEventCode(eventCode);
 
 			if (!isValid) {
@@ -84,9 +96,19 @@ export default class GuestController {
 				return res.redirect(routePage.main);
 			}
 
-			// todo need try catch
 			const eventId = event.id;
-			const guest = await createGuest(eventId);
+
+			// todo add test case
+			let guest;
+
+			try {
+				guest = await createGuest(eventId);
+			} catch (e) {
+				this.logger.info(`can not create guest of eventId: ${eventId}`);
+
+				return res.redirect(routePage.main);
+			}
+
 			const cookieOption = JWTCookieOptions.build();
 
 			res.cookie("guestSid", guest.guestSid, cookieOption);
