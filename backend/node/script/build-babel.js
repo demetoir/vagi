@@ -8,6 +8,7 @@ shell.exec("cp -r ./socket_io_server ./build/socket_io_server");
 shell.exec("cp -r ./graphQL ./build/graphQL");
 shell.exec("cp -r ./libs ./build/libs");
 shell.exec("cp -r ./redis ./build/redis");
+shell.exec("cp -r ./constants ./build/constants");
 
 const sourceDirectory = "./build";
 const outDirectory = "./build";
