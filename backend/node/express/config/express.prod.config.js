@@ -16,7 +16,8 @@ const config = {
 	oAuthArgs: {
 		clientID: process.env.OAUTH2_CLIENT_PROD_ID,
 		clientSecret: process.env.OAUTH2_CLIENT_PROD_SECRET,
-		callbackURL: `http://${env.PROD_HOST}${process.env.OAUTH2_PROD_CALLBACK}`,
+		// todo fix me
+		callbackURL: `https://${env.PROD_HOST}${process.env.OAUTH2_PROD_CALLBACK}`,
 	},
 	routePage: {
 		main: process.env.PROD_MAIN_PAGE,
