@@ -3,11 +3,9 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/demetoir/vagi)
 [![Build Status](https://travis-ci.org/demetoir/2019-21.svg?branch=master)](https://travis-ci.org/demetoir/2019-21)
 
-# 배포 상황(중단됨)
 
 - [배포 링크](https://www.vaagle.com)
 
-- 크레딧 전부 소진으로 인한 NCP를 이용한 배포 중단, 개인 서버로 배포 준비중
 
 ## 데모 영상
 
