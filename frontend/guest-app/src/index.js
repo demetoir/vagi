@@ -12,6 +12,7 @@ import {createSocketIOClient, SocketClientProvider} from "./socket";
 
 (async () => {
 	let token;
+	let guest;
 
 	try {
 		// todo refactoring me
@@ -23,6 +24,7 @@ import {createSocketIOClient, SocketClientProvider} from "./socket";
 
 		console.debug(res);
 		token = res.data.token;
+		guest = res.data.guest;
 	} catch (e) {
 		console.debug(e);
 		console.debug(e.response.data);
@@ -35,7 +37,7 @@ import {createSocketIOClient, SocketClientProvider} from "./socket";
 	const socketClient = createSocketIOClient({
 		host: config.socketIOHost,
 		namespace: config.namespace,
-		room: event.id,
+		room: guest.EventId,
 		token,
 	});
 
