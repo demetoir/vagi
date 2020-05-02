@@ -17,6 +17,10 @@ services:
         networks:
             - nginx.docker
         restart: always
+        # this fix error mbind: Operation not permitted
+        # ref: http://programmersought.com/article/35041685113/;jsessionid=3B61EB3296FABBF034466D0C1614749E
+        security_opt:
+            - seccomp:unconfined
 
     redis:
         container_name: ${REDIS_PROD_CONTAINER_NAME}
@@ -101,11 +105,14 @@ services:
         tty: true
         stdin_open: true
         ports:
-            - ${NGINX_PROD_EXPOSE_PORT}:80
+            - ${NGINX_PROD_HTTP_PORT}:80
+            - ${NGINX_PROD_HTTPS_PORT}:443
         environment:
             - SERVER_HOST=${PROD_HOST}
         volumes:
-            - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+            # nginx.conf
+            - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf
+            - ./nginx/certs:/etc/nginx/certs
         networks:
             - nginx.docker
         links:
