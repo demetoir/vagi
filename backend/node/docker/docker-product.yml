@@ -17,6 +17,10 @@ services:
         networks:
             - nginx.docker
         restart: always
+        # this fix error mbind: Operation not permitted
+        # ref: http://programmersought.com/article/35041685113/;jsessionid=3B61EB3296FABBF034466D0C1614749E
+        security_opt:
+            - seccomp:unconfined
 
     redis:
         container_name: ${REDIS_PROD_CONTAINER_NAME}
