@@ -108,9 +108,7 @@ services:
         volumes:
             # nginx.conf
             - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf
-            # CA
-            - ./nginx/certs/certificate.crt:/etc/nginx/certificate.crt
-            - ./nginx/certs/private.key:/etc/nginx/private.key
+            - ./nginx/certs:/etc/nginx/certs
         networks:
             - nginx.docker
         links:
