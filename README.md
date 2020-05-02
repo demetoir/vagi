@@ -40,9 +40,9 @@
 
 
 ## 새로 추가된(또는 될) 기능 
-- [*] Nginx 구성 
-- [*] Travis-CI 구성
-- [*] https
+- [x] Nginx 구성 
+- [x] Travis-CI 구성
+- [x] https
 - [ ] 통계 기능
 - [ ] (maybe?) 구글 광고
 - [ ] Naver, github, kakao, facebook oauth2 login
