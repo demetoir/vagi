@@ -1,9 +1,8 @@
 {
 	"name": "backend",
 	"version": "1.0.0",
-	"type": "module",
 	"engines": {
-		"node": ">=10.15.1"
+		"node": ">=12.16.3"
 	},
 	"bin": {
 		"mocha": "./node_modules/.bin/mocha",
