@@ -101,11 +101,16 @@ services:
         tty: true
         stdin_open: true
         ports:
-            - ${NGINX_PROD_EXPOSE_PORT}:80
+            - ${NGINX_PROD_HTTP_PORT}:80
+            - ${NGINX_PROD_HTTPS_PORT}:443
         environment:
             - SERVER_HOST=${PROD_HOST}
         volumes:
-            - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+            # nginx.conf
+            - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf
+            # CA
+            - ./nginx/certs/certificate.crt:/etc/nginx/certificate.crt
+            - ./nginx/certs/private.key:/etc/nginx/private.key
         networks:
             - nginx.docker
         links:
