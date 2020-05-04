@@ -1,23 +1,31 @@
 import {deleteVoteBy} from "../../../DB/queries/vote";
-import updateVoters from "./updateVoters";
 import logger from "../../logger.js";
 import {
 	SOCKET_IO_RESPONSE_STATE_ERROR,
 	SOCKET_IO_RESPONSE_STATE_OK,
 } from "../../../constants/socket.ioResponseState.js";
+import updateVoters from "./updateVoters.js";
 
 // todo test
+// todo add validation
 const voteOffSocketHandler = async (data, emit) => {
 	try {
 		const {GuestId, CandidateId, poll} = data;
 
-		await Promise.all([deleteVoteBy({GuestId, CandidateId}), updateVoters(poll)]);
+		await deleteVoteBy({
+			GuestId,
+			CandidateId,
+		});
 
-		emit({
+		const updatedPoll = await updateVoters(poll);
+
+		const res = {
 			status: SOCKET_IO_RESPONSE_STATE_OK,
 			GuestId,
-			poll,
-		});
+			poll: updatedPoll,
+		};
+
+		emit(res);
 	} catch (e) {
 		logger.error(e);
 		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});

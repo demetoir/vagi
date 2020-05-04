@@ -7,6 +7,7 @@ import {
 } from "../../../constants/socket.ioResponseState.js";
 
 // todo test
+// todo add validation
 const voteOnSocketHandler = async (data, emit) => {
 	try {
 		const {
@@ -17,27 +18,21 @@ const voteOnSocketHandler = async (data, emit) => {
 			candidateToDelete,
 		} = data;
 
-		let updateVotePromise;
-
 		if (!allowDuplication && candidateToDelete) {
-			updateVotePromise = swapVoteByGuestId(
-				GuestId,
-				CandidateId,
-				candidateToDelete,
-			);
+			await swapVoteByGuestId(GuestId, CandidateId, candidateToDelete);
 		} else {
-			updateVotePromise = addVote({GuestId, CandidateId});
+			await addVote({GuestId, CandidateId});
 		}
 
-		const updateVotersPromise = updateVoters(poll);
+		const updatedPoll = await updateVoters(poll);
 
-		await Promise.all([updateVotePromise, updateVotersPromise]);
-
-		emit({
+		const res = {
 			status: SOCKET_IO_RESPONSE_STATE_OK,
 			GuestId,
-			poll,
-		});
+			poll: updatedPoll,
+		};
+
+		emit(res);
 	} catch (e) {
 		logger.error(e);
 
