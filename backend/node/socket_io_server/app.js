@@ -5,7 +5,6 @@ import io from "socket.io";
 import configLoader from "./config/configLoader.js";
 import logger from "./logger.js";
 import authenticate from "./middleware/authenticate";
-import RoomSocketHelper from "./RoomSocketHelper.js";
 import socketHandlers from "./socketHandler";
 import {
 	SOCKET_IO_EVENT_CONNECTION,
@@ -13,6 +12,7 @@ import {
 	SOCKET_IO_EVENT_DISCONNECTING,
 	SOCKET_IO_EVENT_ERROR,
 } from "../constants/socket.io-Events.js";
+import RoomSocket from "./RoomSocket.js";
 
 dotenv.config();
 
@@ -47,10 +47,10 @@ namedServer.on(SOCKET_IO_EVENT_CONNECTION, async socket => {
 
 	logger.info(`id ${id} connected at /${namespace}`);
 
-	RoomSocketHelper({
+	const roomSocket = new RoomSocket({
 		socket,
-		server: namedServer,
-		handlerEventPair: socketHandlers,
+		namedServer,
+		socketHandlers,
 	});
 
 	socket.on(SOCKET_IO_EVENT_ERROR, error =>
