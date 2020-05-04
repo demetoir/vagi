@@ -6,32 +6,59 @@ import QuestionHeader from "./QuestionCardHeader.js";
 import QuestionBody from "./QuestionCardBody.js";
 import EmojiArea from "../EmojiArea/EmojiArea.js";
 import ReplyPreviewArea from "../ReplyPreviewArea/ReplyPreviewArea.js";
+import {scrollSyncManager} from "../../socket";
 
 const cardColor = {
 	focused: "rgb(242,248,255)",
 	unfocused: "rgba(255,255,255,100)",
+	unsynced: "rgba(255,255,255,100)",
 	synced: "rgb(242,248,100)",
 };
 
-const QuestionCard = React.memo(props => {
+const QuestionCard = props => {
 	const [backgroundColor, setState] = useState(cardColor.unfocused);
 	const selfRef = useRef(null);
+	const {scrollRef} = props;
+
+	const scrollEl = scrollRef.current;
 
 	useEffect(() => {
-		const selfStart = selfRef.current.offsetTop;
-		const selfEnd =
-			selfRef.current.offsetTop + selfRef.current.clientHeight;
+		// set add only in viewPort self component
+		const handleScroll = () => {
+			const viewStart = scrollEl.scrollTop;
+			const viewEnd = scrollEl.scrollTop + scrollEl.clientHeight;
 
-		// on out of screen
-		if (
-			props.viewState.end < selfStart ||
-			selfEnd < props.viewState.start
-		) {
-			setState(cardColor.unfocused);
-		} else {
-			setState(cardColor.synced);
-		}
-	});
+			const selfStart = selfRef.current.offsetTop;
+			const selfEnd =
+				selfRef.current.offsetTop + selfRef.current.clientHeight;
+
+			// on out of screen with +- margin of boarder px
+			const SCROLL_BOARDER_MARGIN = 300;
+
+			if (
+				viewEnd + SCROLL_BOARDER_MARGIN < selfStart ||
+				selfEnd < viewStart - SCROLL_BOARDER_MARGIN
+			) {
+				setState(cardColor.unfocused);
+				scrollSyncManager.remove(props.content);
+			} else {
+				setState(cardColor.synced);
+				scrollSyncManager.add(props.content);
+			}
+		};
+
+		// init on didMount
+		handleScroll();
+
+		scrollEl.addEventListener("scroll", handleScroll);
+
+		return () => {
+			// on didUnMount remove Lisnter and unSync selfComponent
+			scrollEl.removeEventListener("scroll", handleScroll);
+
+			scrollSyncManager.unsync(props.id);
+		};
+	}, []);
 
 	return (
 		<Card style={{margin: "0.5rem", backgroundColor}} ref={selfRef}>
@@ -46,8 +73,8 @@ const QuestionCard = React.memo(props => {
 			</CardContent>
 		</Card>
 	);
-});
+};
 
 QuestionCard.proptypes = {};
 
-export default QuestionCard;
+export default React.memo(QuestionCard);

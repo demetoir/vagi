@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import React, {createContext} from "react";
-
+import _ from "lodash";
 import debuggingHandler from "./debuggingSocketHandler.js";
 import {
 	SOCKET_IO_EVENT_CONNECT,
@@ -31,6 +31,8 @@ export function createSocketIOClient({host, namespace, room, token}) {
 		socket.emit(SOCKET_IO_EVENT_JOIN_ROOM, {room});
 	});
 
+	scrollSyncManager.startSync();
+
 	return socket;
 }
 
@@ -55,3 +57,45 @@ export function SocketClientProvider(props) {
 		</context.Provider>
 	);
 }
+
+class ScrollSyncManger {
+	constructor() {
+		this.oldTarget = {};
+		this.target = {};
+		this.socketClient = socketClient;
+		this.timeFraction = 100;
+		this.interval = null;
+	}
+
+	add(key) {
+		if (!(key in this.target)) {
+			this.target[key] = key;
+			console.debug(`add ${key}`);
+		}
+	}
+
+	remove(key) {
+		if (key in this.target) {
+			delete this.target[key];
+			console.debug(`remove ${key}`);
+		}
+	}
+
+	startSync() {
+		this.interval = setInterval(() => {
+			if (_.isEqual(this.oldTarget, this.target)) {
+				return;
+			}
+
+			this.oldTarget = _.cloneDeep(this.target);
+			socketClient.emit("syncScroll", this.target);
+			console.debug("emit syncScroll", this.target);
+		}, this.timeFraction);
+	}
+
+	endSync() {
+		clearInterval(this.interval);
+	}
+}
+
+export const scrollSyncManager = new ScrollSyncManger();

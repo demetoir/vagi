@@ -20,7 +20,7 @@ function getReplisInQuestion(questionId, replies) {
 }
 
 const QuestionCardList = React.memo(props => {
-	const {questions, replies, listRef = undefined, viewState} = props;
+	const {questions, replies, listRef = undefined, scrollRef} = props;
 
 	return (
 		<div style={style} ref={listRef}>
@@ -28,9 +28,9 @@ const QuestionCardList = React.memo(props => {
 				return (
 					<QuestionCard
 						{...question}
-						key={idx}
+						key={question.id}
 						replies={getReplisInQuestion(question.id, replies)}
-						viewState={viewState}
+						scrollRef={scrollRef}
 					/>
 				);
 			})}
