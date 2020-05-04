@@ -20,17 +20,20 @@ function getReplisInQuestion(questionId, replies) {
 }
 
 const QuestionCardList = React.memo(props => {
-	const {questions, replies} = props;
+	const {questions, replies, listRef = undefined, viewState} = props;
 
 	return (
-		<div style={style}>
-			{questions.map((question, idx) => (
-				<QuestionCard
-					{...question}
-					key={idx}
-					replies={getReplisInQuestion(question.id, replies)}
-				/>
-			))}
+		<div style={style} ref={listRef}>
+			{questions.map((question, idx) => {
+				return (
+					<QuestionCard
+						{...question}
+						key={idx}
+						replies={getReplisInQuestion(question.id, replies)}
+						viewState={viewState}
+					/>
+				);
+			})}
 		</div>
 	);
 });
