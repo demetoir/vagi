@@ -42,6 +42,7 @@ socketServer.use(authenticate);
 
 const namedServer = socketServer.of(namespace);
 
+namedServer.roomSockets = {};
 namedServer.on(SOCKET_IO_EVENT_CONNECTION, async socket => {
 	const id = socket.id;
 
@@ -49,9 +50,12 @@ namedServer.on(SOCKET_IO_EVENT_CONNECTION, async socket => {
 
 	const roomSocket = new RoomSocket({
 		socket,
-		namedServer,
-		socketHandlers,
+		server: namedServer,
+		handlerEventPair: socketHandlers,
 	});
+
+	namedServer.roomSockets[id] = roomSocket;
+
 
 	socket.on(SOCKET_IO_EVENT_ERROR, error =>
 		logger.info(`error occur at socket id ${id} disconnected ${error}`),
