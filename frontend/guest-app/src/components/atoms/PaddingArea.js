@@ -6,6 +6,6 @@ const style = {
 	backgroundColor: grey[300],
 };
 
-export default function PaddingArea() {
-	return <Box p={24} style={style} />;
+export default function PaddingArea({p = 24}) {
+	return <Box p={p} style={style}/>;
 }

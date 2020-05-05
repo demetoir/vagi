@@ -13,6 +13,8 @@ const updateVoters = async poll => {
 	const candidateIds = getCandidateIds(poll.nItems);
 
 	poll.totalVoters = await getVotersByCandidateIds(candidateIds);
+
+	return poll;
 };
 
 export default updateVoters;

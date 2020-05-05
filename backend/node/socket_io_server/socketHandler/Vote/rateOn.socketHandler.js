@@ -7,18 +7,22 @@ import {
 } from "../../../constants/socket.ioResponseState.js";
 
 // todo test
+// todo add validation
 const rateOnSocketHandler = async (data, emit) => {
 	try {
 		const {GuestId, CandidateId, poll, index} = data;
 
-		await Promise.all([addVote({GuestId, CandidateId}), updateVoters(poll)]);
+		await addVote({GuestId, CandidateId});
+		const updatedPoll = await updateVoters(poll);
 
-		emit({
+		const res = {
 			status: SOCKET_IO_RESPONSE_STATE_OK,
 			GuestId,
-			poll,
+			poll: updatedPoll,
 			index,
-		});
+		};
+
+		emit(res);
 	} catch (e) {
 		logger.error(e);
 		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});

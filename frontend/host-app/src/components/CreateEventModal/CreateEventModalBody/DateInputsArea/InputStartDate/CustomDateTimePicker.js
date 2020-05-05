@@ -3,7 +3,7 @@ import {styled} from "@material-ui/core/styles";
 import {DateTimePicker} from "@material-ui/pickers";
 
 const marginTopLength = 20;
-const dateTimePickerFormat = "yyyy년 MM월 dd일 HH시 mm분";
+const dateTimePickerFormat = "YYYY년 MM월 dd일 HH시 mm분";
 const CustomDateTimePickerStyle = styled(DateTimePicker)({
 	marginTop: marginTopLength,
 	width: 250,

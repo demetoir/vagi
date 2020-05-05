@@ -4,7 +4,7 @@ import QuestionInputDrawer from "./QuestionInputDrawer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
 import {SOCKET_IO_EVENT_QUESTION_CREATE} from "../../constants/socket.io-event.js";
 
-function getNewQuestion({EventId, GuestId, guestName, content}) {
+function toNewQuestionDto({EventId, GuestId, guestName, content}) {
 	return {
 		guestName,
 		EventId,
@@ -18,15 +18,14 @@ function NewQuestionInputDrawer({userNameRef, questionRef, toggleReducer}) {
 	const {event, guest} = useGlobalData();
 
 	const onConfirmNewQuestion = () => {
-		socketClient.emit(
-			SOCKET_IO_EVENT_QUESTION_CREATE,
-			getNewQuestion({
-				guestName: userNameRef.current.value,
-				EventId: event.id,
-				GuestId: guest.id,
-				content: questionRef.current.value,
-			}),
-		);
+		const dto = toNewQuestionDto({
+			guestName: userNameRef.current.value,
+			EventId: event.id,
+			GuestId: guest.id,
+			content: questionRef.current.value,
+		});
+
+		socketClient.emit(SOCKET_IO_EVENT_QUESTION_CREATE, dto);
 	};
 
 	const newQuestionInputDrawerProps = {

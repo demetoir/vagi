@@ -5,3 +5,9 @@ export const SOCKET_IO_EVENT_CONNECTION = "connection";
 export const SOCKET_IO_EVENT_DISCONNECTING = "disconnecting";
 export const SOCKET_IO_EVENT_DISCONNECT = "disconnect";
 export const SOCKET_IO_EVENT_EVENT_INIT_OPTION = "event/initOption";
+
+export const TOGGLE_STAR = "question/toggleStar";
+
+export const SOCKET_IO_EVENT = {
+	TOGGLE_STAR,
+};
