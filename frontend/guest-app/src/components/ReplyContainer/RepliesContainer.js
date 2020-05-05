@@ -1,4 +1,5 @@
 import React from "react";
+import grey from "@material-ui/core/colors/grey.js";
 import styled from "styled-components";
 import {Scrollbars} from "react-custom-scrollbars";
 import Box from "@material-ui/core/Box";
@@ -18,6 +19,7 @@ const RepliesContainerStyle = styled.div`
 const fullScreen = {
 	width: "100vw",
 	height: "100vh",
+	backgroundColor: grey[300],
 };
 
 function RepliesContainer(props) {
@@ -31,6 +33,7 @@ function RepliesContainer(props) {
 					style={{marginTop: "0.5rem", marginBottom: "0.5rem"}}
 				/>
 				<ReplyCardList {...props} />
+				<PaddingArea p={1} />
 				<ReplyInputContainer {...props} />
 				<PaddingArea />
 			</RepliesContainerStyle>
