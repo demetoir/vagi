@@ -17,7 +17,10 @@ import {
 	QUESTIONS_ACTION_TYPE_SORT_BY_RECENT,
 } from "../../constants/question_action_types.js";
 import {SOCKET_IO_EVENT_QUESTION_REMOVE} from "../../constants/socket.io-event.js";
-import {POPULAR_TAB_IDX, RECENT_TAB_IDX} from "../../constants/Question_tab_inner_TabBar_idx.js";
+import {
+	POPULAR_TAB_IDX,
+	RECENT_TAB_IDX,
+} from "../../constants/Question_tab_inner_TabBar_idx.js";
 
 const QuestionContainerStyle = styled.div`
 	overflow-y: scroll;
@@ -25,8 +28,6 @@ const QuestionContainerStyle = styled.div`
 `;
 
 function QuestionContainer() {
-	const selfRef = useRef(null);
-
 	const {dispatch, questions, replies} = useQuestions();
 
 	const staredQuestions = questions.filter(e => e.isStared);
@@ -69,18 +70,17 @@ function QuestionContainer() {
 	};
 
 	return (
-		<QuestionContainerStyle ref={selfRef}>
+		<QuestionContainerStyle>
 			<QuestionContainerTabBar
 				tabIdx={tabIdx}
 				onSelectTab={onContainerSelectTab}
 			/>
-			<QuestionCardList questions={staredQuestions} replies={replies}/>
+			<QuestionCardList questions={staredQuestions} replies={replies} />
 			<QuestionCardList
 				questions={nonStaredQuestions}
 				replies={replies}
-				scrollRef={selfRef}
 			/>
-			<PaddingArea/>
+			<PaddingArea />
 			<AddQuestionInputButton
 				onClick={() => newQuestionInputDrawer.setOn()}
 			/>

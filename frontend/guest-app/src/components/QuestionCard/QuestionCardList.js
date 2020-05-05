@@ -20,10 +20,10 @@ function getReplisInQuestion(questionId, replies) {
 }
 
 const QuestionCardList = React.memo(props => {
-	const {questions, replies, listRef = undefined, scrollRef} = props;
+	const {questions, replies, scrollRef} = props;
 
 	return (
-		<div style={style} ref={listRef}>
+		<div style={style}>
 			{questions.map((question, idx) => {
 				return (
 					<QuestionCard
