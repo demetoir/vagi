@@ -55,10 +55,16 @@ function QuestionContainer() {
 	};
 
 	const onDeleteQuestion = () => {
-		socketClient.emit(
-			SOCKET_IO_EVENT_QUESTION_REMOVE,
-			questionEditMenuReducer.data,
-		);
+		function toDto({id}) {
+			return {
+				id,
+			};
+		}
+
+		const request = toDto(questionEditMenuReducer.data);
+
+		socketClient.emit(SOCKET_IO_EVENT_QUESTION_REMOVE, request);
+
 		questionEditMenuReducer.setOff();
 	};
 
