@@ -40,10 +40,10 @@ const QuestionCard = props => {
 				selfEnd < viewStart - SCROLL_BOARDER_MARGIN
 			) {
 				setState(cardColor.unfocused);
-				scrollSyncManager.remove(props.content);
+				scrollSyncManager.remove(props.id);
 			} else {
 				setState(cardColor.synced);
-				scrollSyncManager.add(props.content);
+				scrollSyncManager.add(props.id);
 			}
 		};
 
@@ -53,10 +53,10 @@ const QuestionCard = props => {
 		scrollEl.addEventListener("scroll", handleScroll);
 
 		return () => {
-			// on didUnMount remove Lisnter and unSync selfComponent
+			//on didUnMount remove Lisnter and unSync selfComponent
 			scrollEl.removeEventListener("scroll", handleScroll);
 
-			scrollSyncManager.unsync(props.id);
+			scrollSyncManager.remove(props.id);
 		};
 	}, []);
 
