@@ -26,10 +26,13 @@ export const SOCKET_IO_EVENT_QUESTION_UPDATE = "question/update";
 export const SOCKET_IO_EVENT_QUESTION_MOVE = "question/move";
 
 export const SOCKET_IO_EVENT_EMOJI_CREATE = "questionEmoji/create";
-export 	const SOCKET_IO_EVENT_EMOJI_REMOVE = "questionEmoji/remove";
+export const SOCKET_IO_EVENT_EMOJI_REMOVE = "questionEmoji/remove";
 export const SOCKET_IO_EVENT_QUESTION_TOGGLE_STAR = "question/toggleStar";
+
+export const TOGGLE_STAR = "question/toggleStar";
 
 export const SOCKET_IO_EVENT = {
 	REMOVE_QUESTION_LIKE,
 	CREATE_QUESTION_LIKE,
+	TOGGLE_STAR,
 };
