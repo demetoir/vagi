@@ -176,18 +176,19 @@ const onMoveQuestion = (state, data) => {
 };
 
 const onToggleStarQuestion = (state, data) => {
-	const newState = _.cloneDeep(state);
+	const {on, off} = data;
 
-	newState.map(e => {
-		if (e.id === data.id) {
-			e.isStared = data.isStared;
-		} else {
-			e.isStared = false;
+	return _.cloneDeep(state).map(x => {
+		if (x.id === off.id) {
+			x.isStared = false;
 		}
-		return e;
-	});
 
-	return newState;
+		if (x.id === on.id) {
+			x.isStared = true;
+		}
+
+		return x;
+	});
 };
 
 const QuestionsRepliesReducer = (state, action) => {

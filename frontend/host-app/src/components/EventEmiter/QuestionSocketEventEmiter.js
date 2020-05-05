@@ -1,4 +1,5 @@
 import {socketClient} from "../../libs/socket.io-Client-wrapper";
+import {SOCKET_IO_EVENT} from "../../constants/socket.io-Events.js";
 
 // todo constant
 const handleMoveQuestions = (EventId, from, to) => {
@@ -11,23 +12,19 @@ const handleMoveQuestion = (questions, id, from, to) => {
 	socketClient.emit("question/move", {id, from, to, data: questionData});
 };
 
-const handleStar = (questions, id) => {
-	const toggleMsg = questions.questions.reduce(
-		(acc, e) => {
-			if (e.isStared) {
-				acc.from.push({id: e.id, isStared: !e.isStared});
-			}
+const handleStar = (data, id) => {
+	const staredQuestion = data.questions.find(x => x.isStared);
+	const targetQuestion = data.questions.find(x => x.id === id);
 
-			if (e.id === id) {
-				acc.to.push({id: e.id, isStared: !e.isStared});
-			}
+	let req;
 
-			return acc;
-		},
-		{from: [], to: []},
-	);
+	if (targetQuestion.isStared) {
+		req = {off: targetQuestion};
+	} else {
+		req = {on: targetQuestion, off: staredQuestion};
+	}
 
-	socketClient.emit("question/toggleStar", toggleMsg);
+	socketClient.emit(SOCKET_IO_EVENT.TOGGLE_STAR, req);
 };
 
 export {handleMoveQuestion, handleStar, handleMoveQuestions};

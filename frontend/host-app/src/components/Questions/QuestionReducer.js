@@ -1,16 +1,26 @@
+import _ from "lodash";
+
 // todo refactoring
 const QuestionsReducer = (state, action) => {
 	const actionTable = {
 		addNewQuestion: () => ({questions: [...state.questions, action.data]}),
 		toggleStar: () => {
-			const newData = state.questions.map(e => {
-				e.id !== action.data.id ?
-					(e.isStared = false) :
-					(e.isStared = action.data.isStared);
-				return e;
+			const off = action.data.off;
+			const on = action.data.on;
+
+			const newState = _.cloneDeep(state.questions).map(x => {
+				if (x.id === off.id) {
+					x.isStared = false;
+				}
+
+				if (x.id === on.id) {
+					x.isStared = true;
+				}
+
+				return x;
 			});
 
-			return {questions: [...newData]};
+			return {questions: [...newState]};
 		},
 		moveQuestions: () => {
 			const newData = state.questions.map(e => {
