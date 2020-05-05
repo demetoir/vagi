@@ -55,7 +55,7 @@ function InputStartDate(props) {
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
 				<CustomDateTimePicker
 					label="시작날짜"
-					format={"yyyy년 MM월 dd일 HH시 mm분"}
+					format={"YYYY년 MM월 DD일 HH시 mm분"}
 					value={startDate}
 					onChange={setStartDate}
 					readOnly={true}

@@ -1,24 +1,20 @@
 import React from "react";
 import Tooltip from "@material-ui/core/Tooltip";
 import {Icon} from "@material-ui/core";
-import useStyles from "./useButtonStyles.js";
 import {handleStar} from "../../EventEmiter/QuestionSocketEventEmiter";
+import useButtonStyles from "./useButtonStyles.js";
 
-// todo refactoring
 function TopFixButton(props) {
-	const classes = useStyles();
+	const classes = useButtonStyles();
+	const onClick = () => handleStar(props.data, props.id);
 
 	return (
-		<>
-			<Tooltip title="상단 고정">
-				<Icon
-					className={classes.starButton}
-					onClick={() => handleStar(props.data, props.id)}>
-					stars
-				</Icon>
-			</Tooltip>
-		</>
+		<Tooltip title={"상단 고정"}>
+			<Icon className={classes.starButton} onClick={onClick}>
+				stars
+			</Icon>
+		</Tooltip>
 	);
 }
-export default TopFixButton;
 
+export default TopFixButton;

@@ -107,6 +107,7 @@ export async function updateQuestionById({id, content, state, isStared}) {
  * @param to <number>
  * @returns {Promise<void>}
  */
+// todo refactoring args
 export async function updateQuestionIsStared({from, to}) {
 	const transaction = await sequelize.transaction();
 

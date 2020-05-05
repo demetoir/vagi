@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import Card from "@material-ui/core/Card";
 import {CardContent} from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
@@ -10,13 +10,15 @@ import ReplyPreviewArea from "../ReplyPreviewArea/ReplyPreviewArea.js";
 const cardColor = {
 	focused: "rgb(242,248,255)",
 	unfocused: "rgba(255,255,255,100)",
+	synced: "rgb(242,248,100)",
 };
 
-const QuestionCard = React.memo(props => {
-	const backgroundColor = (props.isStared ? cardColor.focused : cardColor.unfocused);
+const QuestionCard = props => {
+	const backgroundColor = props.isStared ? cardColor.focused : cardColor.unfocused;
+	const selfRef = useRef(null);
 
 	return (
-		<Card style={{margin: "0.5rem", backgroundColor}}>
+		<Card style={{margin: "0.5rem", backgroundColor}} ref={selfRef}>
 			<CardContent style={{paddingTop: "1rem", paddingBottom: "0"}}>
 				<QuestionHeader {...props} />
 				<Divider
@@ -28,8 +30,8 @@ const QuestionCard = React.memo(props => {
 			</CardContent>
 		</Card>
 	);
-});
+};
 
 QuestionCard.proptypes = {};
 
-export default QuestionCard;
+export default React.memo(QuestionCard);
