@@ -97,7 +97,7 @@
 		"passport-mocked": "^1.4.0",
 		"pm2": "^4.1.2",
 		"prettier": "^2.0.3",
-		"redis": "^3.0.2",
+		"redis": "^3.1.1",
 		"sequelize": "^5.21.2",
 		"sequelize-cli": "^5.5.1",
 		"shelljs": "^0.8.3",
